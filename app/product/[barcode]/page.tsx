@@ -237,7 +237,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     href="https://world.openfoodfacts.org"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-600 hover:underline"
+                    className="text-orange-600 hover:underline"
                 >
                     Open Food Facts
                 </a>

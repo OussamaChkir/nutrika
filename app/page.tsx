@@ -10,13 +10,13 @@ export default function HomePage() {
       <section className="relative overflow-hidden px-4 py-16 md:py-24">
         {/* Background decoration */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-br from-emerald-200/40 to-teal-200/40 blur-3xl dark:from-emerald-900/20 dark:to-teal-900/20" />
+          <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-br from-orange-200/40 to-amber-200/40 blur-3xl dark:from-orange-900/20 dark:to-amber-900/20" />
         </div>
 
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 md:text-6xl">
             Know What You{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
               Eat
             </span>
           </h1>
@@ -53,9 +53,9 @@ export default function HomePage() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {/* Feature 1 */}
-            <Card className="border-0 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
+            <Card className="border-0 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30">
               <CardContent className="flex flex-col items-center p-6 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/30">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-lg shadow-orange-500/30">
                   <Sparkles className="h-7 w-7" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
@@ -126,7 +126,7 @@ export default function HomePage() {
               },
             ].map((item, index) => (
               <div key={index} className="flex flex-1 flex-col items-center text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-xl font-bold text-white shadow-lg shadow-emerald-500/30">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-amber-600 text-xl font-bold text-white shadow-lg shadow-orange-500/30">
                   {item.step}
                 </div>
                 <h3 className="mt-4 font-semibold text-neutral-900 dark:text-neutral-100">
@@ -151,19 +151,19 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t border-neutral-200/60 bg-gradient-to-br from-emerald-500 to-teal-600 px-4 py-16 dark:border-neutral-800/60">
+      <section className="border-t border-neutral-200/60 bg-gradient-to-br from-orange-500 to-amber-600 px-4 py-16 dark:border-neutral-800/60">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-2xl font-bold text-white md:text-3xl">
             Start Making Healthier Choices Today
           </h2>
-          <p className="mt-4 text-emerald-100">
+          <p className="mt-4 text-orange-100">
             Create a free account to save your scans and contribute to our database
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link href="/sign-up">
               <Button
                 size="lg"
-                className="bg-white text-emerald-600 hover:bg-neutral-100"
+                className="bg-white text-orange-600 hover:bg-neutral-100"
               >
                 Create Free Account
               </Button>

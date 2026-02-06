@@ -69,7 +69,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={inter.variable}>
-      <body className="flex min-h-screen flex-col bg-gradient-to-br from-neutral-50 via-white to-emerald-50/30 dark:from-neutral-950 dark:via-neutral-900 dark:to-emerald-950/20">
+      <body className="flex min-h-screen flex-col bg-gradient-to-br from-neutral-50 via-white to-orange-50/30 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/20">
         <Header user={session?.user} />
         <main className="flex-1">{children}</main>
         <Footer />

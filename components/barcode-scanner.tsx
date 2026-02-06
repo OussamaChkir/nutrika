@@ -136,13 +136,10 @@ export function BarcodeScanner({ onScan, onError }: BarcodeScannerProps) {
                     <div className="relative w-64 h-40 z-10">
                         <div className="absolute inset-0 bg-transparent" />
                         {/* Corner markers */}
-                        <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-emerald-400 rounded-tl-lg" />
-                        <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-emerald-400 rounded-tr-lg" />
-                        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-emerald-400 rounded-bl-lg" />
-                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-emerald-400 rounded-br-lg" />
+                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-orange-400 rounded-br-lg" />
 
                         {/* Scanning line animation */}
-                        <div className="absolute inset-x-4 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-scan" />
+                        <div className="absolute inset-x-4 h-0.5 bg-gradient-to-r from-transparent via-orange-400 to-transparent animate-scan" />
                     </div>
 
                     {/* Controls */}
@@ -175,7 +172,7 @@ export function BarcodeScanner({ onScan, onError }: BarcodeScannerProps) {
                     onClick={startScanning}
                     className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-neutral-900 to-neutral-800"
                 >
-                    <div className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 p-6 shadow-2xl shadow-emerald-500/30 transition-transform hover:scale-110">
+                    <div className="rounded-full bg-gradient-to-r from-orange-500 to-amber-600 p-6 shadow-2xl shadow-orange-500/30 transition-transform hover:scale-110">
                         <Camera className="h-10 w-10 text-white" />
                     </div>
                     <span className="text-lg font-semibold text-white">

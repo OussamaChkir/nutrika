@@ -34,8 +34,8 @@ export default async function AdminDashboardPage() {
             label: "Total Products",
             value: totalProducts,
             icon: Package,
-            color: "from-emerald-500 to-teal-600",
-            shadow: "shadow-emerald-500/30",
+            color: "from-orange-500 to-amber-600",
+            shadow: "shadow-orange-500/30",
         },
         {
             label: "Pending Reviews",
@@ -130,10 +130,10 @@ export default async function AdminDashboardPage() {
                                     <div className="flex items-center gap-2">
                                         <span
                                             className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${contribution.status === "PENDING"
-                                                    ? "bg-amber-100 text-amber-700"
-                                                    : contribution.status === "APPROVED"
-                                                        ? "bg-green-100 text-green-700"
-                                                        : "bg-red-100 text-red-700"
+                                                ? "bg-amber-100 text-amber-700"
+                                                : contribution.status === "APPROVED"
+                                                    ? "bg-green-100 text-green-700"
+                                                    : "bg-red-100 text-red-700"
                                                 }`}
                                         >
                                             {contribution.status}

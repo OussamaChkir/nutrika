@@ -9,7 +9,7 @@ export function Footer() {
                     {/* Logo and tagline */}
                     <div className="flex flex-col items-center gap-1 md:items-start">
                         <div className="flex items-center gap-2">
-                            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600">
+                            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-600">
                                 <span className="text-sm font-bold text-white">N</span>
                             </div>
                             <span className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
@@ -25,19 +25,19 @@ export function Footer() {
                     <div className="flex flex-wrap justify-center gap-6 text-sm text-neutral-500">
                         <Link
                             href="/about"
-                            className="hover:text-emerald-600 transition-colors"
+                            className="hover:text-orange-600 transition-colors"
                         >
                             About
                         </Link>
                         <Link
                             href="/privacy"
-                            className="hover:text-emerald-600 transition-colors"
+                            className="hover:text-orange-600 transition-colors"
                         >
                             Privacy
                         </Link>
                         <Link
                             href="/terms"
-                            className="hover:text-emerald-600 transition-colors"
+                            className="hover:text-orange-600 transition-colors"
                         >
                             Terms
                         </Link>
@@ -45,7 +45,7 @@ export function Footer() {
                             href="https://world.openfoodfacts.org"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:text-emerald-600 transition-colors"
+                            className="hover:text-orange-600 transition-colors"
                         >
                             Open Food Facts
                         </a>
@@ -79,7 +79,7 @@ export function Footer() {
                             href="https://world.openfoodfacts.org"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-emerald-600 hover:underline"
+                            className="text-orange-600 hover:underline"
                         >
                             Open Food Facts
                         </a>

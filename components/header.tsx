@@ -57,10 +57,10 @@ export function Header({ user }: HeaderProps) {
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/30">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 shadow-lg shadow-orange-500/30">
                         <span className="text-lg font-bold text-white">N</span>
                     </div>
-                    <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
                         Nutrika
                     </span>
                 </Link>
@@ -74,7 +74,7 @@ export function Header({ user }: HeaderProps) {
                                 <Button
                                     variant={isActive ? "secondary" : "ghost"}
                                     size="sm"
-                                    className={`gap-2 ${isActive ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" : ""}`}
+                                    className={`gap-2 ${isActive ? "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400" : ""}`}
                                 >
                                     <item.icon className="h-4 w-4" />
                                     {item.label}
@@ -144,7 +144,7 @@ export function Header({ user }: HeaderProps) {
                                 >
                                     <Button
                                         variant={isActive ? "secondary" : "ghost"}
-                                        className={`w-full justify-start gap-3 ${isActive ? "bg-emerald-100 text-emerald-700" : ""}`}
+                                        className={`w-full justify-start gap-3 ${isActive ? "bg-orange-100 text-orange-700" : ""}`}
                                     >
                                         <item.icon className="h-5 w-5" />
                                         {item.label}

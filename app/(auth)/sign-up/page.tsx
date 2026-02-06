@@ -51,7 +51,7 @@ export default function SignUpPage() {
     return (
         <Card>
             <CardHeader className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/30">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 shadow-lg shadow-orange-500/30">
                     <span className="text-xl font-bold text-white">N</span>
                 </div>
                 <CardTitle className="text-2xl">Create an account</CardTitle>
@@ -180,11 +180,11 @@ export default function SignUpPage() {
 
                 <p className="text-center text-xs text-neutral-500">
                     By signing up, you agree to our{" "}
-                    <Link href="/terms" className="text-emerald-600 hover:underline">
+                    <Link href="/terms" className="text-orange-600 hover:underline">
                         Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-emerald-600 hover:underline">
+                    <Link href="/privacy" className="text-orange-600 hover:underline">
                         Privacy Policy
                     </Link>
                     .
@@ -196,7 +196,7 @@ export default function SignUpPage() {
                     Already have an account?{" "}
                     <Link
                         href="/sign-in"
-                        className="font-medium text-emerald-600 hover:underline"
+                        className="font-medium text-orange-600 hover:underline"
                     >
                         Sign in
                     </Link>

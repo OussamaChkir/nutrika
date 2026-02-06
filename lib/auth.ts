@@ -1,25 +1,19 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
-import bcrypt from "bcryptjs";
 import { prisma } from "./db";
+import { authConfig } from "@/auth.config";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { signInSchema } from "./validators";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+    ...authConfig,
     adapter: PrismaAdapter(prisma),
     session: {
         strategy: "jwt",
     },
-    pages: {
-        signIn: "/sign-in",
-        error: "/sign-in",
-    },
     providers: [
-        Google({
-            clientId: process.env.AUTH_GOOGLE_ID,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET,
-        }),
+        ...authConfig.providers.filter((p) => p.id !== "credentials"), // Remove stub credentials
         Credentials({
             name: "credentials",
             credentials: {
@@ -56,24 +50,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     role: user.role,
                 };
             },
-        }),
-    ],
-    callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-                token.role = (user as { role?: string }).role || "USER";
-            }
-            return token;
-        },
-        async session({ session, token }) {
-            if (session.user) {
-                session.user.id = token.id as string;
-                session.user.role = token.role as string;
-            }
-            return session;
-        },
-    },
+        })
+    ]
 });
 
 // Type augmentation for session

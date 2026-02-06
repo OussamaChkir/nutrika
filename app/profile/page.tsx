@@ -65,13 +65,13 @@ export default async function ProfilePage() {
                     {/* Stats */}
                     <div className="grid grid-cols-2 gap-4 text-center">
                         <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
-                            <div className="text-2xl font-bold text-emerald-600">
+                            <div className="text-2xl font-bold text-orange-600">
                                 {productsCount}
                             </div>
                             <div className="text-sm text-neutral-500">Products Added</div>
                         </div>
                         <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
-                            <div className="text-2xl font-bold text-emerald-600">
+                            <div className="text-2xl font-bold text-orange-600">
                                 {contributionsCount}
                             </div>
                             <div className="text-sm text-neutral-500">Contributions</div>

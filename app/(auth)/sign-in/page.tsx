@@ -53,7 +53,7 @@ export default function SignInPage() {
     return (
         <Card>
             <CardHeader className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/30">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 shadow-lg shadow-orange-500/30">
                     <span className="text-xl font-bold text-white">N</span>
                 </div>
                 <CardTitle className="text-2xl">Welcome back</CardTitle>
