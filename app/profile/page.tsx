@@ -54,7 +54,7 @@ export default async function ProfilePage() {
                     <CardTitle className="mt-4">{session.user.name || "User"}</CardTitle>
                     <CardDescription>{session.user.email}</CardDescription>
                     {session.user.role === "ADMIN" && (
-                        <Badge className="mt-2 gap-1">
+                        <Badge className="mt-2 gap-1 w-fit mx-auto">
                             <Shield className="h-3 w-3" />
                             Admin
                         </Badge>
