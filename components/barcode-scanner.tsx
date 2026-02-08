@@ -172,7 +172,7 @@ export function BarcodeScanner({ onScan, onError }: BarcodeScannerProps) {
                     onClick={startScanning}
                     className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-neutral-900 to-neutral-800"
                 >
-                    <div className="rounded-full bg-gradient-to-r from-orange-500 to-amber-600 p-6 shadow-2xl shadow-orange-500/30 transition-transform hover:scale-110">
+                    <div className="rounded-full bg-gradient-to-r from-orange-400 to-orangina-300 p-6 shadow-2xl shadow-orange-400/30 transition-transform hover:scale-110">
                         <Camera className="h-10 w-10 text-white" />
                     </div>
                     <span className="text-lg font-semibold text-white">

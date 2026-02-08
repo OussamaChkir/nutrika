@@ -16,9 +16,19 @@
   --color-orange-900: #7c2d12;
   --color-orange-950: #431407;
 
+  /* Custom Orangina Palette */
+  --color-orangina-300: #fc686f;
+  /* amber-400 equivalent for vibrant yellow-orange */
+  --color-orangina-400: #f59e0b;
+  /* amber-500 equivalent */
+
   --color-amber-500: #f59e0b;
   --color-amber-600: #d97706;
   --color-amber-700: #b45309;
+
+  /* Custom Orangina */
+  --color-orangina-300: #fc686f;
+  --color-orangina-400: #fab005;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -61,7 +71,8 @@
     --card-foreground: 0 0% 9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
-    --primary: 24.6 95% 53.1%;
+    --primary: 27 96% 61%;
+    /* orange-400 #fb923c */
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 9%;
@@ -84,7 +95,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 98%;
-    --primary: 24.6 95% 53.1%;
+    --primary: 27 96% 61%;
+    /* orange-400 */
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 98%;
@@ -107,7 +119,13 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    background: linear-gradient(to bottom, rgba(5, 150, 105, 0.2), #ecfdf5);
+    /* emerald-600/20 to emerald-50 (light green) */
+    min-height: 100vh;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background: linear-gradient(to bottom, rgba(5, 150, 105, 0.2), #ecfdf5);
+    /* emerald-600/20 to emerald-50 */
+    min-height: 100vh;
   }
 
   html {
@@ -136,7 +154,11 @@
 
 /* Gradient text helper */
 .text-gradient {
-  @apply bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent;
+  background: linear-gradient(to right, #fb923c, #fbbf24);
+  /* orange-400 to orangina-300 */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Glass effect */

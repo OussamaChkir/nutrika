@@ -10,14 +10,14 @@ export default function HomePage() {
       <section className="relative overflow-hidden px-4 py-16 md:py-24">
         {/* Background decoration */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-br from-orange-200/40 to-amber-200/40 blur-3xl dark:from-orange-900/20 dark:to-amber-900/20" />
+          <div className="absolute left-1/2 top-0 h-[500px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-br from-orangina-300/40 to-orange-300/40 blur-3xl dark:from-orangina-900/20 dark:to-orange-900/20" />
         </div>
 
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 md:text-6xl">
             Know What You{" "}
-            <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-              Eat
+            <span className="bg-orangina-300 px-2 inline-block rounded-sm">
+              <span className="text-white">Eat</span>
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 md:text-xl">
@@ -53,9 +53,9 @@ export default function HomePage() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {/* Feature 1 */}
-            <Card className="border-0 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30">
+            <Card className="border-0 bg-gradient-to-br from-orangina-50 to-orange-50 dark:from-orangina-950/30 dark:to-orange-950/30">
               <CardContent className="flex flex-col items-center p-6 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-lg shadow-orange-500/30">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-orangina-300 text-white shadow-lg shadow-orange-400/30">
                   <Sparkles className="h-7 w-7" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
@@ -68,9 +68,9 @@ export default function HomePage() {
             </Card>
 
             {/* Feature 2 */}
-            <Card className="border-0 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30">
+            <Card className="border-0 bg-gradient-to-br from-orange-50 to-orangina-50 dark:from-orange-950/30 dark:to-orangina-950/30">
               <CardContent className="flex flex-col items-center p-6 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-300 to-orange-300 text-white shadow-lg shadow-orangina-300/30">
                   <AlertTriangle className="h-7 w-7" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
@@ -126,7 +126,7 @@ export default function HomePage() {
               },
             ].map((item, index) => (
               <div key={index} className="flex flex-1 flex-col items-center text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-amber-600 text-xl font-bold text-white shadow-lg shadow-orange-500/30">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-orangina-300 text-xl font-bold text-white shadow-lg shadow-orange-400/30">
                   {item.step}
                 </div>
                 <h3 className="mt-4 font-semibold text-neutral-900 dark:text-neutral-100">
@@ -151,7 +151,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t border-neutral-200/60 bg-gradient-to-br from-orange-500 to-amber-600 px-4 py-16 dark:border-neutral-800/60">
+      <section className="border-t border-neutral-200/60 bg-gradient-to-br from-orange-400 to-orangina-300 px-4 py-16 dark:border-neutral-800/60">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="text-2xl font-bold text-white md:text-3xl">
             Start Making Healthier Choices Today
@@ -163,6 +163,7 @@ export default function HomePage() {
             <Link href="/sign-up">
               <Button
                 size="lg"
+                variant="outline"
                 className="bg-white text-orange-600 hover:bg-neutral-100"
               >
                 Create Free Account

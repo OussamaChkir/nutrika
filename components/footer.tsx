@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Twitter } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 
 export function Footer() {
     return (
@@ -9,7 +9,7 @@ export function Footer() {
                     {/* Logo and tagline */}
                     <div className="flex flex-col items-center gap-1 md:items-start">
                         <div className="flex items-center gap-2">
-                            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-600">
+                            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-orangina-300">
                                 <span className="text-sm font-bold text-white">N</span>
                             </div>
                             <span className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
@@ -54,20 +54,20 @@ export function Footer() {
                     {/* Social links */}
                     <div className="flex gap-4">
                         <a
-                            href="https://github.com"
+                            href="https://facebook.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-neutral-400 hover:text-neutral-600 transition-colors dark:hover:text-neutral-300"
                         >
-                            <Github className="h-5 w-5" />
+                            <Facebook className="h-5 w-5" />
                         </a>
                         <a
-                            href="https://twitter.com"
+                            href="https://instagram.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-neutral-400 hover:text-neutral-600 transition-colors dark:hover:text-neutral-300"
                         >
-                            <Twitter className="h-5 w-5" />
+                            <Instagram className="h-5 w-5" />
                         </a>
                     </div>
                 </div>

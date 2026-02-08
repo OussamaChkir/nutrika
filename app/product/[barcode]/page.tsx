@@ -66,30 +66,44 @@ export default async function ProductPage({ params }: ProductPageProps) {
         const scoreResult = calculateScore(offProduct);
 
         // Save to database
-        product = await prisma.product.create({
-            data: {
-                barcode,
-                name: getProductName(offProduct),
-                brand: offProduct.brands || null,
-                imageUrl: getProductImage(offProduct),
-                offData: offProduct as object,
-                score: scoreResult.score,
-                scoreLetter: scoreResult.letter,
-                scoreColor: scoreResult.color,
-                positives: scoreResult.positives.map(p => ({ text: p.text, icon: p.icon })),
-                negatives: scoreResult.negatives.map(n => ({ text: n.text, icon: n.icon })),
-                allergens: scoreResult.allergens.map((a) => a.name),
-                allergensSeverity: scoreResult.allergensSeverity,
-                energy: offProduct.nutriments?.energy_kcal_100g || offProduct.nutriments?.energy_100g,
-                fat: offProduct.nutriments?.fat_100g,
-                saturatedFat: offProduct.nutriments?.["saturated-fat_100g"],
-                carbohydrates: offProduct.nutriments?.carbohydrates_100g,
-                sugars: offProduct.nutriments?.sugars_100g,
-                fiber: offProduct.nutriments?.fiber_100g,
-                proteins: offProduct.nutriments?.proteins_100g,
-                salt: offProduct.nutriments?.salt_100g,
-                status: "APPROVED",
-            },
+        // Prepare data
+        const productData = {
+            barcode,
+            name: getProductName(offProduct),
+            brand: offProduct.brands || null,
+            imageUrl: getProductImage(offProduct),
+            offData: offProduct as object,
+            score: scoreResult.score,
+            scoreLetter: scoreResult.letter,
+            scoreColor: scoreResult.color,
+            positives: scoreResult.positives.map((p) => ({
+                text: p.text,
+                icon: p.icon,
+            })),
+            negatives: scoreResult.negatives.map((n) => ({
+                text: n.text,
+                icon: n.icon,
+            })),
+            allergens: scoreResult.allergens.map((a) => a.name),
+            allergensSeverity: scoreResult.allergensSeverity,
+            energy:
+                offProduct.nutriments?.energy_kcal_100g ||
+                offProduct.nutriments?.energy_100g,
+            fat: offProduct.nutriments?.fat_100g,
+            saturatedFat: offProduct.nutriments?.["saturated-fat_100g"],
+            carbohydrates: offProduct.nutriments?.carbohydrates_100g,
+            sugars: offProduct.nutriments?.sugars_100g,
+            fiber: offProduct.nutriments?.fiber_100g,
+            proteins: offProduct.nutriments?.proteins_100g,
+            salt: offProduct.nutriments?.salt_100g,
+            status: "APPROVED" as const,
+        };
+
+        // Save to database (upsert to handle race conditions)
+        product = await prisma.product.upsert({
+            where: { barcode },
+            create: productData,
+            update: productData,
         });
     }
 
