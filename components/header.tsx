@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ModeToggle } from "@/components/mode-toggle";
 import {
     Scan,
     Home,
@@ -88,6 +89,9 @@ export function Header({ user }: HeaderProps) {
 
                 {/* User Menu / Auth Buttons */}
                 <div className="flex items-center gap-2">
+                    {/* <div className="hidden md:block">
+                        <ModeToggle />
+                    </div> */}
                     {user ? (
                         <div className="hidden md:flex items-center gap-2">
                             <Link href="/profile">
@@ -136,6 +140,9 @@ export function Header({ user }: HeaderProps) {
             {mobileMenuOpen && (
                 <div className="border-t border-neutral-200/80 bg-white/95 backdrop-blur-xl md:hidden dark:border-neutral-800/80 dark:bg-neutral-950/95">
                     <nav className="flex flex-col p-4 gap-1">
+                        {/* <div className="flex justify-end mb-2">
+                            <ModeToggle />
+                        </div> */}
                         {navItems.map((item) => {
                             const isActive = pathname === item.href;
                             return (
