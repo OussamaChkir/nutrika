@@ -15,9 +15,9 @@ export default function HomePage() {
 
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 md:text-6xl">
-            Know What You{" "}
+            Scan Barcodes for{" "}
             <span className="bg-orangina-300 px-2 inline-block rounded-sm">
-              <span className="text-white">Eat</span>
+              <span className="text-white">Healthy Eating</span>
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 md:text-xl">
