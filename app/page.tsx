@@ -14,15 +14,14 @@ export default function HomePage() {
         </div>
 
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 md:text-6xl">
-            Scan Barcodes for{" "}
+          <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-100 md:text-5xl">
+            Nutrika – Your Trusted Food Scanner in{" "}
             <span className="bg-orangina-300 px-2 inline-block rounded-sm">
-              <span className="text-white">Healthy Eating</span>
+              <span className="text-white">Tunisia</span>
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400 md:text-xl">
-            Scan any product barcode to instantly discover its nutritional score,
-            health benefits, potential risks, and allergen warnings.
+            Scan barcodes to instantly discover nutritional scores, health benefits, and allergen warnings tailored for Tunisian products.
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -45,10 +44,10 @@ export default function HomePage() {
       <section className="border-t border-neutral-200/60 bg-white/50 px-4 py-16 dark:border-neutral-800/60 dark:bg-neutral-900/50">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-2xl font-bold text-neutral-900 dark:text-neutral-100 md:text-3xl">
-            Make Informed Food Choices
+            Why Choose Nutrika for Healthy Eating in Tunisia ?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-neutral-600 dark:text-neutral-400">
-            Get instant access to comprehensive product analysis powered by Open Food Facts data
+            In a market full of processed foods, Nutrika empowers you with a barcode scanner for healthy food.
           </p>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -59,10 +58,10 @@ export default function HomePage() {
                   <Sparkles className="h-7 w-7" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                  Smart Scoring
+                  Nutritional Score
                 </h3>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  Our algorithm analyzes sugar, additives, processing level, and more to give you a clear A-E grade
+                  Based on sugar, fat, salt, and calories – similar to Nutri-Score but tailored for Tunisian products.
                 </p>
               </CardContent>
             </Card>
@@ -77,7 +76,7 @@ export default function HomePage() {
                   Allergen Alerts
                 </h3>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  Instantly see allergens with severity levels, helping you stay safe and informed
+                  Instant notifications for nuts, gluten, lactose, and more – crucial for Tunisian families.
                 </p>
               </CardContent>
             </Card>
@@ -89,10 +88,10 @@ export default function HomePage() {
                   <Leaf className="h-7 w-7" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                  Health Insights
+                  Health Benefits
                 </h3>
                 <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  See positive aspects like fiber content and organic labels, alongside warnings for processed foods
+                  Highlights positives like high fiber, vitamins, or organic certifications.
                 </p>
               </CardContent>
             </Card>
