@@ -8,6 +8,7 @@ export default async function AdminDashboardPage() {
     // Get stats
     const [
         totalProducts,
+        pendingProducts,
         pendingContributions,
         approvedContributions,
         rejectedContributions,
@@ -15,6 +16,7 @@ export default async function AdminDashboardPage() {
         recentContributions,
     ] = await Promise.all([
         prisma.product.count(),
+        prisma.product.count({ where: { status: "PENDING" } }),
         prisma.contribution.count({ where: { status: "PENDING" } }),
         prisma.contribution.count({ where: { status: "APPROVED" } }),
         prisma.contribution.count({ where: { status: "REJECTED" } }),
@@ -38,7 +40,14 @@ export default async function AdminDashboardPage() {
             shadow: "shadow-orange-500/30",
         },
         {
-            label: "Pending Reviews",
+            label: "Pending Products",
+            value: pendingProducts,
+            icon: Clock,
+            color: "from-amber-500 to-yellow-600",
+            shadow: "shadow-amber-500/30",
+        },
+        {
+            label: "Pending Contributions",
             value: pendingContributions,
             icon: Clock,
             color: "from-amber-500 to-orange-500",

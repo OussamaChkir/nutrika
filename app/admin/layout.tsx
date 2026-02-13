@@ -46,6 +46,18 @@ export default async function AdminLayout({
                             Dashboard
                         </Link>
                         <Link
+                            href="/admin/users"
+                            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                        >
+                            Users
+                        </Link>
+                        <Link
+                            href="/admin/products"
+                            className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                        >
+                            Products
+                        </Link>
+                        <Link
                             href="/admin/contributions"
                             className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                         >

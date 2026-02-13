@@ -35,7 +35,7 @@ export async function GET() {
     return NextResponse.json({ history });
 }
 
-// POST /api/scan-history – record a scan
+// POST /api/scan-history – record a scan (upsert: update timestamp if already scanned)
 export async function POST(request: Request) {
     const session = await auth();
 
@@ -66,9 +66,18 @@ export async function POST(request: Request) {
             );
         }
 
-        // Create scan history entry
-        await prisma.scanHistory.create({
-            data: {
+        // Upsert: if user already scanned this product, just update the timestamp
+        await prisma.scanHistory.upsert({
+            where: {
+                userId_productId: {
+                    userId: session.user.id,
+                    productId: product.id,
+                },
+            },
+            update: {
+                scannedAt: new Date(),
+            },
+            create: {
                 userId: session.user.id,
                 productId: product.id,
             },
@@ -82,7 +91,7 @@ export async function POST(request: Request) {
         });
 
         if (allScans.length > MAX_HISTORY) {
-            const idsToDelete = allScans.slice(MAX_HISTORY).map((s) => s.id);
+            const idsToDelete = allScans.slice(MAX_HISTORY).map((s: { id: string }) => s.id);
             await prisma.scanHistory.deleteMany({
                 where: { id: { in: idsToDelete } },
             });

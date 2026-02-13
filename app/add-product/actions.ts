@@ -87,7 +87,7 @@ export async function createProductAction(
                 fiber: data.fiber || null,
                 proteins: data.proteins || null,
                 salt: data.salt || null,
-                status: "DRAFT",
+                status: "PENDING",
                 createdById: session.user.id,
             },
         });

@@ -58,6 +58,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
         where: { barcode },
     });
 
+    // Check permissions for PENDING products
+    if (product?.status === "PENDING" || product?.status === "REJECTED") {
+        const isCreator = session?.user?.id === product.createdById;
+        const isAdmin = session?.user?.role === "ADMIN";
+
+        if (!isCreator && !isAdmin) {
+            notFound();
+        }
+    }
+
     // 2. If not in database, fetch from Open Food Facts
     if (!product) {
         const offProduct = await fetchProductByBarcode(barcode);
@@ -130,6 +140,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Product header */}
             <Card className="overflow-hidden">
                 <CardContent className="p-0">
+                    {/* Pending Badge */}
+                    {product.status === "PENDING" && (
+                        <div className="flex items-center gap-2 border-b border-amber-100 bg-amber-50 px-6 py-3 text-sm font-medium text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/20 dark:text-amber-200">
+                            <div className="h-2 w-2 rounded-full bg-amber-500" />
+                            Pending Admin Approval
+                        </div>
+                    )}
+
                     {/* Product image and basic info */}
                     <div className="flex gap-4 p-6">
                         {/* Image */}

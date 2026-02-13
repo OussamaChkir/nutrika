@@ -102,7 +102,7 @@ export async function rejectContribution(
 
 export async function promoteUser(
     userId: string,
-    role: "USER" | "ADMIN"
+    role: "USER" | "ADMIN" | "PREMIUM"
 ): Promise<AdminActionResult> {
     const session = await auth();
 
