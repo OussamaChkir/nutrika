@@ -22,11 +22,19 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
+  // Health profile
+  weight         Float?            // kg
+  height         Float?            // cm
+  dateOfBirth    DateTime?
+  allergies      String[]          // e.g. ["gluten", "lactose"]
+
   accounts       Account[]
   sessions       Session[]
-  products       Product[]       @relation("CreatedProducts")
-  contributions  Contribution[]  @relation("UserContributions")
-  reviews        Contribution[]  @relation("ReviewedContributions")
+  products       Product[]          @relation("CreatedProducts")
+  contributions  Contribution[]     @relation("UserContributions")
+  reviews        Contribution[]     @relation("ReviewedContributions")
+  scanHistory    ScanHistory[]
+  feedbacks      ProductFeedback[]
 }
 
 model Account {
@@ -110,6 +118,8 @@ model Product {
   updatedAt        DateTime          @updatedAt
   
   contributions    Contribution[]
+  scanHistory      ScanHistory[]
+  feedbacks        ProductFeedback[]
 }
 
 model Contribution {
@@ -137,11 +147,45 @@ model Contribution {
 }
 
 // ============================================
+// SCAN HISTORY
+// ============================================
+
+model ScanHistory {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  scannedAt DateTime @default(now())
+
+  @@index([userId, scannedAt])
+}
+
+// ============================================
+// PRODUCT FEEDBACK (PREMIUM ONLY)
+// ============================================
+
+model ProductFeedback {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int                 // 1-5
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+// ============================================
 // ENUMS
 // ============================================
 
 enum UserRole {
   USER
+  PREMIUM
   ADMIN
 }
 

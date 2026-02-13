@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
 import {
     fetchProductByBarcode,
     getProductName,
@@ -14,6 +15,8 @@ import { PositivesList } from "@/components/positives-list";
 import { NegativesList } from "@/components/negatives-list";
 import { AllergenTags } from "@/components/allergen-tags";
 import { NutritionTable } from "@/components/nutrition-table";
+import { RecordScan } from "@/components/record-scan";
+import { ProductFeedback } from "@/components/product-feedback";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -48,6 +51,7 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: ProductPageProps) {
     const { barcode } = await params;
+    const session = await auth();
 
     // 1. Try to find in database first
     let product = await prisma.product.findUnique({
@@ -223,6 +227,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </Card>
             </div>
 
+            {/* Product Feedback */}
+            <div className="mt-6">
+                <ProductFeedback
+                    barcode={product.barcode}
+                    userRole={session?.user?.role}
+                    userId={session?.user?.id}
+                />
+            </div>
+
             {/* Actions */}
             <div className="mt-6 flex flex-wrap gap-3">
                 <Link href={`/add-product?barcode=${barcode}&edit=true`} className="flex-1">
@@ -243,6 +256,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </Button>
                 </a>
             </div>
+
+            {/* Record scan for authenticated users */}
+            <RecordScan barcode={product.barcode} userId={session?.user?.id} />
 
             {/* Data source */}
             <p className="mt-6 text-center text-xs text-neutral-400">

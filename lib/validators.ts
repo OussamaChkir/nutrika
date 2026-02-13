@@ -111,3 +111,43 @@ export const promoteUserSchema = z.object({
 });
 
 export type PromoteUserInput = z.infer<typeof promoteUserSchema>;
+
+// ============================================
+// PROFILE SCHEMAS
+// ============================================
+
+export const ALLERGY_OPTIONS = [
+    "Gluten",
+    "Lactose",
+    "Milk",
+    "Eggs",
+    "Peanuts",
+    "Tree Nuts",
+    "Soy",
+    "Fish",
+    "Shellfish",
+    "Sesame",
+    "Mustard",
+    "Celery",
+    "Sulphites",
+] as const;
+
+export const profileFormSchema = z.object({
+    weight: z.coerce.number().min(1).max(500).optional().nullable(),
+    height: z.coerce.number().min(30).max(300).optional().nullable(),
+    dateOfBirth: z.string().optional().nullable(),
+    allergies: z.array(z.string()).optional().nullable(),
+});
+
+export type ProfileFormInput = z.infer<typeof profileFormSchema>;
+
+// ============================================
+// FEEDBACK SCHEMAS
+// ============================================
+
+export const feedbackFormSchema = z.object({
+    rating: z.coerce.number().min(1).max(5),
+    comment: z.string().max(500).optional(),
+});
+
+export type FeedbackFormInput = z.infer<typeof feedbackFormSchema>;

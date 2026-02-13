@@ -6,15 +6,17 @@ import { BarcodeScanner } from "@/components/barcode-scanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Keyboard, Scan } from "lucide-react";
+import { Keyboard, Scan, Loader2 } from "lucide-react";
 
 export default function ScanPage() {
     const router = useRouter();
     const [manualBarcode, setManualBarcode] = useState("");
     const [showManualInput, setShowManualInput] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isNavigating, setIsNavigating] = useState(false);
 
     const handleScan = (barcode: string) => {
+        setIsNavigating(true);
         router.push(`/product/${barcode}`);
     };
 
@@ -32,11 +34,33 @@ export default function ScanPage() {
             return;
         }
 
+        setIsNavigating(true);
         router.push(`/product/${trimmed}`);
     };
 
     return (
         <div className="mx-auto max-w-lg px-4 py-8">
+            {/* Loading overlay */}
+            {isNavigating && (
+                <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-neutral-950/80">
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="relative">
+                            <div className="h-16 w-16 rounded-full border-4 border-neutral-200 dark:border-neutral-700" />
+                            <div className="absolute inset-0 h-16 w-16 animate-spin rounded-full border-4 border-transparent border-t-orange-500" />
+                        </div>
+                        <div className="text-center">
+                            <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                                Analyzing Product...
+                            </p>
+                            <p className="mt-1 text-sm text-neutral-500">
+                                Fetching nutritional data and calculating health
+                                score
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="mb-6 text-center">
                 <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
                     Scan a Product
@@ -75,7 +99,10 @@ export default function ScanPage() {
                         <CardTitle className="text-lg">Manual Entry</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleManualSubmit} className="flex gap-2">
+                        <form
+                            onSubmit={handleManualSubmit}
+                            className="flex gap-2"
+                        >
                             <Input
                                 type="text"
                                 inputMode="numeric"
@@ -88,12 +115,14 @@ export default function ScanPage() {
                                 }}
                                 className="flex-1"
                             />
-                            <Button type="submit">
+                            <Button type="submit" disabled={isNavigating}>
                                 <Scan className="h-4 w-4" />
                             </Button>
                         </form>
                         {error && (
-                            <p className="mt-2 text-sm text-red-600">{error}</p>
+                            <p className="mt-2 text-sm text-red-600">
+                                {error}
+                            </p>
                         )}
                     </CardContent>
                 </Card>
@@ -105,9 +134,14 @@ export default function ScanPage() {
                     Scanning Tips
                 </h3>
                 <ul className="mt-2 space-y-1 text-sm text-neutral-600 dark:text-neutral-400">
-                    <li>• Hold your phone steady and align the barcode within the frame</li>
+                    <li>
+                        • Hold your phone steady and align the barcode within
+                        the frame
+                    </li>
                     <li>• Ensure good lighting for best results</li>
-                    <li>• Supports EAN-13, EAN-8, UPC-A, UPC-E, and QR codes</li>
+                    <li>
+                        • Supports EAN-13, EAN-8, UPC-A, UPC-E, and QR codes
+                    </li>
                 </ul>
             </div>
         </div>
