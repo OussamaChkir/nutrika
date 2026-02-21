@@ -108,6 +108,10 @@ model Product {
   proteins         Float?
   salt             Float?
   
+  // Manufacturing / Processing
+  manufacturingPlaces String?
+  origins            String?
+  
   // Status
   status           ProductStatus     @default(DRAFT)
   createdById      String?           @db.ObjectId

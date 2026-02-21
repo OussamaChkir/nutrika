@@ -11,11 +11,11 @@ import {
     PlusCircle,
     User,
     LogOut,
-    Settings,
     Shield,
     Menu,
     X,
     Search,
+    CreditCard,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
@@ -39,6 +39,7 @@ export function Header({ user }: HeaderProps) {
         { href: "/", label: "Home", icon: Home },
         { href: "/search", label: "Search", icon: Search },
         { href: "/scan", label: "Scan", icon: Scan },
+        { href: "/pricing", label: "Pricing", icon: CreditCard },
         ...(user ? [{ href: "/add-product", label: "Add Product", icon: PlusCircle }] : []),
         ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
     ];

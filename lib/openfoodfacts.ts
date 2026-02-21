@@ -43,6 +43,10 @@ export interface OFFProduct {
     quantity?: string;
     serving_size?: string;
     countries_tags?: string[];
+    manufacturing_places?: string;
+    manufacturing_places_tags?: string[];
+    origins?: string;
+    origins_tags?: string[];
 }
 
 export interface OFFResponse {

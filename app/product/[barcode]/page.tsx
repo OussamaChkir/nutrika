@@ -16,6 +16,7 @@ import { NegativesList } from "@/components/negatives-list";
 import { AllergenTags } from "@/components/allergen-tags";
 import { NutritionTable } from "@/components/nutrition-table";
 import { RecordScan } from "@/components/record-scan";
+import { ManufacturingInfo } from "@/components/manufacturing-info";
 import { ProductFeedback } from "@/components/product-feedback";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -110,6 +111,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
             fiber: offProduct.nutriments?.fiber_100g,
             proteins: offProduct.nutriments?.proteins_100g,
             salt: offProduct.nutriments?.salt_100g,
+            manufacturingPlaces: offProduct.manufacturing_places || null,
+            origins: offProduct.origins || null,
             status: "APPROVED" as const,
         };
 
@@ -225,6 +228,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         />
                     </CardContent>
                 </Card>
+
+                {/* Manufacturing / Processing Places */}
+                {(product.manufacturingPlaces || product.origins) && (
+                    <Card>
+                        <CardContent className="p-4">
+                            <ManufacturingInfo
+                                manufacturingPlaces={product.manufacturingPlaces}
+                                origins={product.origins}
+                            />
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* Nutrition table */}
                 <Card>
