@@ -81,7 +81,7 @@ export default function PricingPage() {
             </section>
 
             {/* Pricing Cards */}
-            <section className="px-4 pb-16 md:pb-24">
+            <section className="px-4 mt-4 pb-16 md:pb-24">
                 <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 md:gap-8">
                     {/* Free Card */}
                     <Card className="relative overflow-hidden border-neutral-200 dark:border-neutral-800">
@@ -121,8 +121,8 @@ export default function PricingPage() {
                                         <li
                                             key={idx}
                                             className={`flex items-center gap-3 text-sm ${feature.included
-                                                    ? "text-neutral-700 dark:text-neutral-300"
-                                                    : "text-neutral-400 dark:text-neutral-600"
+                                                ? "text-neutral-700 dark:text-neutral-300"
+                                                : "text-neutral-400 dark:text-neutral-600"
                                                 }`}
                                         >
                                             {feature.included ? (
