@@ -277,35 +277,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         Suggest Edit
                     </Button>
                 </Link>
-                <a
-                    href={`https://world.openfoodfacts.org/product/${barcode}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1"
-                >
-                    <Button variant="outline" className="w-full gap-2">
-                        <ExternalLink className="h-4 w-4" />
-                        Open Food Facts
-                    </Button>
-                </a>
             </div>
 
             {/* Record scan for authenticated users */}
             <RecordScan barcode={product.barcode} userId={session?.user?.id} />
-
-            {/* Data source */}
-            <p className="mt-6 text-center text-xs text-neutral-400">
-                Data from{" "}
-                <a
-                    href="https://world.openfoodfacts.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-orange-600 hover:underline"
-                >
-                    Open Food Facts
-                </a>
-                . Last updated: {product.updatedAt.toLocaleDateString()}
-            </p>
         </div>
     );
 }
