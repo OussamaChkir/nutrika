@@ -16,9 +16,6 @@ export function Footer() {
                                 Nutrika
                             </span>
                         </div>
-                        <p className="text-sm text-neutral-500">
-                            Know what you eat.
-                        </p>
                     </div>
 
                     {/* Links */}
@@ -47,14 +44,6 @@ export function Footer() {
                         >
                             Terms
                         </Link>
-                        <a
-                            href="https://world.openfoodfacts.org"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-orange-600 transition-colors"
-                        >
-                            Open Food Facts
-                        </a>
                     </div>
 
                     {/* Social links */}
@@ -80,16 +69,10 @@ export function Footer() {
 
                 <div className="mt-6 border-t border-neutral-100 pt-6 text-center text-xs text-neutral-400 dark:border-neutral-800">
                     <p>
-                        © {new Date().getFullYear()} Nutrika. Product data from{" "}
-                        <a
-                            href="https://world.openfoodfacts.org"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-orange-600 hover:underline"
-                        >
-                            Open Food Facts
-                        </a>
-                        .
+                        © {new Date().getFullYear()} <Link
+                            href="/"
+                            className="text-orange-600 hover:underline transition-colors"
+                        >Nutrika</Link>. All rights reserved
                     </p>
                 </div>
             </div>

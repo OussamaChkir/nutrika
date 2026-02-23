@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from 'next/image'
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Scan,
   Shield,
   Sparkles,
   AlertTriangle,
-  Lightbulb,
-  Globe2,
   CheckCircle2,
   LineChart,
   HeartPulse,
@@ -64,33 +63,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. About Section */}
-      <section className="px-4 py-20 bg-white dark:bg-neutral-950 border-t border-neutral-100 dark:border-neutral-900">
-        <div className="mx-auto max-w-4xl text-center space-y-6 animate-fade-in-up delay-100">
-          <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-800 to-neutral-600 dark:from-neutral-200 dark:to-neutral-400">
-            About Nutrika — Your Nutrition Guide
-          </h2>
-          <div className="prose prose-lg dark:prose-invert mx-auto text-neutral-600 dark:text-neutral-400">
-            <p className="leading-relaxed">
-              Nutrika is a powerful food barcode scanner app that helps you instantly understand the nutritional value, health benefits, and allergen alerts of any packaged food product. With Nutrika, you can make smarter, healthier eating decisions with data-driven insights — no guesswork needed.
-            </p>
-            <p className="leading-relaxed">
-              Nutrika is ideal for fitness lovers, health-conscious consumers, diet planners, families, and anyone looking to improve their diet by understanding what's inside their food.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* 3. Key Features */}
+      {/* 2. Key Features */}
       <section className="px-4 py-24 bg-neutral-50/50 dark:bg-neutral-900/20 border-t border-neutral-100 dark:border-neutral-900 relative">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-              Key Features
+              Everything You Need to Understand Your Food
             </h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-              Everything you need for healthy eating, diet planning, weight loss, and fitness nutrition right in your pocket.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -98,14 +78,14 @@ export default function HomePage() {
               {
                 icon: Scan,
                 title: "Instant Food Scanning",
-                desc: "Scan barcodes with your phone to reveal nutrition details right away.",
+                desc: "Scan any product barcode and instantly access detailed nutrition facts.",
                 color: "from-blue-400 to-blue-600",
                 delay: "delay-100"
               },
               {
                 icon: LineChart,
                 title: "Nutrition Scores",
-                desc: "Get easy-to-understand food ratings based on calories, sugar, fat, salt, and more.",
+                desc: "Get clear food scores based on calories, sugar, fats, salt, protein, and overall balance.",
                 color: "from-green-400 to-green-600",
                 delay: "delay-200"
               },
@@ -116,20 +96,6 @@ export default function HomePage() {
                 color: "from-red-400 to-orange-500",
                 delay: "delay-300"
               },
-              {
-                icon: Lightbulb,
-                title: "Healthy Insights",
-                desc: "Learn positive and negative aspects of food to make better choices.",
-                color: "from-amber-400 to-orange-500",
-                delay: "delay-400"
-              },
-              {
-                icon: Globe2,
-                title: "Global Food Database",
-                desc: "Powered by reliable data sources to support worldwide users.",
-                color: "from-indigo-400 to-purple-600",
-                delay: "delay-500"
-              }
             ].map((feature, i) => (
               <Card key={i} className={`group border border-neutral-200/50 dark:border-neutral-800/50 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm hover:shadow-xl hover:shadow-neutral-200/20 dark:hover:shadow-black/20 transition-all duration-300 hover:-translate-y-1 overflow-hidden animate-fade-in-up ${feature.delay}`}>
                 <CardContent className="p-8">
@@ -149,27 +115,46 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 3. About Section */}
+      <section className="px-4 py-20 bg-orange-50/50 dark:bg-orange-950/20 border-t border-orange-100/50 dark:border-orange-900/30">
+        <div className="mx-auto max-w-4xl text-center space-y-6 animate-fade-in-up delay-100">
+          <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-800 to-neutral-600 dark:from-neutral-200 dark:to-neutral-400">
+            Your Smart Nutrition Companion
+          </h2>
+          <div className="prose prose-lg dark:prose-invert mx-auto text-neutral-600 dark:text-neutral-400">
+            <p className="leading-relaxed">
+              Nutrika is a powerful food barcode scanner app that helps you instantly understand the nutritional value, health benefits, and allergen alerts of any packaged food product. With Nutrika, you can make smarter, healthier eating decisions with data-driven insights, no guesswork needed.
+            </p>
+            <p className="leading-relaxed">
+              Nutrika is ideal for fitness lovers, health-conscious consumers, diet planners, families, and anyone looking to improve their diet by understanding what's inside their food.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* 4. Why Choose Nutrika (SEO Pillars) */}
       <section className="px-4 py-24 bg-white dark:bg-neutral-950 border-t border-neutral-100 dark:border-neutral-900">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-neutral-900 dark:text-neutral-100 mb-16 animate-fade-in-up">
-            📌 Why Choose Nutrika?
+            Why Choose Nutrika ?
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="space-y-4 animate-fade-in-up delay-100 p-6 rounded-3xl bg-orange-50/50 dark:bg-orange-950/10 border border-orange-100 dark:border-orange-900/30">
-              <div className="w-12 h-12 bg-white dark:bg-neutral-900 rounded-full flex items-center justify-center text-orange-500 shadow-sm mb-6 border border-orange-100 dark:border-neutral-800">
-                <span className="font-bold text-xl">1</span>
+              <div className="">
+                <Image src="/nutritional-information-icon.png" alt="1" width={75} height={75} className="dark:hidden block" />
+                <Image src="/nutritional-information-icon-dark.png" alt="1" width={75} height={75} className="hidden dark:block rounded-xl" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Accurate Nutritional Information</h3>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Nutrika analyzes calories, fats, sugars, protein, and micronutrients to help you choose foods that support your health goals. By searching for "nutrition facts", "high protein foods", and "healthy eating tips", Nutrika guides you exactly to what your body needs.
+                Nutrika analyzes calories, fats, sugars, protein, and micronutrients to help you choose foods that support your health goals. By searching for <strong>nutrition facts</strong>, <strong>high protein foods</strong>, and <strong>healthy eating tips</strong>, Nutrika guides you exactly to what your body needs.
               </p>
             </div>
 
             <div className="space-y-4 animate-fade-in-up delay-200 p-6 rounded-3xl bg-orangina-50/50 dark:bg-orangina-950/10 border border-orange-100/50 dark:border-orangina-900/30">
-              <div className="w-12 h-12 bg-white dark:bg-neutral-900 rounded-full flex items-center justify-center text-orangina-400 shadow-sm mb-6 border border-orange-100 dark:border-neutral-800">
-                <span className="font-bold text-xl">2</span>
+              <div className="">
+                <Image src="/allergen-detection-icon.png" alt="1" width={75} height={75} className="dark:hidden block" />
+                <Image src="/allergen-detection-icon-dark.png" alt="1" width={75} height={75} className="hidden dark:block rounded-xl" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Smart Allergen Detection</h3>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
@@ -178,12 +163,13 @@ export default function HomePage() {
             </div>
 
             <div className="space-y-4 animate-fade-in-up delay-300 p-6 rounded-3xl bg-green-50/50 dark:bg-green-950/10 border border-green-100 dark:border-green-900/30">
-              <div className="w-12 h-12 bg-white dark:bg-neutral-900 rounded-full flex items-center justify-center text-green-500 shadow-sm mb-6 border border-green-100 dark:border-neutral-800">
-                <span className="font-bold text-xl">3</span>
+              <div className="">
+                <Image src="/healthy-eating-icon.png" alt="1" width={75} height={75} className="dark:hidden block" />
+                <Image src="/healthy-eating-icon-dark.png" alt="1" width={75} height={75} className="hidden dark:block rounded-xl" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Healthy Eating for Everyone</h3>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Whether you follow a keto diet, high protein meal plan, plant-based lifestyle, or general balanced diet, Nutrika helps you understand nutritional quality across "high protein foods", "healthy eating", and "diet plan ideas."
+                Whether you follow a keto diet, high protein meal plan, plant-based lifestyle, or general balanced diet, Nutrika helps you understand nutritional quality across <strong>high protein foods</strong>, <strong>healthy eating</strong>, and <strong>diet plan ideas</strong>.
               </p>
             </div>
           </div>
@@ -195,10 +181,10 @@ export default function HomePage() {
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-20 animate-fade-in-up">
             <h2 className="flex items-center justify-center gap-2 text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-              📍 How It Works
+              How It Works
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-              Nutrika uses barcode data and trusted databases to provide fast analysis in three simple steps. Ideal for daily use — at the supermarket, at home, or on the go.
+              Nutrika uses barcode data and trusted databases to provide fast analysis in three simple steps. Ideal for daily use at the supermarket, at home, or on the go.
             </p>
           </div>
 
@@ -210,7 +196,7 @@ export default function HomePage() {
               <div className="w-24 h-24 rounded-3xl bg-white dark:bg-neutral-900 shadow-[0_0_40px_-10px_rgba(251,146,60,0.3)] flex items-center justify-center mb-6 border border-orange-100 dark:border-neutral-800 z-10 transition-transform hover:scale-105">
                 <Scan className="w-10 h-10 text-orange-500" />
               </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">1. Scan the Barcode</h3>
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Scan the Barcode</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Point your camera at any food product barcode.</p>
             </div>
 
@@ -218,7 +204,7 @@ export default function HomePage() {
               <div className="w-24 h-24 rounded-3xl bg-white dark:bg-neutral-900 shadow-[0_0_40px_-10px_rgba(251,146,60,0.3)] flex items-center justify-center mb-6 border border-orange-100 dark:border-neutral-800 z-10 transition-transform hover:scale-105">
                 <Shield className="w-10 h-10 text-orange-500" />
               </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">2. Get Details</h3>
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Get Details</h3>
               <p className="text-neutral-600 dark:text-neutral-400">View calories, macros, and instant health scores.</p>
             </div>
 
@@ -226,52 +212,8 @@ export default function HomePage() {
               <div className="w-24 h-24 rounded-3xl bg-white dark:bg-neutral-900 shadow-[0_0_40px_-10px_rgba(251,146,60,0.3)] flex items-center justify-center mb-6 border border-orange-100 dark:border-neutral-800 z-10 transition-transform hover:scale-105">
                 <Sparkles className="w-10 h-10 text-orange-500" />
               </div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">3. Choose Better</h3>
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Choose Better</h3>
               <p className="text-neutral-600 dark:text-neutral-400">Make smarter food choices based on data insights.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Health & Wellness Benefits */}
-      <section className="px-4 py-24 bg-orange-50/50 dark:bg-orange-950/20 border-t border-orange-100/50 dark:border-orange-900/30">
-        <div className="mx-auto max-w-6xl flex flex-col lg:flex-row gap-16 items-center">
-          <div className="flex-1 space-y-8 animate-fade-in-up">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-3">
-                <HeartPulse className="w-8 h-8 text-orange-500" />
-                📈 Health & Wellness Benefits
-              </h2>
-              <p className="text-lg text-neutral-600 dark:text-neutral-400">
-                Nutrika empowers you to track your food quality — not just calories. Align your diet with common goals like finding "healthy fats", "whole foods", "protein sources", and "low calorie meals".
-              </p>
-            </div>
-
-            <ul className="space-y-4">
-              {[
-                "Maximize nutrient intake efficiently",
-                "Reduce hidden sugar and unhealthy fats",
-                "Manage weight with smart daily choices",
-                "Compare similar products easily side-by-side",
-                "Track the true quality of your food"
-              ].map((benefit, idx) => (
-                <li key={idx} className="flex items-center gap-4 bg-white dark:bg-neutral-900 p-4 rounded-2xl shadow-sm border border-neutral-100 dark:border-neutral-800 transition-transform hover:translate-x-2">
-                  <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-                  <span className="font-medium text-neutral-800 dark:text-neutral-200">{benefit}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="flex-1 relative animate-fade-in-up delay-200 w-full rounded-3xl overflow-hidden aspect-square max-w-md mx-auto bg-gradient-to-tr from-orange-400 to-orangina-300 p-1">
-            <div className="w-full h-full bg-white dark:bg-neutral-950 rounded-[22px] flex flex-col items-center justify-center p-8 text-center pattern-bg">
-              <Scale className="w-24 h-24 text-orange-400 mb-6 opacity-80" />
-              <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-                Balance Your Diet
-              </h3>
-              <p className="text-neutral-500 dark:text-neutral-400">
-                Data doesn't lie. Understand macros and micronutrients at a glance.
-              </p>
             </div>
           </div>
         </div>
@@ -281,7 +223,7 @@ export default function HomePage() {
       <section className="px-4 py-24 bg-white dark:bg-neutral-950 border-t border-neutral-100 dark:border-neutral-900">
         <div className="mx-auto max-w-4xl text-center animate-fade-in-up">
           <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
-            🛠 Pricing & Plans
+            Pricing & Plans
           </h2>
           <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-12">
             Nutrika offers free access for everyone, plus premium features for users looking for a complete diet tracking or nutrition coach experience.
@@ -309,7 +251,7 @@ export default function HomePage() {
 
             {/* Premium */}
             <Card className="border-orange-200 dark:border-orange-800 bg-orange-50/30 dark:bg-orange-950/20 relative shadow-xl shadow-orange-500/10 transition-transform hover:-translate-y-1">
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-orange-400 to-orangina-300 rounded-t-xl" />
+
               <div className="absolute top-4 right-4 bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-300 text-xs font-bold px-3 py-1 rounded-full">
                 RECOMMENDED
               </div>
@@ -357,19 +299,19 @@ export default function HomePage() {
             Ready to change how you eat?
           </h2>
           <p className="text-xl md:text-2xl text-orange-50 mb-12 max-w-2xl mx-auto font-medium">
-            Nutrika — because knowing what you eat changes how you eat. Start your health journey today.
+            Because knowing what you eat changes how you eat. Start your health journey today.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-4">
             <Link href="/scan" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto h-16 px-10 text-lg font-bold bg-white text-orange-600 hover:bg-neutral-50 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all gap-3 border-0">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto h-16 px-10 text-lg font-bold bg-white text-orange-600 hover:bg-neutral-50 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all gap-3 border-0">
                 <Scan className="w-6 h-6" />
-                👉 Scan a Product Now
+                Scan a Product Now
               </Button>
             </Link>
             <Link href="/sign-up" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="w-full sm:w-auto h-16 px-10 text-lg font-bold border-2 border-white/50 text-white bg-white/10 backdrop-blur hover:bg-white hover:text-orange-600 transition-all gap-3">
-                👉 Create Your Free Account
+                Create Your Free Account
               </Button>
             </Link>
           </div>
