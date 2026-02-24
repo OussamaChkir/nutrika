@@ -47,6 +47,12 @@ export interface OFFProduct {
     manufacturing_places_tags?: string[];
     origins?: string;
     origins_tags?: string[];
+    stores?: string;
+    stores_tags?: string[];
+    nutrition_grade_fr?: string;
+    nutriscore_data?: any;
+    ecoscore_data?: any;
+    nutriment_levels?: any;
 }
 
 export interface OFFResponse {

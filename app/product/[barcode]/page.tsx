@@ -15,6 +15,8 @@ import { PositivesList } from "@/components/positives-list";
 import { NegativesList } from "@/components/negatives-list";
 import { AllergenTags } from "@/components/allergen-tags";
 import { NutritionTable } from "@/components/nutrition-table";
+import { ProductBasicDetails } from "@/components/product-basic-details";
+import { AdvancedNutrition } from "@/components/advanced-nutrition";
 import { RecordScan } from "@/components/record-scan";
 import { ManufacturingInfo } from "@/components/manufacturing-info";
 import { ProductFeedback } from "@/components/product-feedback";
@@ -132,6 +134,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
         severity: product.allergensSeverity,
     }));
 
+    // OFF Data parsing for additional details
+    const offData = product.offData as any;
+    const isPremiumOrAdmin = session?.user?.role === "PREMIUM" || session?.user?.role === "ADMIN";
+
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
             {/* Back button */}
@@ -239,6 +245,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             />
                         </CardContent>
                     </Card>
+                )}
+
+                {/* Additional Details (Categories, Countries, Stores) */}
+                {offData && (
+                    <ProductBasicDetails
+                        categories={offData.categories_tags || (offData.categories ? [offData.categories] : [])}
+                        countries={offData.countries_tags}
+                        stores={offData.stores_tags || (offData.stores ? [offData.stores] : [])}
+                    />
+                )}
+
+                {/* Advanced Nutrition (Premium / Admin) */}
+                {isPremiumOrAdmin && offData && (
+                    <AdvancedNutrition
+                        nutritionGradeFr={offData.nutrition_grade_fr}
+                        novaGroup={offData.nova_group}
+                        ecoscoreScore={offData.ecoscore_score}
+                        ecoscoreGrade={offData.ecoscore_grade}
+                        nutrimentLevels={offData.nutriment_levels}
+                        nutriscoreData={offData.nutriscore_data}
+                        ecoscoreData={offData.ecoscore_data}
+                    />
                 )}
 
                 {/* Nutrition table */}
