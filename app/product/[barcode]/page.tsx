@@ -22,8 +22,7 @@ import { ManufacturingInfo } from "@/components/manufacturing-info";
 import { ProductFeedback } from "@/components/product-feedback";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Edit, ExternalLink, Share2 } from "lucide-react";
+import { ArrowLeft, Edit, ExternalLink } from "lucide-react";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -82,7 +81,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
         // Calculate score
         const scoreResult = calculateScore(offProduct);
 
-        // Save to database
         // Prepare data
         const productData = {
             barcode,
@@ -141,60 +139,63 @@ export default async function ProductPage({ params }: ProductPageProps) {
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
             {/* Back button */}
-            <Link href="/scan" className="inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-700 mb-4">
+            <Link
+                href="/scan"
+                className="animate-fade-in-up inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 mb-5 transition-colors"
+            >
                 <ArrowLeft className="h-4 w-4" />
                 Back to scanner
             </Link>
 
-            {/* Product header */}
-            <Card className="overflow-hidden">
+            {/* ── Hero Card ─────────────────────────────────── */}
+            <Card className="animate-fade-in-up overflow-hidden border-0 shadow-xl shadow-neutral-200/60 dark:shadow-neutral-950/40 bg-gradient-to-br from-white via-white to-orange-50/40 dark:from-neutral-900 dark:via-neutral-900 dark:to-orange-950/20">
                 <CardContent className="p-0">
                     {/* Pending Badge */}
                     {product.status === "PENDING" && (
                         <div className="flex items-center gap-2 border-b border-amber-100 bg-amber-50 px-6 py-3 text-sm font-medium text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/20 dark:text-amber-200">
-                            <div className="h-2 w-2 rounded-full bg-amber-500" />
+                            <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
                             Pending Admin Approval
                         </div>
                     )}
 
-                    {/* Product image and basic info */}
-                    <div className="flex gap-4 p-6">
-                        {/* Image */}
-                        <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800">
+                    {/* Product image + info */}
+                    <div className="flex gap-5 p-6">
+                        {/* Image — larger, glass background */}
+                        <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-2xl bg-white/70 dark:bg-neutral-800/60 backdrop-blur-sm ring-1 ring-neutral-100 dark:ring-neutral-700/50 shadow-md">
                             {product.imageUrl ? (
                                 <Image
                                     src={product.imageUrl}
                                     alt={product.name}
                                     fill
-                                    className="object-contain p-2"
-                                    sizes="112px"
+                                    className="object-contain p-3"
+                                    sizes="144px"
                                     priority
                                 />
                             ) : (
-                                <div className="flex h-full w-full items-center justify-center text-4xl">
+                                <div className="flex h-full w-full items-center justify-center text-5xl">
                                     📦
                                 </div>
                             )}
                         </div>
 
                         {/* Info */}
-                        <div className="flex-1 min-w-0">
-                            <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                        <div className="flex flex-1 min-w-0 flex-col justify-center">
+                            <h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 leading-tight">
                                 {product.name}
                             </h1>
                             {product.brand && (
-                                <p className="mt-1 text-neutral-500 dark:text-neutral-400">
+                                <p className="mt-1.5 text-sm font-medium text-neutral-500 dark:text-neutral-400">
                                     {product.brand}
                                 </p>
                             )}
-                            <p className="mt-1 text-xs text-neutral-400">
-                                Barcode: {product.barcode}
+                            <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500 font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded-md w-fit">
+                                {product.barcode}
                             </p>
                         </div>
                     </div>
 
-                    {/* Score badge - prominent display */}
-                    <div className="flex justify-center border-t border-neutral-100 bg-neutral-50/50 py-6 dark:border-neutral-800 dark:bg-neutral-900/50">
+                    {/* Score badge — centered with glow */}
+                    <div className="flex justify-center border-t border-neutral-100/80 bg-gradient-to-b from-neutral-50/60 to-neutral-100/40 py-7 dark:border-neutral-800 dark:from-neutral-900/60 dark:to-neutral-800/30">
                         <ScoreBadge
                             score={product.score}
                             letter={product.scoreLetter as "A" | "B" | "C" | "D" | "E"}
@@ -205,91 +206,109 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </CardContent>
             </Card>
 
-            {/* Analysis sections */}
-            <div className="mt-6 space-y-6">
+            {/* ── Analysis Sections ─────────────────────────── */}
+            <div className="mt-7 space-y-5">
                 {/* Positives */}
                 {positives.length > 0 && (
-                    <Card>
-                        <CardContent className="p-4">
-                            <PositivesList items={positives} />
-                        </CardContent>
+                    <Card className="animate-fade-in-up delay-100 border-0 shadow-md shadow-emerald-100/30 dark:shadow-emerald-950/20 overflow-hidden">
+                        <div className="flex">
+                            <div className="w-1 bg-gradient-to-b from-emerald-400 to-emerald-600 shrink-0" />
+                            <CardContent className="p-4 flex-1">
+                                <PositivesList items={positives} />
+                            </CardContent>
+                        </div>
                     </Card>
                 )}
 
                 {/* Negatives */}
                 {negatives.length > 0 && (
-                    <Card>
-                        <CardContent className="p-4">
-                            <NegativesList items={negatives} />
-                        </CardContent>
+                    <Card className="animate-fade-in-up delay-200 border-0 shadow-md shadow-red-100/30 dark:shadow-red-950/20 overflow-hidden">
+                        <div className="flex">
+                            <div className="w-1 bg-gradient-to-b from-red-400 to-red-600 shrink-0" />
+                            <CardContent className="p-4 flex-1">
+                                <NegativesList items={negatives} />
+                            </CardContent>
+                        </div>
                     </Card>
                 )}
 
                 {/* Allergens */}
-                <Card>
-                    <CardContent className="p-4">
-                        <AllergenTags
-                            allergens={allergens}
-                            overallSeverity={product.allergensSeverity}
-                        />
-                    </CardContent>
+                <Card className="animate-fade-in-up delay-300 border-0 shadow-md shadow-amber-100/20 dark:shadow-amber-950/20 overflow-hidden">
+                    <div className="flex">
+                        <div className="w-1 bg-gradient-to-b from-amber-400 to-amber-600 shrink-0" />
+                        <CardContent className="p-4 flex-1">
+                            <AllergenTags
+                                allergens={allergens}
+                                overallSeverity={product.allergensSeverity}
+                            />
+                        </CardContent>
+                    </div>
                 </Card>
 
                 {/* Manufacturing / Processing Places */}
                 {(product.manufacturingPlaces || product.origins) && (
-                    <Card>
-                        <CardContent className="p-4">
-                            <ManufacturingInfo
-                                manufacturingPlaces={product.manufacturingPlaces}
-                                origins={product.origins}
-                            />
-                        </CardContent>
+                    <Card className="animate-fade-in-up delay-300 border-0 shadow-md overflow-hidden">
+                        <div className="flex">
+                            <div className="w-1 bg-gradient-to-b from-orange-400 to-orange-600 shrink-0" />
+                            <CardContent className="p-4 flex-1">
+                                <ManufacturingInfo
+                                    manufacturingPlaces={product.manufacturingPlaces}
+                                    origins={product.origins}
+                                />
+                            </CardContent>
+                        </div>
                     </Card>
                 )}
 
-                {/* Additional Details (Categories, Countries, Stores) */}
+                {/* Additional Details (Countries, Stores) */}
                 {offData && (
-                    <ProductBasicDetails
-                        categories={offData.categories_tags || (offData.categories ? [offData.categories] : [])}
-                        countries={offData.countries_tags}
-                        stores={offData.stores_tags || (offData.stores ? [offData.stores] : [])}
-                    />
+                    <div className="animate-fade-in-up delay-400">
+                        <ProductBasicDetails
+                            countries={offData.countries_tags}
+                            stores={offData.stores_tags || (offData.stores ? [offData.stores] : [])}
+                        />
+                    </div>
                 )}
 
                 {/* Advanced Nutrition (Premium / Admin) */}
                 {isPremiumOrAdmin && offData && (
-                    <AdvancedNutrition
-                        nutritionGradeFr={offData.nutrition_grade_fr}
-                        novaGroup={offData.nova_group}
-                        ecoscoreScore={offData.ecoscore_score}
-                        ecoscoreGrade={offData.ecoscore_grade}
-                        nutrimentLevels={offData.nutriment_levels}
-                        nutriscoreData={offData.nutriscore_data}
-                        ecoscoreData={offData.ecoscore_data}
-                    />
+                    <div className="animate-fade-in-up delay-400">
+                        <AdvancedNutrition
+                            nutritionGradeFr={offData.nutrition_grade_fr}
+                            novaGroup={offData.nova_group}
+                            ecoscoreScore={offData.ecoscore_score}
+                            ecoscoreGrade={offData.ecoscore_grade}
+                            nutrimentLevels={offData.nutriment_levels}
+                            nutriscoreData={offData.nutriscore_data}
+                            ecoscoreData={offData.ecoscore_data}
+                        />
+                    </div>
                 )}
 
                 {/* Nutrition table */}
-                <Card>
-                    <CardContent className="p-4">
-                        <NutritionTable
-                            nutrition={{
-                                energy: product.energy,
-                                fat: product.fat,
-                                saturatedFat: product.saturatedFat,
-                                carbohydrates: product.carbohydrates,
-                                sugars: product.sugars,
-                                fiber: product.fiber,
-                                proteins: product.proteins,
-                                salt: product.salt,
-                            }}
-                        />
-                    </CardContent>
+                <Card className="animate-fade-in-up delay-500 border-0 shadow-md overflow-hidden">
+                    <div className="flex">
+                        <div className="w-1 bg-gradient-to-b from-blue-400 to-blue-600 shrink-0" />
+                        <CardContent className="p-4 flex-1">
+                            <NutritionTable
+                                nutrition={{
+                                    energy: product.energy,
+                                    fat: product.fat,
+                                    saturatedFat: product.saturatedFat,
+                                    carbohydrates: product.carbohydrates,
+                                    sugars: product.sugars,
+                                    fiber: product.fiber,
+                                    proteins: product.proteins,
+                                    salt: product.salt,
+                                }}
+                            />
+                        </CardContent>
+                    </div>
                 </Card>
             </div>
 
             {/* Product Feedback */}
-            <div className="mt-6">
+            <div className="mt-7 animate-fade-in-up delay-500">
                 <ProductFeedback
                     barcode={product.barcode}
                     userRole={session?.user?.role}
@@ -298,13 +317,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {/* Actions */}
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3 animate-fade-in-up delay-600">
                 <Link href={`/add-product?barcode=${barcode}&edit=true`} className="flex-1">
-                    <Button variant="outline" className="w-full gap-2">
+                    <Button variant="outline" className="w-full gap-2 h-11 rounded-xl border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
                         <Edit className="h-4 w-4" />
                         Suggest Edit
                     </Button>
                 </Link>
+                <a
+                    href={`https://world.openfoodfacts.org/product/${barcode}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1"
+                >
+                    <Button variant="outline" className="w-full gap-2 h-11 rounded-xl border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                        <ExternalLink className="h-4 w-4" />
+                        View on OFF
+                    </Button>
+                </a>
             </div>
 
             {/* Record scan for authenticated users */}
