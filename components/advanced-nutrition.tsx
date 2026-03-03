@@ -260,7 +260,14 @@ export function AdvancedNutrition({
                                     />
                                 </div>
                             ) : (
-                                <span className="text-3xl font-black uppercase text-neutral-800 dark:text-neutral-200">{nutritionGradeFr}</span>
+                                <div className="relative w-28 h-14">
+                                    <Image
+                                        src={`/nutri-score/nutriscore-not-applicable-new-fr.svg`}
+                                        alt="Nutri-Score Not Applicable"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
                             )}
                         </div>
                     )}
@@ -296,9 +303,15 @@ export function AdvancedNutrition({
                                     {ecoscoreScore !== undefined && <span className="text-xs font-medium text-neutral-400 dark:text-neutral-500 mt-1">({ecoscoreScore}/100)</span>}
                                 </div>
                             ) : (
-                                <div className="flex items-baseline gap-1">
-                                    {ecoscoreGrade && <span className="text-3xl font-black uppercase text-neutral-800 dark:text-neutral-200">{ecoscoreGrade}</span>}
-                                    {ecoscoreScore !== undefined && <span className="text-sm font-medium text-neutral-400 dark:text-neutral-500">({ecoscoreScore}/100)</span>}
+                                <div className="flex flex-col items-center gap-1">
+                                    <div className="relative w-24 h-12">
+                                        <Image
+                                            src="/green-score/green-score-not-applicable.svg"
+                                            alt="Eco-Score Not Applicable"
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>
