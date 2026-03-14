@@ -20,6 +20,7 @@ import { AdvancedNutrition } from "@/components/advanced-nutrition";
 import { RecordScan } from "@/components/record-scan";
 import { ManufacturingInfo } from "@/components/manufacturing-info";
 import { ProductFeedback } from "@/components/product-feedback";
+import { AdminProductActions } from "@/components/admin-product-actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Edit, ExternalLink } from "lucide-react";
@@ -135,6 +136,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     // OFF Data parsing for additional details
     const offData = product.offData as any;
     const isPremiumOrAdmin = session?.user?.role === "PREMIUM" || session?.user?.role === "ADMIN";
+    const isAdmin = session?.user?.role === "ADMIN";
 
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
@@ -315,6 +317,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     userId={session?.user?.id}
                 />
             </div>
+
+            {/* Admin Actions */}
+            {isAdmin && (
+                <div className="mt-7 animate-fade-in-up delay-[550ms]">
+                    <AdminProductActions
+                        productId={product.id}
+                        currentStatus={product.status}
+                    />
+                </div>
+            )}
 
             {/* Actions */}
             <div className="mt-7 flex flex-wrap gap-3 animate-fade-in-up delay-600">

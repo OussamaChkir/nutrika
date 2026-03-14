@@ -98,8 +98,8 @@ export function ProductsTable({ initialProducts }: { initialProducts: Product[] 
                             key={status}
                             onClick={() => setStatusFilter(status)}
                             className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${statusFilter === status
-                                    ? "bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100"
-                                    : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                                ? "bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100"
+                                : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                                 }`}
                         >
                             {status === "ALL" ? "All" : status.charAt(0) + status.slice(1).toLowerCase()}
@@ -170,37 +170,36 @@ export function ProductsTable({ initialProducts }: { initialProducts: Product[] 
                                                 </button>
                                             </Link>
 
-                                            {product.status === "PENDING" && (
-                                                <>
-                                                    <button
-                                                        onClick={() => handleAction(product.id, "approve")}
-                                                        disabled={isUpdating === product.id}
-                                                        className="rounded-md p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
-                                                        title="Approve"
-                                                    >
-                                                        {isUpdating === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleAction(product.id, "reject")}
-                                                        disabled={isUpdating === product.id}
-                                                        className="rounded-md p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
-                                                        title="Reject"
-                                                    >
-                                                        {isUpdating === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <XCircle className="h-4 w-4" />}
-                                                    </button>
-                                                </>
-                                            )}
-
-                                            {product.status !== "PENDING" && (
+                                            {product.status !== "APPROVED" && (
                                                 <button
-                                                    onClick={() => handleAction(product.id, "delete")}
+                                                    onClick={() => handleAction(product.id, "approve")}
                                                     disabled={isUpdating === product.id}
-                                                    className="rounded-md p-2 text-neutral-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
-                                                    title="Delete"
+                                                    className="rounded-md p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
+                                                    title="Approve"
                                                 >
-                                                    {isUpdating === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                                                    {isUpdating === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
                                                 </button>
                                             )}
+
+                                            {product.status !== "REJECTED" && (
+                                                <button
+                                                    onClick={() => handleAction(product.id, "reject")}
+                                                    disabled={isUpdating === product.id}
+                                                    className="rounded-md p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                                    title="Reject"
+                                                >
+                                                    {isUpdating === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <XCircle className="h-4 w-4" />}
+                                                </button>
+                                            )}
+
+                                            <button
+                                                onClick={() => handleAction(product.id, "delete")}
+                                                disabled={isUpdating === product.id}
+                                                className="rounded-md p-2 text-neutral-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
+                                                title="Delete"
+                                            >
+                                                {isUpdating === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
