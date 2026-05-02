@@ -1,0 +1,29 @@
+{
+  "Header": {
+    "home": "Home",
+    "search": "Search",
+    "scan": "Scan",
+    "addProduct": "Add Product",
+    "admin": "Admin",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "profile": "Profile"
+  },
+  "Footer": {
+    "about": "About",
+    "pricing": "Pricing",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "allRightsReserved": "All rights reserved"
+  },
+  "Home": {
+    "heroBadge": "Global Food Scanner for Smarter Eating",
+    "heroTitle": "Nutrika –",
+    "heroSubtitle": "Know What You Eat",
+    "heroDesc": "Scan barcodes to instantly discover nutritional scores, health benefits, and allergen warnings. Make informed food choices with your reliable pocket guide.",
+    "scanButton": "Scan a Product Now",
+    "createAccountButton": "Create Free Account",
+    "featuresTitle": "Everything You Need to Understand Your Food"
+  }
+}

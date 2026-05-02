@@ -1,7 +1,10 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { Facebook, Instagram } from "lucide-react";
 
 export function Footer() {
+    const t = useTranslations('Footer');
+
     return (
         <footer className="border-t border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
             <div className="mx-auto max-w-7xl px-4 py-8">
@@ -24,19 +27,19 @@ export function Footer() {
                             href="/about"
                             className="hover:text-orange-600 transition-colors"
                         >
-                            About
+                            {t('about')}
                         </Link>
                         <Link
                             href="/privacy"
                             className="hover:text-orange-600 transition-colors"
                         >
-                            Privacy
+                            {t('privacy')}
                         </Link>
                         <Link
                             href="/terms"
                             className="hover:text-orange-600 transition-colors"
                         >
-                            Terms
+                            {t('terms')}
                         </Link>
                     </div>
 
@@ -66,7 +69,7 @@ export function Footer() {
                         © {new Date().getFullYear()} <Link
                             href="/"
                             className="text-orange-600 hover:underline transition-colors"
-                        >Nutrika</Link>. All rights reserved
+                        >Nutrika</Link>. {t('allRightsReserved')}
                     </p>
                 </div>
             </div>

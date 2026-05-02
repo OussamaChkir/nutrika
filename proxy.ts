@@ -1,7 +1,10 @@
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 import { NextResponse } from "next/server";
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
+const intlMiddleware = createMiddleware(routing);
 const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
@@ -15,17 +18,20 @@ export default auth((req) => {
     // Admin-only routes
     const adminRoutes = ["/admin"];
 
+    // Strip locale prefix for route matching
+    const pathnameWithoutLocale = nextUrl.pathname.replace(/^\/(en|fr)/, "") || "/";
+
     const isProtectedRoute = protectedRoutes.some((route) =>
-        nextUrl.pathname.startsWith(route)
+        pathnameWithoutLocale.startsWith(route)
     );
 
     const isAdminRoute = adminRoutes.some((route) =>
-        nextUrl.pathname.startsWith(route)
+        pathnameWithoutLocale.startsWith(route)
     );
 
     const isAuthRoute =
-        nextUrl.pathname.startsWith("/sign-in") ||
-        nextUrl.pathname.startsWith("/sign-up");
+        pathnameWithoutLocale.startsWith("/sign-in") ||
+        pathnameWithoutLocale.startsWith("/sign-up");
 
     // Redirect logged-in users away from auth pages
     if (isAuthRoute && isLoggedIn) {
@@ -48,7 +54,8 @@ export default auth((req) => {
         return NextResponse.redirect(new URL("/", nextUrl));
     }
 
-    return NextResponse.next();
+    // Defer to next-intl middleware for all other requests
+    return intlMiddleware(req);
 });
 
 export const config = {

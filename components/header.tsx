@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "@/components/mode-toggle";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { useTranslations } from "next-intl";
 import {
     Scan,
     Home,
@@ -35,12 +36,14 @@ export function Header({ user }: HeaderProps) {
 
     const isAdmin = user?.role === "ADMIN";
 
+    const t = useTranslations('Header');
+
     const navItems = [
-        { href: "/", label: "Home", icon: Home },
-        { href: "/search", label: "Search", icon: Search },
-        { href: "/scan", label: "Scan", icon: Scan },
-        ...(user ? [{ href: "/add-product", label: "Add Product", icon: PlusCircle }] : []),
-        ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
+        { href: "/", label: t('home'), icon: Home },
+        { href: "/search", label: t('search'), icon: Search },
+        { href: "/scan", label: t('scan'), icon: Scan },
+        ...(user ? [{ href: "/add-product", label: t('addProduct'), icon: PlusCircle }] : []),
+        ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];
 
     const getInitials = (name?: string | null, email?: string | null) => {
@@ -92,6 +95,9 @@ export function Header({ user }: HeaderProps) {
                     {/* <div className="hidden md:block">
                         <ModeToggle />
                     </div> */}
+                    <div className="hidden md:flex items-center">
+                        <LanguageSwitcher />
+                    </div>
                     {user ? (
                         <div className="hidden md:flex items-center gap-2">
                             <Link href="/profile">
@@ -115,11 +121,11 @@ export function Header({ user }: HeaderProps) {
                         <div className="hidden md:flex items-center gap-2">
                             <Link href="/sign-in">
                                 <Button variant="ghost" size="sm">
-                                    Sign In
+                                    {t('signIn')}
                                 </Button>
                             </Link>
                             <Link href="/sign-up">
-                                <Button size="sm">Sign Up</Button>
+                                <Button size="sm">{t('signUp')}</Button>
                             </Link>
                         </div>
                     )}
@@ -143,6 +149,9 @@ export function Header({ user }: HeaderProps) {
                         {/* <div className="flex justify-end mb-2">
                             <ModeToggle />
                         </div> */}
+                        <div className="flex justify-end mb-2">
+                            <LanguageSwitcher />
+                        </div>
                         {navItems.map((item) => {
                             const isActive = pathname === item.href;
                             return (
@@ -169,7 +178,7 @@ export function Header({ user }: HeaderProps) {
                                 <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
                                     <Button variant="ghost" className="w-full justify-start gap-3">
                                         <User className="h-5 w-5" />
-                                        Profile
+                                        {t('profile')}
                                     </Button>
                                 </Link>
                                 <form action={signOutAction}>
@@ -179,7 +188,7 @@ export function Header({ user }: HeaderProps) {
                                         className="w-full justify-start gap-3 text-red-600"
                                     >
                                         <LogOut className="h-5 w-5" />
-                                        Sign Out
+                                        {t('signOut')}
                                     </Button>
                                 </form>
                             </>
@@ -187,12 +196,12 @@ export function Header({ user }: HeaderProps) {
                             <>
                                 <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
                                     <Button variant="ghost" className="w-full justify-start gap-3">
-                                        Sign In
+                                        {t('signIn')}
                                     </Button>
                                 </Link>
                                 <Link href="/sign-up" onClick={() => setMobileMenuOpen(false)}>
                                     <Button className="w-full justify-start gap-3">
-                                        Sign Up
+                                        {t('signUp')}
                                     </Button>
                                 </Link>
                             </>

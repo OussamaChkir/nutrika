@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image'
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,7 +15,9 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations('Home');
+
   return (
     <div className="flex flex-col w-full overflow-hidden">
       {/* 1. Hero Section */}
@@ -33,30 +36,30 @@ export default function HomePage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
-            Global Food Scanner for Smarter Eating
+            {t('heroBadge')}
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 mb-6 leading-[1.1]">
-            Nutrika –{" "}
+            {t('heroTitle')}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orangina-300">
-              Know What You Eat
+              {t('heroSubtitle')}
             </span>
           </h1>
 
           <p className="mx-auto max-w-2xl text-lg md:text-xl text-neutral-600 dark:text-neutral-400 mb-10 leading-relaxed font-medium">
-            Scan barcodes to instantly discover nutritional scores, health benefits, and allergen warnings. Make informed food choices with your reliable pocket guide.
+            {t('heroDesc')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full sm:w-auto">
             <Link href="/scan" className="w-full sm:w-auto">
               <Button size="lg" className="w-full sm:w-auto h-14 px-8 text-base shadow-lg shadow-orange-500/30 animate-pulse-glow gap-2 bg-gradient-to-r from-orange-500 to-orangina-300 hover:from-orange-600 hover:to-orange-400 text-white border-0 transition-all hover:scale-105">
                 <Scan className="h-5 w-5" />
-                Scan a Product Now
+                {t('scanButton')}
               </Button>
             </Link>
             <Link href="/sign-up" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 text-base font-semibold border-2 border-orange-200 dark:border-orange-900/50 hover:bg-orange-50 dark:hover:bg-orange-950/30 transition-all hover:border-orange-300 dark:hover:border-orange-800">
-                Create Free Account
+                {t('createAccountButton')}
               </Button>
             </Link>
           </div>
@@ -69,7 +72,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-              Everything You Need to Understand Your Food
+              {t('featuresTitle')}
             </h2>
           </div>
 

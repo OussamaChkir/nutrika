@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ProductStatus } from "@prisma/client";
-import { approveProduct, rejectProduct, deleteProduct } from "@/app/admin/products/actions";
+import { approveProduct, rejectProduct, deleteProduct } from "@/app/[locale]/admin/products/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, XCircle, Trash2, Loader2, ShieldAlert } from "lucide-react";

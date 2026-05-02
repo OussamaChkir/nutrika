@@ -1,0 +1,29 @@
+{
+  "Header": {
+    "home": "Accueil",
+    "search": "Recherche",
+    "scan": "Scanner",
+    "addProduct": "Ajouter un produit",
+    "admin": "Admin",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "signOut": "Se déconnecter",
+    "profile": "Profil"
+  },
+  "Footer": {
+    "about": "À propos",
+    "pricing": "Tarification",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "allRightsReserved": "Tous droits réservés"
+  },
+  "Home": {
+    "heroBadge": "Scanner alimentaire mondial pour manger plus intelligemment",
+    "heroTitle": "Nutrika –",
+    "heroSubtitle": "Sachez ce que vous mangez",
+    "heroDesc": "Scannez les codes-barres pour découvrir instantanément les scores nutritionnels, les bienfaits pour la santé et les alertes aux allergènes. Faites des choix alimentaires éclairés avec votre guide de poche fiable.",
+    "scanButton": "Scanner un produit",
+    "createAccountButton": "Créer un compte gratuit",
+    "featuresTitle": "Tout ce dont vous avez besoin pour comprendre votre alimentation"
+  }
+}
