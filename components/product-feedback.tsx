@@ -37,7 +37,7 @@ export function ProductFeedback({
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
-    const isPremium = userRole === "PREMIUM" || userRole === "ADMIN";
+    const isPremium = true; // Pricing deactivated, all users have premium access
 
     useEffect(() => {
         fetch(`/api/products/${barcode}/feedback`)

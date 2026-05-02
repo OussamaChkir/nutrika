@@ -48,13 +48,7 @@ export async function POST(request: Request, { params }: RouteParams) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Check premium/admin role
-    if (session.user.role !== "PREMIUM" && session.user.role !== "ADMIN") {
-        return NextResponse.json(
-            { error: "This feature is for Premium members only" },
-            { status: 403 }
-        );
-    }
+    // Check premium/admin role removed (Pricing deactivated, all authenticated users have premium access)
 
     try {
         const body = await request.json();

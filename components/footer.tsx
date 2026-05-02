@@ -27,12 +27,6 @@ export function Footer() {
                             About
                         </Link>
                         <Link
-                            href="/pricing"
-                            className="hover:text-orange-600 transition-colors"
-                        >
-                            Pricing
-                        </Link>
-                        <Link
                             href="/privacy"
                             className="hover:text-orange-600 transition-colors"
                         >

@@ -135,7 +135,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     // OFF Data parsing for additional details
     const offData = product.offData as any;
-    const isPremiumOrAdmin = session?.user?.role === "PREMIUM" || session?.user?.role === "ADMIN";
+    const isPremiumOrAdmin = true; // Pricing deactivated, all users have premium access
     const isAdmin = session?.user?.role === "ADMIN";
 
     return (
