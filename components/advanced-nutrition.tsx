@@ -148,25 +148,82 @@ function NutriScoreBreakdown({ data }: { data: any }) {
 function EcoScoreBreakdown({ data }: { data: any }) {
     if (!data) return null;
 
-    const rows: { label: string; value: string | number; icon: React.ComponentType<any> }[] = [];
+    const rows: { 
+        label: string; 
+        description: string; 
+        impact: 'positive' | 'negative' | 'neutral' | 'excellent' | 'good' | 'moderate' | 'poor'; 
+        icon: React.ComponentType<any> 
+    }[] = [];
 
-    if (data.agribalyse?.score) {
-        rows.push({ label: "Life Cycle Analysis (Agribalyse)", value: `${data.agribalyse.score}/100`, icon: TreePine });
+    if (data.agribalyse?.score !== undefined) {
+        const s = data.agribalyse.score;
+        let impact: any = 'moderate';
+        let desc = 'Average environmental impact';
+        if (s >= 80) { impact = 'excellent'; desc = 'Very low environmental impact from farming and processing'; }
+        else if (s >= 60) { impact = 'good'; desc = 'Low environmental impact from farming and processing'; }
+        else if (s >= 40) { impact = 'moderate'; desc = 'Moderate environmental impact'; }
+        else { impact = 'poor'; desc = 'High environmental impact from farming and processing'; }
+        
+        rows.push({ 
+            label: "Farming & Processing", 
+            description: desc, 
+            impact, 
+            icon: TreePine 
+        });
     }
+
     if (data.adjustments?.packaging?.score !== undefined) {
-        rows.push({ label: "Packaging", value: `${data.adjustments.packaging.score > 0 ? "+" : ""}${data.adjustments.packaging.score}`, icon: Package });
+        const s = data.adjustments.packaging.score;
+        let impact: any = 'neutral';
+        let desc = 'Standard packaging impact';
+        if (s > 0) { impact = 'positive'; desc = 'Eco-friendly or recyclable packaging'; }
+        else if (s < 0) { impact = 'negative'; desc = 'Packaging has negative environmental impact'; }
+        
+        rows.push({ label: "Packaging", description: desc, impact, icon: Package });
     }
+
     if (data.adjustments?.origins_of_ingredients?.value !== undefined) {
-        rows.push({ label: "Origins of Ingredients", value: `${data.adjustments.origins_of_ingredients.value > 0 ? "+" : ""}${data.adjustments.origins_of_ingredients.value}`, icon: Truck });
+        const s = data.adjustments.origins_of_ingredients.value;
+        let impact: any = 'neutral';
+        let desc = 'Standard or mixed ingredient origins';
+        if (s > 0) { impact = 'positive'; desc = 'Locally sourced ingredients (reduces transport emissions)'; }
+        else if (s < 0) { impact = 'negative'; desc = 'Ingredients transported from far distances'; }
+        
+        rows.push({ label: "Ingredient Origins", description: desc, impact, icon: Truck });
     }
+
     if (data.adjustments?.production_system?.value !== undefined) {
-        rows.push({ label: "Production System", value: `${data.adjustments.production_system.value > 0 ? "+" : ""}${data.adjustments.production_system.value}`, icon: Leaf });
+        const s = data.adjustments.production_system.value;
+        let impact: any = 'neutral';
+        let desc = 'Standard production practices';
+        if (s > 0) { impact = 'positive'; desc = 'Sustainable or organic production practices'; }
+        else if (s < 0) { impact = 'negative'; desc = 'Production system has negative environmental impact'; }
+        
+        rows.push({ label: "Production System", description: desc, impact, icon: Leaf });
     }
 
     if (rows.length === 0) return null;
 
+    const getImpactStyles = (impact: string) => {
+        switch (impact) {
+            case 'excellent':
+            case 'positive':
+                return { text: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-100/50 dark:bg-emerald-900/30', label: impact === 'excellent' ? 'Excellent' : 'Positive Impact' };
+            case 'good':
+                return { text: 'text-green-700 dark:text-green-400', bg: 'bg-green-100/50 dark:bg-green-900/30', label: 'Good' };
+            case 'moderate':
+            case 'neutral':
+                return { text: 'text-yellow-700 dark:text-yellow-400', bg: 'bg-yellow-100/50 dark:bg-yellow-900/30', label: impact === 'moderate' ? 'Moderate' : 'Neutral Impact' };
+            case 'poor':
+            case 'negative':
+                return { text: 'text-red-700 dark:text-red-400', bg: 'bg-red-100/50 dark:bg-red-900/30', label: impact === 'poor' ? 'Poor' : 'Negative Impact' };
+            default:
+                return { text: 'text-neutral-700 dark:text-neutral-400', bg: 'bg-neutral-100/50 dark:bg-neutral-800/30', label: 'Unknown' };
+        }
+    };
+
     return (
-        <div className="space-y-3 pt-4 border-t border-green-100 dark:border-green-900/30">
+        <div className="space-y-4 pt-4 border-t border-green-100 dark:border-green-900/30">
             <h4 className="text-sm font-semibold text-green-800 dark:text-green-200 flex items-center gap-2">
                 <Leaf className="w-4 h-4 text-green-500" />
                 Eco-Score Breakdown
@@ -174,22 +231,25 @@ function EcoScoreBreakdown({ data }: { data: any }) {
             <div className="grid gap-2">
                 {rows.map((row, i) => {
                     const Icon = row.icon;
+                    const styles = getImpactStyles(row.impact);
                     return (
-                        <div key={i} className="flex items-center gap-3 bg-green-50/60 dark:bg-green-950/20 rounded-lg px-3 py-2.5">
-                            <Icon className="w-4 h-4 text-green-500 shrink-0" />
-                            <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-300">{row.label}</span>
-                            <span className="text-sm font-bold text-green-700 dark:text-green-300">{row.value}</span>
+                        <div key={i} className="flex items-start gap-3 bg-green-50/40 dark:bg-green-950/10 rounded-lg p-3 border border-green-100/50 dark:border-green-900/20">
+                            <div className={`p-2 rounded-md ${styles.bg}`}>
+                                <Icon className={`w-4 h-4 ${styles.text}`} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between mb-0.5 gap-2">
+                                    <span className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">{row.label}</span>
+                                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${styles.bg} ${styles.text} whitespace-nowrap`}>
+                                        {styles.label}
+                                    </span>
+                                </div>
+                                <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-snug">{row.description}</p>
+                            </div>
                         </div>
                     );
                 })}
             </div>
-
-            {data.score !== undefined && (
-                <div className="flex items-center justify-between bg-green-50/80 dark:bg-green-900/20 rounded-lg px-4 py-2.5 border border-green-100 dark:border-green-800/30">
-                    <span className="text-sm font-medium text-green-700 dark:text-green-300">Overall Eco-Score</span>
-                    <span className="text-lg font-bold text-green-800 dark:text-green-200">{data.score}/100</span>
-                </div>
-            )}
         </div>
     );
 }
@@ -239,7 +299,7 @@ export function AdvancedNutrition({
                     </CardTitle>
                 </div>
                 <CardDescription className="text-purple-600/70 dark:text-purple-400/70">
-                    Premium and Admin exclusive insights
+
                 </CardDescription>
             </CardHeader>
 
