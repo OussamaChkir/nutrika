@@ -210,6 +210,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             {/* ── Analysis Sections ─────────────────────────── */}
             <div className="mt-7 space-y-5">
+                {/* Nutrition table */}
+                <Card className="animate-fade-in-up delay-500 border-0 shadow-md overflow-hidden">
+                    <div className="flex">
+                        <div className="w-1 bg-gradient-to-b from-blue-400 to-blue-600 shrink-0" />
+                        <CardContent className="p-4 flex-1">
+                            <NutritionTable
+                                nutrition={{
+                                    energy: product.energy,
+                                    fat: product.fat,
+                                    saturatedFat: product.saturatedFat,
+                                    carbohydrates: product.carbohydrates,
+                                    sugars: product.sugars,
+                                    fiber: product.fiber,
+                                    proteins: product.proteins,
+                                    salt: product.salt,
+                                }}
+                            />
+                        </CardContent>
+                    </div>
+                </Card>
                 {/* Positives */}
                 {positives.length > 0 && (
                     <Card className="animate-fade-in-up delay-100 border-0 shadow-md shadow-emerald-100/30 dark:shadow-emerald-950/20 overflow-hidden">
@@ -286,27 +306,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         />
                     </div>
                 )}
-
-                {/* Nutrition table */}
-                <Card className="animate-fade-in-up delay-500 border-0 shadow-md overflow-hidden">
-                    <div className="flex">
-                        <div className="w-1 bg-gradient-to-b from-blue-400 to-blue-600 shrink-0" />
-                        <CardContent className="p-4 flex-1">
-                            <NutritionTable
-                                nutrition={{
-                                    energy: product.energy,
-                                    fat: product.fat,
-                                    saturatedFat: product.saturatedFat,
-                                    carbohydrates: product.carbohydrates,
-                                    sugars: product.sugars,
-                                    fiber: product.fiber,
-                                    proteins: product.proteins,
-                                    salt: product.salt,
-                                }}
-                            />
-                        </CardContent>
-                    </div>
-                </Card>
             </div>
 
             {/* Product Feedback */}
@@ -328,14 +327,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
             )}
 
-            <div className="mt-7 flex flex-wrap gap-3 animate-fade-in-up delay-600">
-                <Link href={`/add-product?barcode=${barcode}&edit=true`} className="flex-1">
-                    <Button variant="outline" className="w-full gap-2 h-11 rounded-xl border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
-                        <Edit className="h-4 w-4" />
-                        Suggest Edit
-                    </Button>
-                </Link>
-            </div>
+            {isAdmin && (
+                <div className="mt-7 flex flex-wrap gap-3 animate-fade-in-up delay-600">
+                    <Link href={`/add-product?barcode=${barcode}&edit=true`} className="flex-1">
+                        <Button variant="outline" className="w-full gap-2 h-11 rounded-xl border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                            <Edit className="h-4 w-4" />
+                            Suggest Edit
+                        </Button>
+                    </Link>
+                </div>
+            )}
 
             {/* Record scan for authenticated users */}
             <RecordScan barcode={product.barcode} userId={session?.user?.id} />

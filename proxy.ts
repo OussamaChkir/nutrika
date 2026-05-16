@@ -16,7 +16,7 @@ export default auth((req) => {
     const protectedRoutes = ["/add-product", "/profile"];
 
     // Admin-only routes
-    const adminRoutes = ["/admin"];
+    const adminRoutes = ["/admin", "/search"];
 
     // Strip locale prefix for route matching
     const pathnameWithoutLocale = nextUrl.pathname.replace(/^\/(en|fr)/, "") || "/";

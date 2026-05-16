@@ -40,7 +40,7 @@ export function Header({ user }: HeaderProps) {
 
     const navItems = [
         { href: "/", label: t('home'), icon: Home },
-        { href: "/search", label: t('search'), icon: Search },
+        ...(isAdmin ? [{ href: "/search", label: t('search'), icon: Search }] : []),
         { href: "/scan", label: t('scan'), icon: Scan },
         ...(user ? [{ href: "/add-product", label: t('addProduct'), icon: PlusCircle }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
