@@ -98,6 +98,7 @@ model Product {
   negatives        Json[]            // Array of { text: string, icon?: string }
   allergens        String[]
   allergensSeverity AllergenSeverity @default(LOW)
+  dietaryTags      String[]          @default([])
   
   // Nutrition (per 100g)
   energy           Float?            // kJ or kcal

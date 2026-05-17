@@ -34,6 +34,7 @@ export interface ScoreResult {
     negatives: NegativeAspect[];
     allergens: AllergenInfo[];
     allergensSeverity: "LOW" | "MEDIUM" | "HIGH";
+    dietaryTags: string[];
 }
 
 // ============================================
@@ -328,6 +329,44 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     else if (score >= 25) letter = "D";
     else letter = "E";
 
+    // ==========================================
+    // DIETARY TAGS CALCULATION
+    // ==========================================
+    const dietaryTags: string[] = [];
+
+    // Keto friendly: low carbs
+    if (nutriments.carbohydrates_100g !== undefined && nutriments.carbohydrates_100g < 5) {
+        dietaryTags.push("Keto friendly");
+    }
+
+    // Vegan
+    if (hasLabel(offData, "vegan")) {
+        dietaryTags.push("Vegan");
+    }
+
+    // Muscle gain: high protein
+    if (nutriments.proteins_100g !== undefined && nutriments.proteins_100g > 15) {
+        dietaryTags.push("Muscle gain");
+    }
+
+    // Diabetic safe: low sugar and moderate/low carbs
+    if (
+        nutriments.sugars_100g !== undefined &&
+        nutriments.carbohydrates_100g !== undefined &&
+        nutriments.sugars_100g < 5 &&
+        nutriments.carbohydrates_100g < 15
+    ) {
+        dietaryTags.push("Diabetic safe");
+    }
+
+    // Pregnancy safe heuristic: no alcohol, no raw meat/fish/milk
+    const categoriesTags = offData.categories_tags || [];
+    const hasAlcohol = categoriesTags.some((c) => c.includes("alcohol"));
+    const isRaw = categoriesTags.some((c) => c.includes("raw") || c.includes("unpasteurized"));
+    if (!hasAlcohol && !isRaw) {
+        dietaryTags.push("Pregnancy safe");
+    }
+
     return {
         score,
         letter,
@@ -336,6 +375,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         negatives,
         allergens: allergenInfos,
         allergensSeverity,
+        dietaryTags,
     };
 }
 

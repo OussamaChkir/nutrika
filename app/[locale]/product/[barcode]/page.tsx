@@ -26,6 +26,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Edit, ExternalLink, Info } from "lucide-react";
 import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
+import { DietaryTags } from "@/components/dietary-tags";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -116,6 +117,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             salt: offProduct.nutriments?.salt_100g,
             manufacturingPlaces: offProduct.manufacturing_places || null,
             origins: offProduct.origins || null,
+            dietaryTags: scoreResult.dietaryTags,
             status: "APPROVED" as const,
         };
 
@@ -134,6 +136,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         name,
         severity: product.allergensSeverity,
     }));
+    const dietaryTags = product.dietaryTags || [];
 
     // OFF Data parsing for additional details
     const offData = product.offData as any;
@@ -203,6 +206,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500 font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded-md w-fit">
                                 {product.barcode}
                             </p>
+                            {dietaryTags.length > 0 && (
+                                <DietaryTags tags={dietaryTags} />
+                            )}
                         </div>
                     </div>
 
