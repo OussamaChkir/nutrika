@@ -23,7 +23,9 @@ import { ProductFeedback } from "@/components/product-feedback";
 import { AdminProductActions } from "@/components/admin-product-actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Edit, ExternalLink } from "lucide-react";
+import { ArrowLeft, Edit, ExternalLink, Info } from "lucide-react";
+import { checkIsFavorite } from "@/app/[locale]/product/actions";
+import { FavoriteButton } from "@/components/favorite-button";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -138,6 +140,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const isPremiumOrAdmin = true; // Pricing deactivated, all users have premium access
     const isAdmin = session?.user?.role === "ADMIN";
 
+    // Check if the product is favorite
+    const isFavorite = session?.user?.id ? await checkIsFavorite(product.id) : false;
+
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
             {/* Back button */}
@@ -150,7 +155,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </Link>
 
             {/* ── Hero Card ─────────────────────────────────── */}
-            <Card className="animate-fade-in-up overflow-hidden border-0 shadow-xl shadow-neutral-200/60 dark:shadow-neutral-950/40 bg-gradient-to-br from-white via-white to-orange-50/40 dark:from-neutral-900 dark:via-neutral-900 dark:to-orange-950/20">
+            <Card className="animate-fade-in-up relative overflow-hidden border-0 shadow-xl shadow-neutral-200/60 dark:shadow-neutral-950/40 bg-gradient-to-br from-white via-white to-orange-50/40 dark:from-neutral-900 dark:via-neutral-900 dark:to-orange-950/20">
+                {session?.user?.id && (
+                    <div className="absolute top-4 right-4 z-10">
+                        <FavoriteButton productId={product.id} initialIsFavorite={isFavorite} />
+                    </div>
+                )}
                 <CardContent className="p-0">
                     {/* Pending Badge */}
                     {product.status === "PENDING" && (
@@ -207,6 +217,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </div>
                 </CardContent>
             </Card>
+
+            {/* How scores are calculated info */}
+            <div className="mt-5 animate-fade-in-up delay-100 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40 p-4">
+                <div className="flex gap-3">
+                    <Info className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                        <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100">How are scores calculated?</h4>
+                        <p className="text-xs text-blue-700/80 dark:text-blue-300/80 leading-relaxed">
+                            <strong>Nutri-Score:</strong> Evaluates nutritional quality per 100g. It penalizes energy, sugars, saturated fat, and sodium, while rewarding fruits, vegetables, fiber, and protein. <br/>
+                            <strong>Eco-Score:</strong> Measures environmental impact. It evaluates farming, processing, packaging, and transport origins.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             {/* ── Analysis Sections ─────────────────────────── */}
             <div className="mt-7 space-y-5">
