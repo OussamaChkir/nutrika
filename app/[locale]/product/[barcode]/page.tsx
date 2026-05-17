@@ -222,12 +222,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <div className="mt-5 animate-fade-in-up delay-100 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40 p-4">
                 <div className="flex gap-3">
                     <Info className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                         <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100">How are scores calculated?</h4>
-                        <p className="text-xs text-blue-700/80 dark:text-blue-300/80 leading-relaxed">
-                            <strong>Nutri-Score:</strong> Evaluates nutritional quality per 100g. It penalizes energy, sugars, saturated fat, and sodium, while rewarding fruits, vegetables, fiber, and protein. <br/>
-                            <strong>Eco-Score:</strong> Measures environmental impact. It evaluates farming, processing, packaging, and transport origins.
-                        </p>
+                        <div className="text-xs text-blue-700/80 dark:text-blue-300/80 leading-relaxed space-y-1.5">
+                            <p><strong>Product Score (0-100):</strong> A comprehensive score starting at 70 points. It's penalized for high sugar, saturated fat, salt, harmful additives, and heavy processing (NOVA group). It's rewarded for fiber, protein, organic/vegan labels, and minimal processing. Finally, it's blended with the official Nutri-Score.</p>
+                            <p><strong>Letter Grade (A-E):</strong> Derived directly from the Product Score (A: 90-100, B: 75-89, C: 50-74, D: 25-49, E: &lt;25).</p>
+                            <p><strong>Nutri-Score:</strong> Evaluates nutritional quality per 100g, penalizing energy, sugars, fat, and sodium, while rewarding fruits, vegetables, fiber, and protein.</p>
+                            <p><strong>Eco-Score:</strong> Measures environmental impact evaluating farming, processing, packaging, and transport origins.</p>
+                        </div>
                     </div>
                 </div>
             </div>

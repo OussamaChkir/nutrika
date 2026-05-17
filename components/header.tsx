@@ -17,6 +17,7 @@ import {
     X,
     Search,
     CreditCard,
+    Heart,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
@@ -42,6 +43,7 @@ export function Header({ user }: HeaderProps) {
         { href: "/", label: t('home'), icon: Home },
         ...(isAdmin ? [{ href: "/search", label: t('search'), icon: Search }] : []),
         { href: "/scan", label: t('scan'), icon: Scan },
+        ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
         ...(user ? [{ href: "/add-product", label: t('addProduct'), icon: PlusCircle }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];

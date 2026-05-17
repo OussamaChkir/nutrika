@@ -8,7 +8,8 @@
     "signIn": "Se connecter",
     "signUp": "S'inscrire",
     "signOut": "Se déconnecter",
-    "profile": "Profil"
+    "profile": "Profil",
+    "favorites": "Favoris"
   },
   "Footer": {
     "about": "À propos",
