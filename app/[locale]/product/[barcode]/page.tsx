@@ -23,7 +23,7 @@ import { ProductFeedback } from "@/components/product-feedback";
 import { AdminProductActions } from "@/components/admin-product-actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Edit, ExternalLink, Info } from "lucide-react";
+import { ArrowLeft, Edit, ExternalLink, Info, AlertTriangle } from "lucide-react";
 import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
@@ -146,6 +146,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
     // Check if the product is favorite
     const isFavorite = session?.user?.id ? await checkIsFavorite(product.id) : false;
 
+    // Check for user allergies match
+    let matchingAllergens: string[] = [];
+    if (session?.user?.id) {
+        const dbUser = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { allergies: true },
+        });
+        if (dbUser?.allergies && dbUser.allergies.length > 0) {
+            matchingAllergens = allergens.filter(a => 
+                dbUser.allergies.some(ua => a.name.toLowerCase().includes(ua.toLowerCase()))
+            ).map(a => a.name);
+        }
+    }
+
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
             {/* Back button */}
@@ -156,6 +170,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <ArrowLeft className="h-4 w-4" />
                 Back to scanner
             </Link>
+
+            {/* Health Profile Allergen Alert */}
+            {matchingAllergens.length > 0 && (
+                <div className="animate-fade-in-up mb-5 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-900/50 dark:bg-red-950/20 shadow-sm shadow-red-100/50 dark:shadow-red-950/50">
+                    <AlertTriangle className="mt-0.5 h-5 w-5 text-red-500 shrink-0" />
+                    <div>
+                        <h3 className="text-sm font-bold text-red-900 dark:text-red-200">
+                            Health Warning: Allergen Match
+                        </h3>
+                        <p className="mt-1 text-sm text-red-700 dark:text-red-300">
+                            This product contains ingredients that match your saved allergies: <strong className="font-semibold">{matchingAllergens.join(", ")}</strong>.
+                        </p>
+                    </div>
+                </div>
+            )}
 
             {/* ── Hero Card ─────────────────────────────────── */}
             <Card className="animate-fade-in-up relative overflow-hidden border-0 shadow-xl shadow-neutral-200/60 dark:shadow-neutral-950/40 bg-gradient-to-br from-white via-white to-orange-50/40 dark:from-neutral-900 dark:via-neutral-900 dark:to-orange-950/20">
