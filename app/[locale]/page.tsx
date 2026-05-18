@@ -13,6 +13,11 @@ import {
   HeartPulse,
   Scale,
   ArrowRight,
+  Star,
+  Users,
+  ShoppingBag,
+  ChevronDown,
+  PlayCircle
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -222,6 +227,112 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* 6. Testimonials (Social Proof) */}
+      <section className="px-4 py-24 bg-orange-50/30 dark:bg-orange-950/10 border-t border-neutral-100 dark:border-neutral-900 relative">
+        <div className="mx-auto max-w-6xl relative z-10">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-neutral-900 dark:text-neutral-100 mb-6 tracking-tight">
+              Loved by Thousands
+            </h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto font-medium">
+              See what our community is saying about Nutrika and how it has changed their daily eating habits.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Sarah L.",
+                role: "Fitness Enthusiast",
+                text: "Nutrika is a game-changer! I can instantly see if a product fits my macros. It saves me so much time at the grocery store.",
+                rating: 5
+              },
+              {
+                name: "Marc D.",
+                role: "Allergy Sufferer",
+                text: "Having a gluten intolerance makes shopping stressful. With Nutrika's instant alerts, I finally feel safe buying new snacks.",
+                rating: 5
+              },
+              {
+                name: "Emma W.",
+                role: "Health Conscious Mom",
+                text: "I love the Eco-score feature. It helps me choose better products for my kids and the environment. Highly recommended!",
+                rating: 5
+              }
+            ].map((review, i) => (
+              <Card key={i} className="group border border-neutral-200/60 dark:border-neutral-800/60 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl hover:shadow-2xl hover:shadow-orange-500/10 hover:-translate-y-2 transition-all duration-300">
+                <CardContent className="p-8 flex flex-col gap-6 h-full">
+                  <div className="flex gap-1.5 text-amber-400">
+                    {[...Array(review.rating)].map((_, idx) => (
+                      <Star key={idx} className="w-5 h-5 fill-current drop-shadow-sm" />
+                    ))}
+                  </div>
+                  <p className="text-neutral-700 dark:text-neutral-300 text-lg italic leading-relaxed flex-grow">
+                    "{review.text}"
+                  </p>
+                  <div className="flex items-center gap-4 mt-auto pt-4 border-t border-neutral-100 dark:border-neutral-800">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orangina-300 flex items-center justify-center text-white font-extrabold text-xl shadow-md">
+                      {review.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-neutral-900 dark:text-neutral-100 text-lg">{review.name}</h4>
+                      <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">{review.role}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. FAQ Section */}
+      <section className="px-4 py-24 bg-white dark:bg-neutral-950 border-t border-neutral-100 dark:border-neutral-900">
+        <div className="mx-auto max-w-3xl">
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-neutral-900 dark:text-neutral-100 mb-6 tracking-tight">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 font-medium">
+              Got questions? We've got answers.
+            </p>
+          </div>
+
+          <div className="space-y-4 animate-fade-in-up delay-100">
+            {[
+              {
+                q: "Is Nutrika free?",
+                a: "Yes! Nutrika is completely free to download and use for scanning basic nutritional data and allergen alerts. We also offer a premium tier for advanced personalized insights."
+              },
+              {
+                q: "What databases do you use?",
+                a: "Nutrika relies on comprehensive, globally recognized food databases such as Open Food Facts, combined with our proprietary data validation algorithms to ensure maximum accuracy."
+              },
+              {
+                q: "How accurate are the scores?",
+                a: "Our scores are highly accurate and based on the standard Nutri-Score calculation rules, incorporating calories, saturated fats, sugars, sodium, protein, and fiber."
+              },
+              {
+                q: "Can I use it offline?",
+                a: "You need an internet connection to scan new products. However, previously scanned items and your history are cached locally so you can view them anytime."
+              }
+            ].map((faq, i) => (
+              <details key={i} className="group border border-neutral-200/80 dark:border-neutral-800/80 rounded-2xl bg-neutral-50/50 dark:bg-neutral-900/50 overflow-hidden transition-all duration-300 open:bg-white dark:open:bg-neutral-900 hover:border-orange-200 dark:hover:border-orange-900/50 shadow-sm open:shadow-lg">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none font-bold text-lg text-neutral-900 dark:text-neutral-100 select-none">
+                  <span>{faq.q}</span>
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-sm flex items-center justify-center text-neutral-500 dark:text-neutral-400 transition-all duration-300 group-hover:text-orange-500 group-hover:border-orange-200 dark:group-hover:border-orange-800 group-open:bg-orange-50 dark:group-open:bg-orange-900/20 group-open:text-orange-600 dark:group-open:text-orange-400 group-open:border-orange-200 dark:group-open:border-orange-800 group-open:rotate-180">
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </summary>
+                <div className="px-6 pb-6 pt-2 text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed animate-fade-in border-t border-neutral-100 dark:border-neutral-800/50 mx-6">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 8. Final CTA Action */}
       <section className="relative px-4 py-24 overflow-hidden border-t-4 border-white/20">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-orange-500 to-orangina-400 z-0"></div>
@@ -244,12 +355,13 @@ export default async function HomePage() {
             <Link href="/scan" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="w-full sm:w-auto h-16 px-10 text-lg font-bold bg-white text-orange-600 hover:bg-neutral-50 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all gap-3 border-0">
                 <Scan className="w-6 h-6" />
-                Scan a Product Now
+                Try Free Demo
               </Button>
             </Link>
             <Link href="/sign-up" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="w-full sm:w-auto h-16 px-10 text-lg font-bold border-2 border-white/50 text-white bg-white/10 backdrop-blur hover:bg-white hover:text-orange-600 transition-all gap-3">
-                Create Your Free Account
+                <PlayCircle className="w-6 h-6" />
+                See How It Works
               </Button>
             </Link>
           </div>
