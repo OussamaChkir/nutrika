@@ -54,7 +54,7 @@ export function UsersTable({ initialUsers }: { initialUsers: User[] }) {
                     placeholder="Search users..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border-none bg-transparent p-0 focus-visible:ring-0"
+                    className="border-none bg-transparent p-0 focus-visible:ring-0 shadow-none"
                 />
             </div>
 
