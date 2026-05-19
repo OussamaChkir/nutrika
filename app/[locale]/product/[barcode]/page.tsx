@@ -23,7 +23,7 @@ import { ProductFeedback } from "@/components/product-feedback";
 import { AdminProductActions } from "@/components/admin-product-actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Edit, ExternalLink, Info, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Edit, ExternalLink, Info, AlertTriangle, Barcode } from "lucide-react";
 import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
@@ -154,7 +154,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             select: { allergies: true },
         });
         if (dbUser?.allergies && dbUser.allergies.length > 0) {
-            matchingAllergens = allergens.filter(a => 
+            matchingAllergens = allergens.filter(a =>
                 dbUser.allergies.some(ua => a.name.toLowerCase().includes(ua.toLowerCase()))
             ).map(a => a.name);
         }
@@ -232,9 +232,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                                     {product.brand}
                                 </p>
                             )}
-                            <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500 font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded-md w-fit">
-                                {product.barcode}
-                            </p>
+                            <div className="mt-2 inline-flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500 font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded-md w-fit">
+                                <Barcode className="w-3.5 h-3.5 mr-1 text-neutral-400 dark:text-neutral-500" /> {product.barcode}
+                            </div>
                             {dietaryTags.length > 0 && (
                                 <DietaryTags tags={dietaryTags} />
                             )}
