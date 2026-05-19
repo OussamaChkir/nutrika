@@ -361,10 +361,10 @@ export default function AboutPage() {
 
                             <div className="flex flex-wrap gap-3">
                                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-bold tracking-wide text-white backdrop-blur-sm">
-                                    100% INDEPENDENT
+                                    100% Independent
                                 </span>
                                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-bold tracking-wide text-white backdrop-blur-sm">
-                                    TUNISIAN FOCUSED
+                                    Data protection
                                 </span>
                             </div>
                         </div>
