@@ -106,13 +106,13 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const sugars = nutriments.sugars_100g;
     if (sugars !== undefined) {
         if (sugars > 22.5) {
-            score -= 30;
+            score -= 20;
             negatives.push({
                 text: `Very high sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-triangle",
             });
         } else if (sugars > 10) {
-            score -= 15;
+            score -= 10;
             negatives.push({
                 text: `High sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
@@ -131,7 +131,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const saturatedFat = nutriments["saturated-fat_100g"];
     if (saturatedFat !== undefined) {
         if (saturatedFat > 5) {
-            score -= 15;
+            score -= 10;
             negatives.push({
                 text: `High saturated fat (${saturatedFat.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
@@ -150,7 +150,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const salt = nutriments.salt_100g;
     if (salt !== undefined) {
         if (salt > 1.5) {
-            score -= 15;
+            score -= 10;
             negatives.push({
                 text: `High salt (${salt.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
@@ -193,7 +193,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const novaGroup = offData.nova_group;
     if (novaGroup !== undefined) {
         if (novaGroup === 4) {
-            score -= 25;
+            score -= 15;
             negatives.push({
                 text: "Ultra-processed food (NOVA 4)",
                 icon: "factory",
@@ -323,10 +323,10 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
 
     // Determine letter grade
     let letter: ScoreLetter;
-    if (score >= 90) letter = "A";
-    else if (score >= 75) letter = "B";
+    if (score >= 85) letter = "A";
+    else if (score >= 70) letter = "B";
     else if (score >= 50) letter = "C";
-    else if (score >= 25) letter = "D";
+    else if (score >= 30) letter = "D";
     else letter = "E";
 
     // ==========================================
@@ -359,13 +359,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         dietaryTags.push("Diabetic safe");
     }
 
-    // Pregnancy safe heuristic: no alcohol, no raw meat/fish/milk
-    const categoriesTags = offData.categories_tags || [];
-    const hasAlcohol = categoriesTags.some((c) => c.includes("alcohol"));
-    const isRaw = categoriesTags.some((c) => c.includes("raw") || c.includes("unpasteurized"));
-    if (!hasAlcohol && !isRaw) {
-        dietaryTags.push("Pregnancy safe");
-    }
+
 
     return {
         score,

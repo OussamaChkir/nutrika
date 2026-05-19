@@ -34,6 +34,18 @@ export default function AboutPage() {
                         <li><strong>Personalized Alerts:</strong> Stay safe with immediate warnings for allergens and dietary restrictions tailored to your profile.</li>
                     </ul>
 
+                    <h2>How We Calculate Scores</h2>
+                    <p>Our comprehensive scoring system evaluates each product starting from a neutral-positive base score of 70, then applies positive and negative adjustments based on nutritional and processing factors:</p>
+                    <ul>
+                        <li><strong>Sugars & Fats:</strong> Deductions are applied for very high sugar (up to -20 points) and high saturated fat (up to -10 points).</li>
+                        <li><strong>Salt:</strong> Products with excessive salt receive a -10 point penalty.</li>
+                        <li><strong>Fiber & Proteins:</strong> Good sources of fiber and protein earn bonus points (+5 points each).</li>
+                        <li><strong>Processing (NOVA):</strong> Ultra-processed foods (NOVA 4) receive a -15 point penalty, while unprocessed or minimally processed foods (NOVA 1) earn +10 points.</li>
+                        <li><strong>Additives:</strong> We check for controversial additives (such as certain artificial colors, MSG, and aspartame) and apply an -8 point penalty for each, up to a maximum of -24 points.</li>
+                        <li><strong>Organic Labels:</strong> Organic or Bio certifications grant an additional +5 points.</li>
+                    </ul>
+                    <p>Finally, we blend this score with the product's official Nutri-Score (weighted at 40%) to ensure consistency with recognized standards. The final score out of 100 determines the letter grade (A: 85-100, B: 70-84, C: 50-69, D: 30-49, E: &lt;30), making it easy to spot the healthiest options.</p>
+
                     <h2>Join Us</h2>
                     <p>We're constantly evolving and improving our database to bring you the most accurate and up-to-date information possible. Join our community of health-conscious users and start taking control of your diet today.</p>
                 </div>
