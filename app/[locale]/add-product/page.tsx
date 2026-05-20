@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productFormSchema, ProductFormInput } from "@/lib/validators";
-import { createProductAction } from "./actions";
+import { createProductAction, getProductForEdit } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, Plus, CheckCircle } from "lucide-react";
+import { Loader2, Plus, CheckCircle, Edit, AlertTriangle } from "lucide-react";
 
 export default function AddProductPage() {
     const router = useRouter();
@@ -20,6 +20,7 @@ export default function AddProductPage() {
     const isEdit = searchParams.get("edit") === "true";
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isFetchingProduct, setIsFetchingProduct] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
 
@@ -27,12 +28,45 @@ export default function AddProductPage() {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<ProductFormInput>({
         resolver: zodResolver(productFormSchema),
         defaultValues: {
             barcode: barcodeParam || "",
         },
     });
+
+    // Pre-fill form with existing product data in edit mode
+    useEffect(() => {
+        if (isEdit && barcodeParam) {
+            setIsFetchingProduct(true);
+            getProductForEdit(barcodeParam)
+                .then((product) => {
+                    if (product) {
+                        reset({
+                            barcode: product.barcode,
+                            name: product.name,
+                            brand: product.brand || "",
+                            imageUrl: product.imageUrl || "",
+                            energy: product.energy ?? undefined,
+                            fat: product.fat ?? undefined,
+                            saturatedFat: product.saturatedFat ?? undefined,
+                            carbohydrates: product.carbohydrates ?? undefined,
+                            sugars: product.sugars ?? undefined,
+                            fiber: product.fiber ?? undefined,
+                            proteins: product.proteins ?? undefined,
+                            salt: product.salt ?? undefined,
+                            allergens: product.allergens?.join(", ") || "",
+                            allergensSeverity: (product.allergensSeverity as "LOW" | "MEDIUM" | "HIGH") || "LOW",
+                            manufacturingPlaces: product.manufacturingPlaces || "",
+                            origins: product.origins || "",
+                            dietaryTags: product.dietaryTags?.join(", ") || "",
+                        });
+                    }
+                })
+                .finally(() => setIsFetchingProduct(false));
+        }
+    }, [isEdit, barcodeParam, reset]);
 
     const onSubmit = async (data: ProductFormInput) => {
         setIsLoading(true);
@@ -76,22 +110,42 @@ export default function AddProductPage() {
         );
     }
 
+    if (isFetchingProduct) {
+        return (
+            <div className="mx-auto max-w-lg px-4 py-16 text-center">
+                <Loader2 className="mx-auto h-8 w-8 animate-spin text-orange-500" />
+                <p className="mt-4 text-sm text-neutral-500">Loading product data...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="mx-auto max-w-lg px-4 py-8">
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <Plus className="h-5 w-5" />
-                        {isEdit ? "Suggest Product Edit" : "Add New Product"}
+                        {isEdit ? <Edit className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+                        {isEdit ? "Edit Product" : "Add New Product"}
                     </CardTitle>
                     <CardDescription>
                         {isEdit
-                            ? "Submit corrections or additional information for this product"
+                            ? "Edit any field below and submit your changes for review"
                             : "Help grow our database by adding a new product"}
                     </CardDescription>
                 </CardHeader>
 
                 <CardContent>
+                    {isEdit && (
+                        <div className="mb-6 flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4 dark:border-blue-900/50 dark:bg-blue-950/20">
+                            <AlertTriangle className="mt-0.5 h-5 w-5 text-blue-500 shrink-0" />
+                            <div>
+                                <p className="text-sm text-blue-700 dark:text-blue-300">
+                                    All fields are pre-filled with the current product data. Edit any field you want to change and submit.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Basic Info */}
                         <div className="space-y-4">
@@ -266,6 +320,97 @@ export default function AddProductPage() {
                                         {...register("salt")}
                                     />
                                 </div>
+                            </div>
+                        </div>
+
+                        <Separator />
+
+                        {/* Allergens */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                                Allergens
+                            </h3>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="allergens">Allergens</Label>
+                                <Input
+                                    id="allergens"
+                                    type="text"
+                                    placeholder="e.g., Gluten, Milk, Eggs"
+                                    disabled={isLoading}
+                                    {...register("allergens")}
+                                />
+                                <p className="text-xs text-neutral-500">
+                                    Separate multiple allergens with commas
+                                </p>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="allergensSeverity">Allergen Severity</Label>
+                                <select
+                                    id="allergensSeverity"
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    disabled={isLoading}
+                                    {...register("allergensSeverity")}
+                                >
+                                    <option value="LOW">Low</option>
+                                    <option value="MEDIUM">Medium</option>
+                                    <option value="HIGH">High</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <Separator />
+
+                        {/* Manufacturing & Origins */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                                Manufacturing &amp; Origins
+                            </h3>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="manufacturingPlaces">Manufacturing Places</Label>
+                                <Input
+                                    id="manufacturingPlaces"
+                                    type="text"
+                                    placeholder="e.g., France, Germany"
+                                    disabled={isLoading}
+                                    {...register("manufacturingPlaces")}
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="origins">Origins</Label>
+                                <Input
+                                    id="origins"
+                                    type="text"
+                                    placeholder="e.g., European Union"
+                                    disabled={isLoading}
+                                    {...register("origins")}
+                                />
+                            </div>
+                        </div>
+
+                        <Separator />
+
+                        {/* Dietary Tags */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                                Dietary Tags
+                            </h3>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="dietaryTags">Dietary Tags</Label>
+                                <Input
+                                    id="dietaryTags"
+                                    type="text"
+                                    placeholder="e.g., Vegan, Gluten-Free, Organic"
+                                    disabled={isLoading}
+                                    {...register("dietaryTags")}
+                                />
+                                <p className="text-xs text-neutral-500">
+                                    Separate multiple tags with commas
+                                </p>
                             </div>
                         </div>
 

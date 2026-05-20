@@ -388,7 +388,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
             )}
 
-            {isAdmin && (
+            {session?.user?.id && (
                 <div className="mt-7 flex flex-wrap gap-3 animate-fade-in-up delay-600">
                     <Link href={`/add-product?barcode=${barcode}&edit=true`} className="flex-1">
                         <Button variant="outline" className="w-full gap-2 h-11 rounded-xl border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">

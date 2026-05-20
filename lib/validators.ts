@@ -54,6 +54,14 @@ export const productFormSchema = z.object({
     fiber: z.coerce.number().min(0).optional(),
     proteins: z.coerce.number().min(0).optional(),
     salt: z.coerce.number().min(0).optional(),
+    // Allergens
+    allergens: z.string().optional(), // comma-separated list
+    allergensSeverity: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
+    // Manufacturing / Origins
+    manufacturingPlaces: z.string().optional(),
+    origins: z.string().optional(),
+    // Dietary tags
+    dietaryTags: z.string().optional(), // comma-separated list
 });
 
 export type ProductFormInput = z.infer<typeof productFormSchema>;
