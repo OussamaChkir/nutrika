@@ -86,9 +86,7 @@ export async function createProductAction(
     const allergensArray = data.allergens
         ? data.allergens.split(",").map((s) => s.trim()).filter(Boolean)
         : [];
-    const dietaryTagsArray = data.dietaryTags
-        ? data.dietaryTags.split(",").map((s) => s.trim()).filter(Boolean)
-        : [];
+    const dietaryTagsArray = data.dietaryTags || [];
 
     try {
         // Check if product already exists

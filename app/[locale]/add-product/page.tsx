@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productFormSchema, ProductFormInput } from "@/lib/validators";
+import { productFormSchema, ProductFormInput, DIETARY_TAG_OPTIONS } from "@/lib/validators";
 import { createProductAction, getProductForEdit } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,7 +60,7 @@ export default function AddProductPage() {
                             allergensSeverity: (product.allergensSeverity as "LOW" | "MEDIUM" | "HIGH") || "LOW",
                             manufacturingPlaces: product.manufacturingPlaces || "",
                             origins: product.origins || "",
-                            dietaryTags: product.dietaryTags?.join(", ") || "",
+                            dietaryTags: product.dietaryTags || [],
                         });
                     }
                 })
@@ -399,18 +399,21 @@ export default function AddProductPage() {
                                 Dietary Tags
                             </h3>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="dietaryTags">Dietary Tags</Label>
-                                <Input
-                                    id="dietaryTags"
-                                    type="text"
-                                    placeholder="e.g., Vegan, Gluten-Free, Organic"
-                                    disabled={isLoading}
-                                    {...register("dietaryTags")}
-                                />
-                                <p className="text-xs text-neutral-500">
-                                    Separate multiple tags with commas
-                                </p>
+                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                                {DIETARY_TAG_OPTIONS.map((tag) => (
+                                    <div key={tag} className="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            id={`tag-${tag}`}
+                                            value={tag}
+                                            className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                                            {...register("dietaryTags")}
+                                        />
+                                        <Label htmlFor={`tag-${tag}`} className="text-sm font-normal cursor-pointer">
+                                            {tag}
+                                        </Label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

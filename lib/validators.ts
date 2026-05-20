@@ -61,9 +61,20 @@ export const productFormSchema = z.object({
     manufacturingPlaces: z.string().optional(),
     origins: z.string().optional(),
     // Dietary tags
-    dietaryTags: z.string().optional(), // comma-separated list
+    dietaryTags: z.array(z.string()).optional(),
 });
 
+export const DIETARY_TAG_OPTIONS = [
+    "Keto friendly",
+    "Vegan",
+    "Muscle gain",
+    "Diabetic safe",
+    "Vegetarian",
+    "Gluten-Free",
+    "Organic",
+    "Halal",
+    "Kosher"
+] as const;
 export type ProductFormInput = z.infer<typeof productFormSchema>;
 
 // ============================================
