@@ -132,26 +132,30 @@ export default async function ProfilePage() {
 
                 <CardContent className="space-y-6">
                     {/* Stats */}
-                    <div className="grid grid-cols-2 gap-4 text-center">
-                        <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
-                            <div className="text-2xl font-bold text-orange-600">
-                                {productsCount}
+                    {session.user.role !== "USER" && (
+                        <>
+                            <div className="grid grid-cols-2 gap-4 text-center">
+                                <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
+                                    <div className="text-2xl font-bold text-orange-600">
+                                        {productsCount}
+                                    </div>
+                                    <div className="text-sm text-neutral-500">
+                                        Products Added
+                                    </div>
+                                </div>
+                                <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
+                                    <div className="text-2xl font-bold text-orange-600">
+                                        {contributionsCount}
+                                    </div>
+                                    <div className="text-sm text-neutral-500">
+                                        Contributions
+                                    </div>
+                                </div>
                             </div>
-                            <div className="text-sm text-neutral-500">
-                                Products Added
-                            </div>
-                        </div>
-                        <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
-                            <div className="text-2xl font-bold text-orange-600">
-                                {contributionsCount}
-                            </div>
-                            <div className="text-sm text-neutral-500">
-                                Contributions
-                            </div>
-                        </div>
-                    </div>
 
-                    <Separator />
+                            <Separator />
+                        </>
+                    )}
 
                     {/* Health Profile */}
                     <div className="space-y-3">
@@ -272,15 +276,17 @@ export default async function ProfilePage() {
                                 </Button>
                             </Link>
 
-                            <Link href="/add-product" className="block">
-                                <Button
-                                    variant="outline"
-                                    className="w-full justify-start gap-3"
-                                >
-                                    <Package className="h-4 w-4" />
-                                    Add New Product
-                                </Button>
-                            </Link>
+                            {session.user.role !== "USER" && (
+                                <Link href="/add-product" className="block">
+                                    <Button
+                                        variant="outline"
+                                        className="w-full justify-start gap-3"
+                                    >
+                                        <Package className="h-4 w-4" />
+                                        Add New Product
+                                    </Button>
+                                </Link>
+                            )}
 
                             {session.user.role === "ADMIN" && (
                                 <Link href="/admin" className="block">
