@@ -203,9 +203,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     )}
 
                     {/* Product image + info */}
-                    <div className="flex gap-5 p-6">
+                    <div className="flex flex-col md:flex-row gap-5 p-6">
                         {/* Image — larger, glass background */}
-                        <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-2xl bg-white/70 dark:bg-neutral-800/60 backdrop-blur-sm ring-1 ring-neutral-100 dark:ring-neutral-700/50 shadow-md">
+                        <div className="relative h-36 w-36 shrink-0 self-center md:self-auto overflow-hidden rounded-2xl bg-white/70 dark:bg-neutral-800/60 backdrop-blur-sm ring-1 ring-neutral-100 dark:ring-neutral-700/50 shadow-md">
                             {product.imageUrl ? (
                                 <Image
                                     src={product.imageUrl}
