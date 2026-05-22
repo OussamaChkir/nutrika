@@ -10,7 +10,8 @@ import {
     getProductName,
     getProductImage,
 } from "@/lib/openfoodfacts";
-import { calculateScore, type ScoreAspect } from "@/lib/scoring";
+import { calculateScore } from "@/lib/scoring";
+import { parseScoreAspects } from "@/lib/score-messages";
 import { ScoreBadge } from "@/components/score-badge";
 import { PositivesList } from "@/components/positives-list";
 import { NegativesList } from "@/components/negatives-list";
@@ -132,8 +133,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
         });
     }
 
-    const positives = (product.positives as ScoreAspect[]) || [];
-    const negatives = (product.negatives as ScoreAspect[]) || [];
+    const positives = parseScoreAspects(product.positives);
+    const negatives = parseScoreAspects(product.negatives);
     const allergens = product.allergens.map((name: string) => ({
         name,
         severity: product.allergensSeverity,

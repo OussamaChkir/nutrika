@@ -11,9 +11,9 @@ import {
 
 export interface ScoreAspect {
     /** i18n key under ScoreMessages namespace */
-    key: string;
+    key?: string;
     params?: Record<string, string | number>;
-    /** @deprecated Legacy English text from older DB records */
+    /** Legacy English text from older DB records */
     text?: string;
     icon?: string;
 }

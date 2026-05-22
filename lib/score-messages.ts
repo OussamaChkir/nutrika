@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import type { ScoreAspect } from "./scoring";
 
 export type ScoreMessageTranslator = (
@@ -68,6 +69,26 @@ function resolveLegacyKey(text: string): { key: string; params?: Record<string, 
         }
     }
     return null;
+}
+
+function isScoreAspect(value: unknown): value is ScoreAspect {
+    if (!value || typeof value !== "object") return false;
+    const item = value as Record<string, unknown>;
+    return typeof item.key === "string" || typeof item.text === "string";
+}
+
+/** Parse positives/negatives JSON from Prisma into typed score aspects. */
+export function parseScoreAspects(value: Prisma.JsonValue | null | undefined): ScoreAspect[] {
+    if (!value || !Array.isArray(value)) return [];
+    return value.filter(isScoreAspect).map((item) => ({
+        key: typeof item.key === "string" ? item.key : undefined,
+        params:
+            item.params && typeof item.params === "object" && !Array.isArray(item.params)
+                ? (item.params as Record<string, string | number>)
+                : undefined,
+        text: typeof item.text === "string" ? item.text : undefined,
+        icon: typeof item.icon === "string" ? item.icon : undefined,
+    }));
 }
 
 /** Resolve a score aspect to localized text (supports new keys and legacy English text in DB). */
