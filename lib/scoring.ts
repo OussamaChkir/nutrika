@@ -95,7 +95,7 @@ const MEDIUM_SEVERITY_ALLERGENS = [
  * Calculate a comprehensive score for a product
  */
 export function calculateScore(offData: OFFProduct): ScoreResult {
-    let score = 70; // Start with a neutral-positive score
+    let score = 85; // Start with a higher neutral score
     const positives: PositiveAspect[] = [];
     const negatives: NegativeAspect[] = [];
     const nutriments = offData.nutriments || {};
@@ -106,18 +106,19 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const sugars = nutriments.sugars_100g;
     if (sugars !== undefined) {
         if (sugars > 22.5) {
-            score -= 20;
+            score -= 12;
             negatives.push({
                 text: `Very high sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-triangle",
             });
         } else if (sugars > 10) {
-            score -= 10;
+            score -= 6;
             negatives.push({
                 text: `High sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
             });
         } else if (sugars < 5) {
+            score += 3;
             positives.push({
                 text: `Low sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "check-circle",
@@ -131,12 +132,13 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const saturatedFat = nutriments["saturated-fat_100g"];
     if (saturatedFat !== undefined) {
         if (saturatedFat > 5) {
-            score -= 10;
+            score -= 6;
             negatives.push({
                 text: `High saturated fat (${saturatedFat.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
             });
         } else if (saturatedFat < 1.5) {
+            score += 3;
             positives.push({
                 text: `Low saturated fat (${saturatedFat.toFixed(1)}g/100g)`,
                 icon: "check-circle",
@@ -150,12 +152,13 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const salt = nutriments.salt_100g;
     if (salt !== undefined) {
         if (salt > 1.5) {
-            score -= 10;
+            score -= 6;
             negatives.push({
                 text: `High salt (${salt.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
             });
         } else if (salt < 0.3) {
+            score += 3;
             positives.push({
                 text: `Low salt (${salt.toFixed(1)}g/100g)`,
                 icon: "check-circle",
@@ -168,7 +171,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     // ==========================================
     const fiber = nutriments.fiber_100g;
     if (fiber !== undefined && fiber > 3) {
-        score += 5;
+        score += 8;
         positives.push({
             text: `Good fiber content (${fiber.toFixed(1)}g/100g)`,
             icon: "check-circle",
@@ -180,7 +183,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     // ==========================================
     const proteins = nutriments.proteins_100g;
     if (proteins !== undefined && proteins > 10) {
-        score += 5;
+        score += 8;
         positives.push({
             text: `High protein (${proteins.toFixed(1)}g/100g)`,
             icon: "check-circle",
@@ -193,19 +196,19 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const novaGroup = offData.nova_group;
     if (novaGroup !== undefined) {
         if (novaGroup === 4) {
-            score -= 15;
+            score -= 10;
             negatives.push({
                 text: "Ultra-processed food (NOVA 4)",
                 icon: "factory",
             });
         } else if (novaGroup === 3) {
-            score -= 10;
+            score -= 5;
             negatives.push({
                 text: "Processed food (NOVA 3)",
                 icon: "package",
             });
         } else if (novaGroup === 1) {
-            score += 10;
+            score += 8;
             positives.push({
                 text: "Unprocessed or minimally processed (NOVA 1)",
                 icon: "leaf",
@@ -233,10 +236,11 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     });
 
     if (badAdditiveCount > 0) {
-        score -= Math.min(badAdditiveCount * 8, 24);
+        score -= Math.min(badAdditiveCount * 4, 16);
     }
 
     if (additives.length === 0) {
+        score += 5;
         positives.push({
             text: "No additives detected",
             icon: "sparkles",
@@ -247,7 +251,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     // LABELS ANALYSIS
     // ==========================================
     if (hasLabel(offData, "organic") || hasLabel(offData, "bio")) {
-        score += 5;
+        score += 8;
         positives.push({
             text: "Organic certified",
             icon: "leaf",
@@ -255,6 +259,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     }
 
     if (hasLabel(offData, "fair-trade")) {
+        score += 3;
         positives.push({
             text: "Fair trade certified",
             icon: "heart-handshake",
@@ -262,6 +267,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     }
 
     if (hasLabel(offData, "vegan")) {
+        score += 3;
         positives.push({
             text: "Vegan",
             icon: "vegan",
@@ -269,6 +275,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     }
 
     if (hasLabel(offData, "vegetarian")) {
+        score += 2;
         positives.push({
             text: "Vegetarian",
             icon: "salad",
@@ -276,19 +283,19 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     }
 
     // ==========================================
-    // NUTRISCORE BLENDING (40% weight)
+    // NUTRISCORE BLENDING (20% weight - reduced from 40%)
     // ==========================================
     const nutriscore = offData.nutriscore_grade?.toLowerCase();
     if (nutriscore) {
         const nutriscoreBonus: Record<string, number> = {
-            a: 20,
-            b: 10,
+            a: 10,
+            b: 5,
             c: 0,
-            d: -10,
-            e: -20,
+            d: -5,
+            e: -10,
         };
         const bonus = nutriscoreBonus[nutriscore] ?? 0;
-        score = Math.round(score * 0.6 + (50 + bonus) * 0.4);
+        score = Math.round(score * 0.8 + (50 + bonus) * 0.2);
     }
 
     // ==========================================
@@ -323,10 +330,10 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
 
     // Determine letter grade
     let letter: ScoreLetter;
-    if (score >= 85) letter = "A";
-    else if (score >= 70) letter = "B";
-    else if (score >= 50) letter = "C";
-    else if (score >= 30) letter = "D";
+    if (score >= 80) letter = "A";
+    else if (score >= 65) letter = "B";
+    else if (score >= 45) letter = "C";
+    else if (score >= 25) letter = "D";
     else letter = "E";
 
     // ==========================================
@@ -358,8 +365,6 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     ) {
         dietaryTags.push("Diabetic safe");
     }
-
-
 
     return {
         score,

@@ -23,25 +23,25 @@ export default function TermsPage() {
                 <div className="mx-auto max-w-3xl prose prose-lg prose-orange dark:prose-invert">
                     <p><strong>Last Updated: {new Date().toLocaleDateString()}</strong></p>
                     
-                    <h2>1. Agreement to Terms</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">1. Agreement to Terms</h2>
                     <p>By accessing or using Nutrika, you agree to be bound by these Terms and Conditions and our Privacy Policy. If you disagree with any part of the terms, then you may not access the service.</p>
                     
-                    <h2>2. Description of Service</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">2. Description of Service</h2>
                     <p>Nutrika is a food barcode scanner application designed to provide users with nutritional information, ingredient analysis, and health-related scores. The information provided by our application is for educational and informational purposes only.</p>
                     
-                    <h2>3. Medical Disclaimer</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">3. Medical Disclaimer</h2>
                     <p>The information provided by Nutrika is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition or dietary restrictions.</p>
 
-                    <h2>4. User Accounts</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">4. User Accounts</h2>
                     <p>When you create an account with us, you must provide information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account.</p>
 
-                    <h2>5. Intellectual Property</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">5. Intellectual Property</h2>
                     <p>The service and its original content, features, and functionality are and will remain the exclusive property of Nutrika and its licensors. The service is protected by copyright, trademark, and other laws.</p>
 
-                    <h2>6. Limitation of Liability</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">6. Limitation of Liability</h2>
                     <p>In no event shall Nutrika, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.</p>
                     
-                    <h2>7. Changes to Terms</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">7. Changes to Terms</h2>
                     <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. By continuing to access or use our service after those revisions become effective, you agree to be bound by the revised terms.</p>
                 </div>
             </section>
