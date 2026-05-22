@@ -36,8 +36,9 @@ export default async function ProfilePage() {
     const t = await getTranslations("Profile");
 
     const user = session?.user;
-    if (!user) {
+    if (!user || !user.id) {
         redirect({ href: "/sign-in", locale: await getLocale() });
+        return null;
     }
 
     const [productsCount, contributionsCount, userData, scanHistory] =

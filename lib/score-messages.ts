@@ -80,7 +80,7 @@ function isScoreAspect(value: unknown): value is ScoreAspect {
 /** Parse positives/negatives JSON from Prisma into typed score aspects. */
 export function parseScoreAspects(value: Prisma.JsonValue | null | undefined): ScoreAspect[] {
     if (!value || !Array.isArray(value)) return [];
-    return value.filter(isScoreAspect).map((item) => ({
+    return value.filter(isScoreAspect).map((item: any) => ({
         key: typeof item.key === "string" ? item.key : undefined,
         params:
             item.params && typeof item.params === "object" && !Array.isArray(item.params)
