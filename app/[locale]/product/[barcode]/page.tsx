@@ -260,8 +260,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <div className="space-y-2">
                         <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100">How are scores calculated?</h4>
                         <div className="text-xs text-blue-700/80 dark:text-blue-300/80 leading-relaxed space-y-1.5">
-                            <p><strong>Product Score (0-100):</strong> A comprehensive score starting at 85 points. It's penalized for high sugar, saturated fat, salt, harmful additives, and heavy processing (NOVA group). It's rewarded for fiber, protein, organic/vegan labels, and minimal processing. Finally, it's blended with the official Nutri-Score (80% custom + 20% Nutri-Score).</p>
-                            <p><strong>Letter Grade (A-E):</strong> Derived directly from the Product Score (A: 90-100, B: 75-89, C: 50-74, D: 25-49, E: &lt;25).</p>
+                            <p><strong>Product Score (0-100):</strong> A comprehensive score starting at 85 points. It&apos;s penalized for high sugar, saturated fat, salt, harmful additives, and heavy processing (NOVA 3–4). It&apos;s rewarded for low sugar/fat/salt, fiber, protein, organic/vegan labels, no additives, and minimal processing (NOVA 1). Finally, it&apos;s blended with the official Nutri-Score (80% custom + 20% Nutri-Score).</p>
+                            <p><strong>Letter Grade (A-E):</strong> Derived directly from the Product Score (A: 85-100, B: 70-84, C: 50-69, D: 30-49, E: &lt;30).</p>
                             <p><strong>Nutri-Score:</strong> Evaluates nutritional quality per 100g, penalizing energy, sugars, fat, and sodium, while rewarding fruits, vegetables, fiber, and protein.</p>
                             <p><strong>Eco-Score:</strong> Measures environmental impact evaluating farming, processing, packaging, and transport origins.</p>
                         </div>
