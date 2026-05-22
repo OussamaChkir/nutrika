@@ -35,20 +35,21 @@ export default async function ProfilePage() {
     const session = await auth();
     const t = await getTranslations("Profile");
 
-    if (!session?.user) {
+    const user = session?.user;
+    if (!user) {
         redirect({ href: "/sign-in", locale: await getLocale() });
     }
 
     const [productsCount, contributionsCount, userData, scanHistory] =
         await Promise.all([
             prisma.product.count({
-                where: { createdById: session.user.id },
+                where: { createdById: user.id },
             }),
             prisma.contribution.count({
-                where: { userId: session.user.id },
+                where: { userId: user.id },
             }),
             prisma.user.findUnique({
-                where: { id: session.user.id },
+                where: { id: user.id },
                 select: {
                     weight: true,
                     height: true,
@@ -58,7 +59,7 @@ export default async function ProfilePage() {
                 },
             }),
             prisma.scanHistory.findMany({
-                where: { userId: session.user.id },
+                where: { userId: user.id },
                 orderBy: { scannedAt: "desc" },
                 take: 10,
                 include: {
@@ -111,28 +112,28 @@ export default async function ProfilePage() {
                     <div className="mx-auto">
                         <Avatar className="h-20 w-20">
                             <AvatarImage
-                                src={session.user.image || undefined}
+                                src={user.image || undefined}
                             />
                             <AvatarFallback className="text-2xl">
                                 {getInitials(
-                                    session.user.name,
-                                    session.user.email
+                                    user.name,
+                                    user.email
                                 )}
                             </AvatarFallback>
                         </Avatar>
                     </div>
                     <CardTitle className="mt-4">
-                        {session.user.name || t("userFallback")}
+                        {user.name || t("userFallback")}
                     </CardTitle>
-                    <CardDescription>{session.user.email}</CardDescription>
+                    <CardDescription>{user.email}</CardDescription>
                     <div className="flex justify-center gap-2 mt-2">
-                        {session.user.role === "ADMIN" && (
+                        {user.role === "ADMIN" && (
                             <Badge className="gap-1 w-fit">
                                 <Shield className="h-3 w-3" />
                                 {t("roleAdmin")}
                             </Badge>
                         )}
-                        {session.user.role === "PREMIUM" && (
+                        {user.role === "PREMIUM" && (
                             <Badge className="gap-1 w-fit bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-0">
                                 <Crown className="h-3 w-3" />
                                 {t("rolePremium")}
@@ -142,7 +143,7 @@ export default async function ProfilePage() {
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                    {session.user.role !== "USER" && (
+                    {user.role !== "USER" && (
                         <>
                             <div className="grid grid-cols-2 gap-4 text-center">
                                 <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
@@ -282,7 +283,7 @@ export default async function ProfilePage() {
                                 </Button>
                             </Link>
 
-                            {session.user.role !== "USER" && (
+                            {user.role !== "USER" && (
                                 <Link href="/add-product" className="block">
                                     <Button
                                         variant="outline"
@@ -294,7 +295,7 @@ export default async function ProfilePage() {
                                 </Link>
                             )}
 
-                            {session.user.role === "ADMIN" && (
+                            {user.role === "ADMIN" && (
                                 <Link href="/admin" className="block">
                                     <Button
                                         variant="outline"
