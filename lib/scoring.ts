@@ -106,13 +106,13 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const sugars = nutriments.sugars_100g;
     if (sugars !== undefined) {
         if (sugars > 22.5) {
-            score -= 12;
+            score -= 15;
             negatives.push({
                 text: `Very high sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-triangle",
             });
         } else if (sugars > 10) {
-            score -= 6;
+            score -= 10;
             negatives.push({
                 text: `High sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
@@ -132,7 +132,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const saturatedFat = nutriments["saturated-fat_100g"];
     if (saturatedFat !== undefined) {
         if (saturatedFat > 5) {
-            score -= 6;
+            score -= 10;
             negatives.push({
                 text: `High saturated fat (${saturatedFat.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
@@ -152,7 +152,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const salt = nutriments.salt_100g;
     if (salt !== undefined) {
         if (salt > 1.5) {
-            score -= 6;
+            score -= 10;
             negatives.push({
                 text: `High salt (${salt.toFixed(1)}g/100g)`,
                 icon: "alert-circle",
@@ -251,7 +251,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     // LABELS ANALYSIS
     // ==========================================
     if (hasLabel(offData, "organic") || hasLabel(offData, "bio")) {
-        score += 8;
+        score += 5;
         positives.push({
             text: "Organic certified",
             icon: "leaf",
@@ -330,10 +330,10 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
 
     // Determine letter grade
     let letter: ScoreLetter;
-    if (score >= 80) letter = "A";
-    else if (score >= 65) letter = "B";
-    else if (score >= 45) letter = "C";
-    else if (score >= 25) letter = "D";
+    if (score >= 85) letter = "A";
+    else if (score >= 70) letter = "B";
+    else if (score >= 50) letter = "C";
+    else if (score >= 30) letter = "D";
     else letter = "E";
 
     // ==========================================
