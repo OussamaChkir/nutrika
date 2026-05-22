@@ -106,7 +106,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     const sugars = nutriments.sugars_100g;
     if (sugars !== undefined) {
         if (sugars > 22.5) {
-            score -= 15;
+            score -= 20;
             negatives.push({
                 text: `Very high sugar (${sugars.toFixed(1)}g/100g)`,
                 icon: "alert-triangle",
@@ -236,7 +236,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     });
 
     if (badAdditiveCount > 0) {
-        score -= Math.min(badAdditiveCount * 4, 16);
+        score -= Math.min(badAdditiveCount * 6, 20);
     }
 
     if (additives.length === 0) {

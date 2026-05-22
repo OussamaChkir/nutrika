@@ -44,7 +44,7 @@ export function ProductBasicDetails({ countries, stores }: ProductBasicDetailsPr
                 <div className="flex-1">
                     <CardHeader className="pb-3 border-b border-neutral-100 dark:border-neutral-800">
                         <CardTitle className="text-base font-semibold text-neutral-800 dark:text-neutral-200">
-                            Additional Details
+                            Where This Product Is Available
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-4 space-y-5">

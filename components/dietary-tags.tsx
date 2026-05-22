@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Leaf, HeartPulse, Dumbbell, Salad, AlertTriangle } from "lucide-react";
+import { Leaf, HeartPulse, Dumbbell, Salad, AlertTriangle, TreePalm } from "lucide-react";
 
 interface DietaryTagsProps {
     tags: string[];
@@ -21,7 +21,7 @@ export function DietaryTags({ tags }: DietaryTagsProps) {
             case "Palm oil free":
                 return <Leaf className="w-3.5 h-3.5 mr-1" />;
             case "Contains palm oil":
-                return <AlertTriangle className="w-3.5 h-3.5 mr-1" />;
+                return <TreePalm className="w-3.5 h-3.5 mr-1" />;
 
             default:
                 return null;
