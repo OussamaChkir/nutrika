@@ -1,5 +1,4 @@
-"use client";
-
+import { getTranslations } from "next-intl/server";
 import { Factory, MapPin } from "lucide-react";
 
 interface ManufacturingInfoProps {
@@ -7,14 +6,16 @@ interface ManufacturingInfoProps {
     origins?: string | null;
 }
 
-export function ManufacturingInfo({ manufacturingPlaces, origins }: ManufacturingInfoProps) {
+export async function ManufacturingInfo({ manufacturingPlaces, origins }: ManufacturingInfoProps) {
+    const t = await getTranslations("Product");
+
     if (!manufacturingPlaces && !origins) return null;
 
     return (
         <div className="space-y-3">
             <h3 className="flex items-center gap-2 text-sm font-semibold text-neutral-900 dark:text-neutral-100">
                 <Factory className="h-4 w-4 text-orange-500" />
-                Manufacturing &amp; Origins
+                {t("manufacturingTitle")}
             </h3>
 
             <div className="space-y-2">
@@ -23,7 +24,7 @@ export function ManufacturingInfo({ manufacturingPlaces, origins }: Manufacturin
                         <Factory className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" />
                         <div>
                             <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                                Manufacturing / Processing Places
+                                {t("manufacturingPlaces")}
                             </p>
                             <p className="mt-0.5 text-sm text-neutral-700 dark:text-neutral-300">
                                 {manufacturingPlaces}
@@ -37,7 +38,7 @@ export function ManufacturingInfo({ manufacturingPlaces, origins }: Manufacturin
                         <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" />
                         <div>
                             <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                                Product Origins
+                                {t("productOrigins")}
                             </p>
                             <p className="mt-0.5 text-sm text-neutral-700 dark:text-neutral-300">
                                 {origins}

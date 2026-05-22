@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -11,12 +12,14 @@ interface AllergenTagsProps {
     overallSeverity?: "LOW" | "MEDIUM" | "HIGH";
 }
 
-export function AllergenTags({ allergens, overallSeverity }: AllergenTagsProps) {
+export async function AllergenTags({ allergens, overallSeverity }: AllergenTagsProps) {
+    const t = await getTranslations("Product");
+
     if (allergens.length === 0) {
         return (
             <div className="flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-sm text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300">
                 <Info className="h-4 w-4" />
-                No allergens detected
+                {t("noAllergens")}
             </div>
         );
     }
@@ -47,13 +50,13 @@ export function AllergenTags({ allergens, overallSeverity }: AllergenTagsProps) 
         switch (overallSeverity) {
             case "HIGH":
                 return {
-                    text: "Contains major allergens",
+                    text: t("allergenMajor"),
                     className: "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300",
                     icon: <AlertTriangle className="h-4 w-4" />,
                 };
             case "MEDIUM":
                 return {
-                    text: "Contains common allergens",
+                    text: t("allergenCommon"),
                     className: "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300",
                     icon: <AlertCircle className="h-4 w-4" />,
                 };
@@ -68,7 +71,7 @@ export function AllergenTags({ allergens, overallSeverity }: AllergenTagsProps) 
         <div className="space-y-3">
             <h3 className="flex items-center gap-2 text-sm font-semibold text-amber-700 dark:text-amber-400">
                 <AlertCircle className="h-4 w-4" />
-                Allergens
+                {t("allergensTitle")}
             </h3>
 
             {warning && (

@@ -9,15 +9,17 @@ import {
 // TYPES
 // ============================================
 
-export interface PositiveAspect {
-    text: string;
+export interface ScoreAspect {
+    /** i18n key under ScoreMessages namespace */
+    key: string;
+    params?: Record<string, string | number>;
+    /** @deprecated Legacy English text from older DB records */
+    text?: string;
     icon?: string;
 }
 
-export interface NegativeAspect {
-    text: string;
-    icon?: string;
-}
+export type PositiveAspect = ScoreAspect;
+export type NegativeAspect = ScoreAspect;
 
 export interface AllergenInfo {
     name: string;
@@ -50,24 +52,24 @@ const GRADE_COLORS: Record<ScoreLetter, string> = {
     E: "#991b1b", // Dark red
 };
 
-// Controversial additives that should be flagged
+// Controversial additives: E-code -> ScoreMessages translation key
 const BAD_ADDITIVES: Record<string, string> = {
-    "E102": "Tartrazine (artificial color)",
-    "E104": "Quinoline Yellow",
-    "E110": "Sunset Yellow (artificial color)",
-    "E122": "Carmoisine (artificial color)",
-    "E124": "Ponceau 4R (artificial color)",
-    "E129": "Allura Red (artificial color)",
-    "E133": "Brilliant Blue",
-    "E150D": "Caramel color (4-MEI)",
-    "E211": "Sodium benzoate (preservative)",
-    "E250": "Sodium nitrite",
-    "E320": "BHA (antioxidant)",
-    "E321": "BHT (antioxidant)",
-    "E621": "Monosodium glutamate (MSG)",
-    "E951": "Aspartame",
-    "E950": "Acesulfame K",
-    "E955": "Sucralose",
+    E102: "additiveE102",
+    E104: "additiveE104",
+    E110: "additiveE110",
+    E122: "additiveE122",
+    E124: "additiveE124",
+    E129: "additiveE129",
+    E133: "additiveE133",
+    E150D: "additiveE150D",
+    E211: "additiveE211",
+    E250: "additiveE250",
+    E320: "additiveE320",
+    E321: "additiveE321",
+    E621: "additiveE621",
+    E951: "additiveE951",
+    E950: "additiveE950",
+    E955: "additiveE955",
 };
 
 // High severity allergens
@@ -108,19 +110,22 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         if (sugars > 22.5) {
             score -= 20;
             negatives.push({
-                text: `Very high sugar (${sugars.toFixed(1)}g/100g)`,
+                key: "veryHighSugar",
+                params: { value: sugars.toFixed(1) },
                 icon: "alert-triangle",
             });
         } else if (sugars > 10) {
             score -= 10;
             negatives.push({
-                text: `High sugar (${sugars.toFixed(1)}g/100g)`,
+                key: "highSugar",
+                params: { value: sugars.toFixed(1) },
                 icon: "alert-circle",
             });
         } else if (sugars < 5) {
             score += 3;
             positives.push({
-                text: `Low sugar (${sugars.toFixed(1)}g/100g)`,
+                key: "lowSugar",
+                params: { value: sugars.toFixed(1) },
                 icon: "check-circle",
             });
         }
@@ -134,13 +139,15 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         if (saturatedFat > 5) {
             score -= 10;
             negatives.push({
-                text: `High saturated fat (${saturatedFat.toFixed(1)}g/100g)`,
+                key: "highSaturatedFat",
+                params: { value: saturatedFat.toFixed(1) },
                 icon: "alert-circle",
             });
         } else if (saturatedFat < 1.5) {
             score += 3;
             positives.push({
-                text: `Low saturated fat (${saturatedFat.toFixed(1)}g/100g)`,
+                key: "lowSaturatedFat",
+                params: { value: saturatedFat.toFixed(1) },
                 icon: "check-circle",
             });
         }
@@ -154,13 +161,15 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         if (salt > 1.5) {
             score -= 10;
             negatives.push({
-                text: `High salt (${salt.toFixed(1)}g/100g)`,
+                key: "highSalt",
+                params: { value: salt.toFixed(1) },
                 icon: "alert-circle",
             });
         } else if (salt < 0.3) {
             score += 3;
             positives.push({
-                text: `Low salt (${salt.toFixed(1)}g/100g)`,
+                key: "lowSalt",
+                params: { value: salt.toFixed(1) },
                 icon: "check-circle",
             });
         }
@@ -173,7 +182,8 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (fiber !== undefined && fiber > 3) {
         score += 8;
         positives.push({
-            text: `Good fiber content (${fiber.toFixed(1)}g/100g)`,
+            key: "goodFiber",
+            params: { value: fiber.toFixed(1) },
             icon: "check-circle",
         });
     }
@@ -185,7 +195,8 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (proteins !== undefined && proteins > 10) {
         score += 8;
         positives.push({
-            text: `High protein (${proteins.toFixed(1)}g/100g)`,
+            key: "highProtein",
+            params: { value: proteins.toFixed(1) },
             icon: "check-circle",
         });
     }
@@ -198,19 +209,19 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         if (novaGroup === 4) {
             score -= 10;
             negatives.push({
-                text: "Ultra-processed food (NOVA 4)",
+                key: "nova4",
                 icon: "factory",
             });
         } else if (novaGroup === 3) {
             score -= 5;
             negatives.push({
-                text: "Processed food (NOVA 3)",
+                key: "nova3",
                 icon: "package",
             });
         } else if (novaGroup === 1) {
             score += 8;
             positives.push({
-                text: "Unprocessed or minimally processed (NOVA 1)",
+                key: "nova1",
                 icon: "leaf",
             });
         }
@@ -223,12 +234,12 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     let badAdditiveCount = 0;
 
     additives.forEach((additive) => {
-        const code = additive.split("-")[0].trim();
+        const code = additive.split("-")[0].trim().toUpperCase();
         if (BAD_ADDITIVES[code]) {
             badAdditiveCount++;
             if (badAdditiveCount <= 3) {
                 negatives.push({
-                    text: BAD_ADDITIVES[code],
+                    key: BAD_ADDITIVES[code],
                     icon: "flask-conical",
                 });
             }
@@ -242,7 +253,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (additives.length === 0) {
         score += 5;
         positives.push({
-            text: "No additives detected",
+            key: "noAdditives",
             icon: "sparkles",
         });
     }
@@ -253,7 +264,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (hasLabel(offData, "organic") || hasLabel(offData, "bio")) {
         score += 5;
         positives.push({
-            text: "Organic certified",
+            key: "organicCertified",
             icon: "leaf",
         });
     }
@@ -261,7 +272,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (hasLabel(offData, "fair-trade")) {
         score += 3;
         positives.push({
-            text: "Fair trade certified",
+            key: "fairTradeCertified",
             icon: "heart-handshake",
         });
     }
@@ -269,7 +280,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (hasLabel(offData, "vegan")) {
         score += 3;
         positives.push({
-            text: "Vegan",
+            key: "veganLabel",
             icon: "vegan",
         });
     }
@@ -277,7 +288,7 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
     if (hasLabel(offData, "vegetarian")) {
         score += 2;
         positives.push({
-            text: "Vegetarian",
+            key: "vegetarianLabel",
             icon: "salad",
         });
     }

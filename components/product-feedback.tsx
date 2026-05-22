@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,6 +29,7 @@ export function ProductFeedback({
     userRole,
     userId,
 }: ProductFeedbackProps) {
+    const t = useTranslations("Product");
     const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [rating, setRating] = useState(0);
@@ -63,7 +65,7 @@ export function ProductFeedback({
 
     const handleSubmit = async () => {
         if (rating === 0) {
-            setSubmitError("Please select a rating");
+            setSubmitError(t("reviewSelectRating"));
             return;
         }
 
@@ -79,7 +81,7 @@ export function ProductFeedback({
 
             if (!res.ok) {
                 const data = await res.json();
-                throw new Error(data.error || "Failed to submit");
+                throw new Error(data.error || t("reviewSubmitFailed"));
             }
 
             setHasSubmitted(true);
@@ -92,7 +94,7 @@ export function ProductFeedback({
             setFeedbacks(refreshData.feedbacks || []);
         } catch (err) {
             setSubmitError(
-                err instanceof Error ? err.message : "Failed to submit"
+                err instanceof Error ? err.message : t("reviewSubmitFailed")
             );
         } finally {
             setIsSubmitting(false);
@@ -109,7 +111,7 @@ export function ProductFeedback({
             <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-lg">
                     <MessageSquare className="h-5 w-5" />
-                    Product Reviews
+                    {t("reviewsTitle")}
                     {feedbacks.length > 0 && (
                         <span className="text-sm font-normal text-neutral-500">
                             ({feedbacks.length})
@@ -129,7 +131,7 @@ export function ProductFeedback({
                                 />
                             ))}
                         </div>
-                        <span>{avgRating.toFixed(1)} average</span>
+                        <span>{t("reviewsAverage", { rating: avgRating.toFixed(1) })}</span>
                     </div>
                 )}
             </CardHeader>
@@ -145,8 +147,8 @@ export function ProductFeedback({
                             <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900">
                                 <p className="mb-3 text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                     {hasSubmitted
-                                        ? "Update your review"
-                                        : "Leave a review"}
+                                        ? t("reviewUpdate")
+                                        : t("reviewLeave")}
                                 </p>
 
                                 {/* Star rating */}
@@ -181,7 +183,7 @@ export function ProductFeedback({
                                     onChange={(e) =>
                                         setComment(e.target.value)
                                     }
-                                    placeholder="Share your thoughts about this product... (optional)"
+                                    placeholder={t("reviewPlaceholder")}
                                     className="w-full rounded-lg border border-neutral-200 bg-white p-3 text-sm placeholder:text-neutral-400 focus:border-orange-400 focus:outline-none focus:ring-1 focus:ring-orange-400 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
                                     rows={3}
                                     maxLength={500}
@@ -202,12 +204,12 @@ export function ProductFeedback({
                                     {isSubmitting ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Submitting...
+                                            {t("reviewSubmitting")}
                                         </>
                                     ) : hasSubmitted ? (
-                                        "Update Review"
+                                        t("reviewUpdateButton")
                                     ) : (
-                                        "Submit Review"
+                                        t("reviewSubmitButton")
                                     )}
                                 </Button>
                             </div>
@@ -215,11 +217,10 @@ export function ProductFeedback({
                             <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-orange-300 bg-orange-50/50 p-6 text-center dark:border-orange-800 dark:bg-orange-900/10">
                                 <Lock className="h-8 w-8 text-orange-400" />
                                 <p className="font-medium text-neutral-700 dark:text-neutral-300">
-                                    Premium Feature
+                                    {t("reviewPremiumTitle")}
                                 </p>
                                 <p className="text-sm text-neutral-500">
-                                    Upgrade to Premium to leave reviews and help
-                                    others make better choices.
+                                    {t("reviewPremiumDesc")}
                                 </p>
                             </div>
                         ) : null}
@@ -247,7 +248,7 @@ export function ProductFeedback({
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-center gap-2">
                                                 <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                                                    {fb.user.name || "User"}
+                                                    {fb.user.name || t("userFallback")}
                                                 </span>
                                                 <div className="flex">
                                                     {[1, 2, 3, 4, 5].map(
@@ -280,7 +281,7 @@ export function ProductFeedback({
                             </div>
                         ) : (
                             <p className="py-2 text-center text-sm text-neutral-500">
-                                No reviews yet. Be the first!
+                                {t("reviewEmpty")}
                             </p>
                         )}
                     </>

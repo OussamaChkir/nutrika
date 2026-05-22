@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation";
-import Link from "next/link";
+import { redirect } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { signOutAction } from "@/lib/auth-actions";
@@ -10,7 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
-    User,
     LogOut,
     Scan,
     Package,
@@ -23,15 +23,22 @@ import {
     History,
     Crown,
 } from "lucide-react";
+import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
+import { ALLERGY_OPTIONS } from "@/lib/validators";
+
+export async function generateMetadata() {
+    const t = await getTranslations("Profile");
+    return { title: t("metaTitle") };
+}
 
 export default async function ProfilePage() {
     const session = await auth();
+    const t = await getTranslations("Profile");
 
     if (!session?.user) {
         redirect("/sign-in");
     }
 
-    // Get user stats, profile data, and scan history
     const [productsCount, contributionsCount, userData, scanHistory] =
         await Promise.all([
             prisma.product.count({
@@ -92,9 +99,13 @@ export default async function ProfilePage() {
         return age;
     };
 
+    const translateAllergy = (allergy: string) => {
+        const key = ALLERGY_I18N_KEYS[allergy as (typeof ALLERGY_OPTIONS)[number]];
+        return key ? t(key as Parameters<typeof t>[0]) : allergy;
+    };
+
     return (
         <div className="mx-auto max-w-lg px-4 py-8 space-y-6">
-            {/* Profile Card */}
             <Card>
                 <CardHeader className="text-center">
                     <div className="mx-auto">
@@ -111,27 +122,26 @@ export default async function ProfilePage() {
                         </Avatar>
                     </div>
                     <CardTitle className="mt-4">
-                        {session.user.name || "User"}
+                        {session.user.name || t("userFallback")}
                     </CardTitle>
                     <CardDescription>{session.user.email}</CardDescription>
                     <div className="flex justify-center gap-2 mt-2">
                         {session.user.role === "ADMIN" && (
                             <Badge className="gap-1 w-fit">
                                 <Shield className="h-3 w-3" />
-                                Admin
+                                {t("roleAdmin")}
                             </Badge>
                         )}
                         {session.user.role === "PREMIUM" && (
                             <Badge className="gap-1 w-fit bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-0">
                                 <Crown className="h-3 w-3" />
-                                Premium
+                                {t("rolePremium")}
                             </Badge>
                         )}
                     </div>
                 </CardHeader>
 
                 <CardContent className="space-y-6">
-                    {/* Stats */}
                     {session.user.role !== "USER" && (
                         <>
                             <div className="grid grid-cols-2 gap-4 text-center">
@@ -140,7 +150,7 @@ export default async function ProfilePage() {
                                         {productsCount}
                                     </div>
                                     <div className="text-sm text-neutral-500">
-                                        Products Added
+                                        {t("productsAdded")}
                                     </div>
                                 </div>
                                 <div className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
@@ -148,7 +158,7 @@ export default async function ProfilePage() {
                                         {contributionsCount}
                                     </div>
                                     <div className="text-sm text-neutral-500">
-                                        Contributions
+                                        {t("contributions")}
                                     </div>
                                 </div>
                             </div>
@@ -157,16 +167,15 @@ export default async function ProfilePage() {
                         </>
                     )}
 
-                    {/* Health Profile */}
                     <div className="space-y-3">
                         <div className="flex items-center justify-between">
                             <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                                Health Profile
+                                {t("healthProfile")}
                             </h3>
                             <Link href="/profile/edit">
                                 <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
                                     <Edit className="h-3.5 w-3.5" />
-                                    Edit
+                                    {t("edit")}
                                 </Button>
                             </Link>
                         </div>
@@ -181,7 +190,7 @@ export default async function ProfilePage() {
                                         <Scale className="h-4 w-4 text-orange-500" />
                                         <div>
                                             <p className="text-xs text-neutral-500">
-                                                Weight
+                                                {t("weight")}
                                             </p>
                                             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                                 {userData.weight} kg
@@ -194,7 +203,7 @@ export default async function ProfilePage() {
                                         <Ruler className="h-4 w-4 text-orange-500" />
                                         <div>
                                             <p className="text-xs text-neutral-500">
-                                                Height
+                                                {t("height")}
                                             </p>
                                             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                                 {userData.height} cm
@@ -207,13 +216,13 @@ export default async function ProfilePage() {
                                         <Calendar className="h-4 w-4 text-orange-500" />
                                         <div>
                                             <p className="text-xs text-neutral-500">
-                                                Age
+                                                {t("age")}
                                             </p>
                                             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                                 {calculateAge(
                                                     userData.dateOfBirth
                                                 )}{" "}
-                                                years
+                                                {t("years")}
                                             </p>
                                         </div>
                                     </div>
@@ -224,7 +233,7 @@ export default async function ProfilePage() {
                                             <div className="flex items-center gap-2 mb-2">
                                                 <AlertTriangle className="h-4 w-4 text-red-500" />
                                                 <p className="text-xs text-neutral-500">
-                                                    Allergies
+                                                    {t("allergies")}
                                                 </p>
                                             </div>
                                             <div className="flex flex-wrap gap-1.5">
@@ -235,7 +244,7 @@ export default async function ProfilePage() {
                                                             variant="secondary"
                                                             className="text-xs bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300"
                                                         >
-                                                            {allergy}
+                                                            {translateAllergy(allergy)}
                                                         </Badge>
                                                     )
                                                 )}
@@ -248,9 +257,7 @@ export default async function ProfilePage() {
                                 <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-neutral-300 p-6 text-center transition-colors hover:border-orange-400 dark:border-neutral-700">
                                     <Edit className="h-6 w-6 text-neutral-400" />
                                     <p className="text-sm text-neutral-500">
-                                        Add your weight, height, date of birth
-                                        and allergies for personalized
-                                        recommendations
+                                        {t("healthProfileEmpty")}
                                     </p>
                                 </div>
                             </Link>
@@ -259,10 +266,9 @@ export default async function ProfilePage() {
 
                     <Separator />
 
-                    {/* Quick Actions */}
                     <div className="space-y-2">
                         <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                            Quick Actions
+                            {t("quickActions")}
                         </h3>
 
                         <div className="space-y-2">
@@ -272,7 +278,7 @@ export default async function ProfilePage() {
                                     className="w-full justify-start gap-3"
                                 >
                                     <Scan className="h-4 w-4" />
-                                    Scan a Product
+                                    {t("scanProduct")}
                                 </Button>
                             </Link>
 
@@ -283,7 +289,7 @@ export default async function ProfilePage() {
                                         className="w-full justify-start gap-3"
                                     >
                                         <Package className="h-4 w-4" />
-                                        Add New Product
+                                        {t("addProduct")}
                                     </Button>
                                 </Link>
                             )}
@@ -295,7 +301,7 @@ export default async function ProfilePage() {
                                         className="w-full justify-start gap-3"
                                     >
                                         <Shield className="h-4 w-4" />
-                                        Admin Panel
+                                        {t("adminPanel")}
                                     </Button>
                                 </Link>
                             )}
@@ -304,7 +310,6 @@ export default async function ProfilePage() {
 
                     <Separator />
 
-                    {/* Account Actions */}
                     <form action={signOutAction}>
                         <Button
                             type="submit"
@@ -312,21 +317,20 @@ export default async function ProfilePage() {
                             className="w-full justify-start gap-3 text-red-600 hover:text-red-700 hover:bg-red-50"
                         >
                             <LogOut className="h-4 w-4" />
-                            Sign Out
+                            {t("signOut")}
                         </Button>
                     </form>
                 </CardContent>
             </Card>
 
-            {/* Scan History */}
             <Card>
                 <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2 text-lg">
                         <History className="h-5 w-5" />
-                        Recent Scans
+                        {t("recentScans")}
                     </CardTitle>
                     <CardDescription>
-                        Your last {scanHistory.length} scanned products
+                        {t("recentScansDesc", { count: scanHistory.length })}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -339,7 +343,6 @@ export default async function ProfilePage() {
                                     className="block"
                                 >
                                     <div className="flex items-center gap-3 rounded-lg border border-neutral-100 p-3 transition-colors hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900">
-                                        {/* Product image */}
                                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-neutral-100 dark:bg-neutral-800">
                                             {scan.product.imageUrl ? (
                                                 <Image
@@ -358,7 +361,6 @@ export default async function ProfilePage() {
                                             )}
                                         </div>
 
-                                        {/* Info */}
                                         <div className="min-w-0 flex-1">
                                             <p className="truncate text-sm font-medium text-neutral-900 dark:text-neutral-100">
                                                 {scan.product.name}
@@ -373,7 +375,6 @@ export default async function ProfilePage() {
                                             </p>
                                         </div>
 
-                                        {/* Score */}
                                         {scan.product.scoreLetter && (
                                             <div
                                                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
@@ -395,12 +396,12 @@ export default async function ProfilePage() {
                         <div className="flex flex-col items-center gap-2 py-6 text-center">
                             <Scan className="h-10 w-10 text-neutral-300" />
                             <p className="text-sm text-neutral-500">
-                                No products scanned yet
+                                {t("noScans")}
                             </p>
                             <Link href="/scan">
                                 <Button size="sm" className="mt-2 gap-2">
                                     <Scan className="h-4 w-4" />
-                                    Scan Your First Product
+                                    {t("scanFirst")}
                                 </Button>
                             </Link>
                         </div>

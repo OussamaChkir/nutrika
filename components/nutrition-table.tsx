@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { formatNutrition } from "@/lib/utils";
 
 interface NutritionData {
@@ -15,22 +16,24 @@ interface NutritionTableProps {
     nutrition: NutritionData;
 }
 
-export function NutritionTable({ nutrition }: NutritionTableProps) {
+export async function NutritionTable({ nutrition }: NutritionTableProps) {
+    const t = await getTranslations("Product");
+
     const items = [
-        { label: "Energy", value: nutrition.energy, unit: "kcal" },
-        { label: "Fat", value: nutrition.fat, unit: "g" },
-        { label: "Saturated Fat", value: nutrition.saturatedFat, unit: "g", indent: true },
-        { label: "Carbohydrates", value: nutrition.carbohydrates, unit: "g" },
-        { label: "Sugars", value: nutrition.sugars, unit: "g", indent: true },
-        { label: "Fiber", value: nutrition.fiber, unit: "g" },
-        { label: "Proteins", value: nutrition.proteins, unit: "g" },
-        { label: "Salt", value: nutrition.salt, unit: "g" },
+        { label: t("nutritionEnergy"), value: nutrition.energy, unit: "kcal" },
+        { label: t("nutritionFat"), value: nutrition.fat, unit: "g" },
+        { label: t("nutritionSaturatedFat"), value: nutrition.saturatedFat, unit: "g", indent: true },
+        { label: t("nutritionCarbohydrates"), value: nutrition.carbohydrates, unit: "g" },
+        { label: t("nutritionSugars"), value: nutrition.sugars, unit: "g", indent: true },
+        { label: t("nutritionFiber"), value: nutrition.fiber, unit: "g" },
+        { label: t("nutritionProteins"), value: nutrition.proteins, unit: "g" },
+        { label: t("nutritionSalt"), value: nutrition.salt, unit: "g" },
     ];
 
     return (
         <div className="space-y-2">
             <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                Nutrition facts (per 100g)
+                {t("nutritionTitle")}
             </h3>
             <div className="rounded-xl border border-neutral-200 bg-white/50 dark:border-neutral-700 dark:bg-neutral-800/50 overflow-hidden">
                 <table className="w-full text-sm">

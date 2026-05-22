@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Save, Loader2, X } from "lucide-react";
-import Link from "next/link";
 import { ALLERGY_OPTIONS } from "@/lib/validators";
+import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
 
 export default function ProfileEditPage() {
+    const t = useTranslations("Profile");
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -22,7 +25,6 @@ export default function ProfileEditPage() {
     const [dateOfBirth, setDateOfBirth] = useState("");
     const [selectedAllergies, setSelectedAllergies] = useState<string[]>([]);
 
-    // Load current profile
     useEffect(() => {
         fetch("/api/profile")
             .then((res) => res.json())
@@ -40,9 +42,9 @@ export default function ProfileEditPage() {
                     setSelectedAllergies(data.user.allergies || []);
                 }
             })
-            .catch(() => setError("Failed to load profile"))
+            .catch(() => setError(t("loadFailed")))
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [t]);
 
     const toggleAllergy = (allergy: string) => {
         setSelectedAllergies((prev) =>
@@ -50,6 +52,11 @@ export default function ProfileEditPage() {
                 ? prev.filter((a) => a !== allergy)
                 : [...prev, allergy]
         );
+    };
+
+    const getAllergyLabel = (allergy: (typeof ALLERGY_OPTIONS)[number]) => {
+        const key = ALLERGY_I18N_KEYS[allergy];
+        return key ? t(key as Parameters<typeof t>[0]) : allergy;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -72,13 +79,13 @@ export default function ProfileEditPage() {
 
             if (!res.ok) {
                 const data = await res.json();
-                throw new Error(data.error || "Failed to save");
+                throw new Error(data.error || t("saveFailed"));
             }
 
             setSuccess(true);
             setTimeout(() => router.push("/profile"), 1500);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to save");
+            setError(err instanceof Error ? err.message : t("saveFailed"));
         } finally {
             setIsSaving(false);
         }
@@ -99,52 +106,49 @@ export default function ProfileEditPage() {
                 className="mb-4 inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-neutral-700"
             >
                 <ArrowLeft className="h-4 w-4" />
-                Back to Profile
+                {t("editBack")}
             </Link>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Edit Health Profile</CardTitle>
+                    <CardTitle>{t("editTitle")}</CardTitle>
                     <CardDescription>
-                        This information helps us give you personalized
-                        nutritional recommendations and allergen warnings.
+                        {t("editDesc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Weight & Height */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="weight">Weight (kg)</Label>
+                                <Label htmlFor="weight">{t("weightLabel")}</Label>
                                 <Input
                                     id="weight"
                                     type="number"
                                     step="0.1"
                                     min="1"
                                     max="500"
-                                    placeholder="e.g. 70"
+                                    placeholder={t("weightPlaceholder")}
                                     value={weight}
                                     onChange={(e) => setWeight(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="height">Height (cm)</Label>
+                                <Label htmlFor="height">{t("heightLabel")}</Label>
                                 <Input
                                     id="height"
                                     type="number"
                                     step="0.1"
                                     min="30"
                                     max="300"
-                                    placeholder="e.g. 175"
+                                    placeholder={t("heightPlaceholder")}
                                     value={height}
                                     onChange={(e) => setHeight(e.target.value)}
                                 />
                             </div>
                         </div>
 
-                        {/* Date of Birth */}
                         <div className="space-y-2">
-                            <Label htmlFor="dob">Date of Birth</Label>
+                            <Label htmlFor="dob">{t("dobLabel")}</Label>
                             <Input
                                 id="dob"
                                 type="date"
@@ -154,13 +158,10 @@ export default function ProfileEditPage() {
                             />
                         </div>
 
-                        {/* Allergies */}
                         <div className="space-y-3">
-                            <Label>Allergies & Intolerances</Label>
+                            <Label>{t("allergiesLabel")}</Label>
                             <p className="text-xs text-neutral-500">
-                                Select any allergies or food intolerances you
-                                have. We&apos;ll highlight these on product
-                                pages.
+                                {t("allergiesHint")}
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 {ALLERGY_OPTIONS.map((allergy) => {
@@ -181,14 +182,13 @@ export default function ProfileEditPage() {
                                             {isSelected && (
                                                 <X className="h-3 w-3" />
                                             )}
-                                            {allergy}
+                                            {getAllergyLabel(allergy)}
                                         </button>
                                     );
                                 })}
                             </div>
                         </div>
 
-                        {/* Error / Success */}
                         {error && (
                             <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700 dark:bg-red-900/30 dark:text-red-300">
                                 {error}
@@ -196,11 +196,10 @@ export default function ProfileEditPage() {
                         )}
                         {success && (
                             <div className="rounded-lg bg-green-50 p-3 text-sm text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                                Profile saved! Redirecting...
+                                {t("saveSuccess")}
                             </div>
                         )}
 
-                        {/* Submit */}
                         <Button
                             type="submit"
                             disabled={isSaving}
@@ -209,12 +208,12 @@ export default function ProfileEditPage() {
                             {isSaving ? (
                                 <>
                                     <Loader2 className="h-4 w-4 animate-spin" />
-                                    Saving...
+                                    {t("saving")}
                                 </>
                             ) : (
                                 <>
                                     <Save className="h-4 w-4" />
-                                    Save Profile
+                                    {t("saveProfile")}
                                 </>
                             )}
                         </Button>

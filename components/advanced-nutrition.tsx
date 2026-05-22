@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Activity, Award, Leaf, Flame, Droplets, Wheat, Beef, CandlestickChart, Package, Truck, TreePine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -14,10 +15,10 @@ interface AdvancedNutritionProps {
 }
 
 /* ── NOVA Group helpers ──────────────────────────────── */
-const novaConfig: Record<number, { label: string; description: string; bg: string; border: string; text: string; badge: string; ring: string }> = {
+const novaConfig: Record<number, { label: string; descriptionKey: "nova1" | "nova2" | "nova3" | "nova4"; bg: string; border: string; text: string; badge: string; ring: string }> = {
     1: {
         label: "1",
-        description: "Unprocessed or minimally processed",
+        descriptionKey: "nova1",
         bg: "bg-emerald-50 dark:bg-emerald-950/30",
         border: "border-emerald-200 dark:border-emerald-800/40",
         text: "text-emerald-700 dark:text-emerald-300",
@@ -26,7 +27,7 @@ const novaConfig: Record<number, { label: string; description: string; bg: strin
     },
     2: {
         label: "2",
-        description: "Processed culinary ingredients",
+        descriptionKey: "nova2",
         bg: "bg-yellow-50 dark:bg-yellow-950/30",
         border: "border-yellow-200 dark:border-yellow-800/40",
         text: "text-yellow-700 dark:text-yellow-300",
@@ -35,7 +36,7 @@ const novaConfig: Record<number, { label: string; description: string; bg: strin
     },
     3: {
         label: "3",
-        description: "Processed foods",
+        descriptionKey: "nova3",
         bg: "bg-orange-50 dark:bg-orange-950/30",
         border: "border-orange-200 dark:border-orange-800/40",
         text: "text-orange-700 dark:text-orange-300",
@@ -44,7 +45,7 @@ const novaConfig: Record<number, { label: string; description: string; bg: strin
     },
     4: {
         label: "4",
-        description: "Ultra-processed products",
+        descriptionKey: "nova4",
         bg: "bg-red-50 dark:bg-red-950/30",
         border: "border-red-200 dark:border-red-800/40",
         text: "text-red-700 dark:text-red-300",
@@ -54,20 +55,20 @@ const novaConfig: Record<number, { label: string; description: string; bg: strin
 };
 
 /* ── Nutri-Score breakdown helper ────────────────────── */
-function NutriScoreBreakdown({ data }: { data: any }) {
+function NutriScoreBreakdown({ data, t }: { data: any; t: Awaited<ReturnType<typeof getTranslations<"Product">>> }) {
     if (!data) return null;
 
     const negativeItems = [
-        { key: "energy", label: "Energy", icon: Flame, value: data.energy_value ?? data.energy, points: data.energy_points },
-        { key: "sugars", label: "Sugars", icon: CandlestickChart, value: data.sugars_value ?? data.sugars, points: data.sugars_points },
-        { key: "saturated_fat", label: "Saturated Fat", icon: Droplets, value: data.saturated_fat_value ?? data.saturated_fat, points: data.saturated_fat_points },
-        { key: "sodium", label: "Sodium", icon: Droplets, value: data.sodium_value ?? data.sodium, points: data.sodium_points },
+        { key: "energy", label: t("nutritionEnergy"), icon: Flame, value: data.energy_value ?? data.energy, points: data.energy_points },
+        { key: "sugars", label: t("nutritionSugars"), icon: CandlestickChart, value: data.sugars_value ?? data.sugars, points: data.sugars_points },
+        { key: "saturated_fat", label: t("nutritionSaturatedFat"), icon: Droplets, value: data.saturated_fat_value ?? data.saturated_fat, points: data.saturated_fat_points },
+        { key: "sodium", label: t("breakdownSodium"), icon: Droplets, value: data.sodium_value ?? data.sodium, points: data.sodium_points },
     ].filter(i => i.points !== undefined && i.points !== null);
 
     const positiveItems = [
-        { key: "fiber", label: "Fiber", icon: Wheat, value: data.fiber_value ?? data.fiber, points: data.fiber_points },
-        { key: "proteins", label: "Proteins", icon: Beef, value: data.proteins_value ?? data.proteins, points: data.proteins_points },
-        { key: "fruits_vegetables", label: "Fruits & Vegetables", icon: TreePine, value: data.fruits_vegetables_nuts_colza_walnut_olive_oils_value ?? data.fruits_vegetables_nuts, points: data.fruits_vegetables_nuts_colza_walnut_olive_oils_points ?? data.fruits_vegetables_nuts_points },
+        { key: "fiber", label: t("nutritionFiber"), icon: Wheat, value: data.fiber_value ?? data.fiber, points: data.fiber_points },
+        { key: "proteins", label: t("nutritionProteins"), icon: Beef, value: data.proteins_value ?? data.proteins, points: data.proteins_points },
+        { key: "fruits_vegetables", label: t("breakdownFruitsVeg"), icon: TreePine, value: data.fruits_vegetables_nuts_colza_walnut_olive_oils_value ?? data.fruits_vegetables_nuts, points: data.fruits_vegetables_nuts_colza_walnut_olive_oils_points ?? data.fruits_vegetables_nuts_points },
     ].filter(i => i.points !== undefined && i.points !== null);
 
     if (negativeItems.length === 0 && positiveItems.length === 0) return null;
@@ -76,12 +77,12 @@ function NutriScoreBreakdown({ data }: { data: any }) {
         <div className="space-y-4 pt-4 border-t border-purple-100 dark:border-purple-900/30">
             <h4 className="text-sm font-semibold text-purple-800 dark:text-purple-200 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-purple-500" />
-                Nutri-Score Breakdown
+                {t("advancedNutriBreakdown")}
             </h4>
 
             {negativeItems.length > 0 && (
                 <div className="space-y-2">
-                    <p className="text-xs font-medium text-red-600 dark:text-red-400 uppercase tracking-wider">Negative Points</p>
+                    <p className="text-xs font-medium text-red-600 dark:text-red-400 uppercase tracking-wider">{t("advancedNegativePoints")}</p>
                     <div className="grid gap-2">
                         {negativeItems.map(item => {
                             const Icon = item.icon;
@@ -93,7 +94,7 @@ function NutriScoreBreakdown({ data }: { data: any }) {
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between text-xs mb-1">
                                             <span className="font-medium text-neutral-700 dark:text-neutral-300">{item.label}</span>
-                                            <span className="font-bold text-red-600 dark:text-red-400">{item.points} pts</span>
+                                            <span className="font-bold text-red-600 dark:text-red-400">{t("advancedPoints", { points: item.points ?? 0 })}</span>
                                         </div>
                                         <div className="h-1.5 w-full bg-red-100 dark:bg-red-900/30 rounded-full overflow-hidden">
                                             <div className="h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
@@ -108,7 +109,7 @@ function NutriScoreBreakdown({ data }: { data: any }) {
 
             {positiveItems.length > 0 && (
                 <div className="space-y-2">
-                    <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Positive Points</p>
+                    <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">{t("advancedPositivePoints")}</p>
                     <div className="grid gap-2">
                         {positiveItems.map(item => {
                             const Icon = item.icon;
@@ -120,7 +121,7 @@ function NutriScoreBreakdown({ data }: { data: any }) {
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between text-xs mb-1">
                                             <span className="font-medium text-neutral-700 dark:text-neutral-300">{item.label}</span>
-                                            <span className="font-bold text-emerald-600 dark:text-emerald-400">{item.points} pts</span>
+                                            <span className="font-bold text-emerald-600 dark:text-emerald-400">{t("advancedPoints", { points: item.points ?? 0 })}</span>
                                         </div>
                                         <div className="h-1.5 w-full bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden">
                                             <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
@@ -145,7 +146,7 @@ function NutriScoreBreakdown({ data }: { data: any }) {
 }
 
 /* ── Eco-Score breakdown helper ──────────────────────── */
-function EcoScoreBreakdown({ data }: { data: any }) {
+function EcoScoreBreakdown({ data, t }: { data: any; t: Awaited<ReturnType<typeof getTranslations<"Product">>> }) {
     if (!data) return null;
 
     const rows: { 
@@ -165,7 +166,7 @@ function EcoScoreBreakdown({ data }: { data: any }) {
         else { impact = 'poor'; desc = 'High environmental impact from farming and processing'; }
         
         rows.push({ 
-            label: "Farming & Processing", 
+            label: t("ecoFarming"), 
             description: desc, 
             impact, 
             icon: TreePine 
@@ -179,7 +180,7 @@ function EcoScoreBreakdown({ data }: { data: any }) {
         if (s > 0) { impact = 'positive'; desc = 'Eco-friendly or recyclable packaging'; }
         else if (s < 0) { impact = 'negative'; desc = 'Packaging has negative environmental impact'; }
         
-        rows.push({ label: "Packaging", description: desc, impact, icon: Package });
+        rows.push({ label: t("ecoPackaging"), description: desc, impact, icon: Package });
     }
 
     if (data.adjustments?.origins_of_ingredients?.value !== undefined) {
@@ -189,7 +190,7 @@ function EcoScoreBreakdown({ data }: { data: any }) {
         if (s > 0) { impact = 'positive'; desc = 'Locally sourced ingredients (reduces transport emissions)'; }
         else if (s < 0) { impact = 'negative'; desc = 'Ingredients transported from far distances'; }
         
-        rows.push({ label: "Ingredient Origins", description: desc, impact, icon: Truck });
+        rows.push({ label: t("ecoOrigins"), description: desc, impact, icon: Truck });
     }
 
     if (data.adjustments?.production_system?.value !== undefined) {
@@ -199,7 +200,7 @@ function EcoScoreBreakdown({ data }: { data: any }) {
         if (s > 0) { impact = 'positive'; desc = 'Sustainable or organic production practices'; }
         else if (s < 0) { impact = 'negative'; desc = 'Production system has negative environmental impact'; }
         
-        rows.push({ label: "Production System", description: desc, impact, icon: Leaf });
+        rows.push({ label: t("ecoProduction"), description: desc, impact, icon: Leaf });
     }
 
     if (rows.length === 0) return null;
@@ -208,17 +209,17 @@ function EcoScoreBreakdown({ data }: { data: any }) {
         switch (impact) {
             case 'excellent':
             case 'positive':
-                return { text: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-100/50 dark:bg-emerald-900/30', label: impact === 'excellent' ? 'Excellent' : 'Positive Impact' };
+                return { text: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-100/50 dark:bg-emerald-900/30', label: impact === 'excellent' ? t('impactExcellent') : t('impactPositive') };
             case 'good':
-                return { text: 'text-green-700 dark:text-green-400', bg: 'bg-green-100/50 dark:bg-green-900/30', label: 'Good' };
+                return { text: 'text-green-700 dark:text-green-400', bg: 'bg-green-100/50 dark:bg-green-900/30', label: t('impactGood') };
             case 'moderate':
             case 'neutral':
-                return { text: 'text-yellow-700 dark:text-yellow-400', bg: 'bg-yellow-100/50 dark:bg-yellow-900/30', label: impact === 'moderate' ? 'Moderate' : 'Neutral Impact' };
+                return { text: 'text-yellow-700 dark:text-yellow-400', bg: 'bg-yellow-100/50 dark:bg-yellow-900/30', label: impact === 'moderate' ? t('impactModerate') : t('impactNeutral') };
             case 'poor':
             case 'negative':
-                return { text: 'text-red-700 dark:text-red-400', bg: 'bg-red-100/50 dark:bg-red-900/30', label: impact === 'poor' ? 'Poor' : 'Negative Impact' };
+                return { text: 'text-red-700 dark:text-red-400', bg: 'bg-red-100/50 dark:bg-red-900/30', label: impact === 'poor' ? t('impactPoor') : t('impactNegative') };
             default:
-                return { text: 'text-neutral-700 dark:text-neutral-400', bg: 'bg-neutral-100/50 dark:bg-neutral-800/30', label: 'Unknown' };
+                return { text: 'text-neutral-700 dark:text-neutral-400', bg: 'bg-neutral-100/50 dark:bg-neutral-800/30', label: t('levelUnknown') };
         }
     };
 
@@ -226,7 +227,7 @@ function EcoScoreBreakdown({ data }: { data: any }) {
         <div className="space-y-4 pt-4 border-t border-green-100 dark:border-green-900/30">
             <h4 className="text-sm font-semibold text-green-800 dark:text-green-200 flex items-center gap-2">
                 <Leaf className="w-4 h-4 text-green-500" />
-                Eco-Score Breakdown
+                {t("advancedEcoBreakdown")}
             </h4>
             <div className="grid gap-2">
                 {rows.map((row, i) => {
@@ -255,7 +256,7 @@ function EcoScoreBreakdown({ data }: { data: any }) {
 }
 
 /* ── Main Component ──────────────────────────────────── */
-export function AdvancedNutrition({
+export async function AdvancedNutrition({
     nutritionGradeFr,
     novaGroup,
     ecoscoreScore,
@@ -264,13 +265,20 @@ export function AdvancedNutrition({
     nutriscoreData,
     ecoscoreData
 }: AdvancedNutritionProps) {
+    const t = await getTranslations("Product");
+
     if (!nutritionGradeFr && !novaGroup && !ecoscoreScore && !nutrimentLevels && !nutriscoreData && !ecoscoreData) {
         return null;
     }
 
     const formatLevel = (level: string) => {
-        if (!level) return 'Unknown';
-        return level.charAt(0).toUpperCase() + level.slice(1).replace('-', ' ');
+        if (!level) return t("levelUnknown");
+        switch (level) {
+            case "low": return t("levelLow");
+            case "moderate": return t("levelModerate");
+            case "high": return t("levelHigh");
+            default: return level.charAt(0).toUpperCase() + level.slice(1).replace('-', ' ');
+        }
     };
 
     const getLevelColor = (level: string) => {
@@ -295,7 +303,7 @@ export function AdvancedNutrition({
                         <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                     </div>
                     <CardTitle className="text-base font-semibold text-purple-900 dark:text-purple-100">
-                        Advanced Nutrition Report
+                        {t("advancedTitle")}
                     </CardTitle>
                 </div>
                 <CardDescription className="text-purple-600/70 dark:text-purple-400/70">
@@ -309,7 +317,7 @@ export function AdvancedNutrition({
                     {/* Nutri-Score */}
                     {nutritionGradeFr && (
                         <div className="bg-white dark:bg-neutral-800/50 p-4 rounded-xl border border-purple-100/50 dark:border-purple-900/20 flex flex-col items-center justify-center text-center shadow-sm">
-                            <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">Nutri-Score</span>
+                            <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">{t("advancedNutriScore")}</span>
                             {['a', 'b', 'c', 'd', 'e'].includes(nutritionGradeFr.toLowerCase()) ? (
                                 <div className="relative w-28 h-14">
                                     <Image
@@ -335,11 +343,11 @@ export function AdvancedNutrition({
                     {/* NOVA Group — colored */}
                     {novaGroup && nova && (
                         <div className={`p-4 rounded-xl border flex flex-col items-center justify-center text-center shadow-sm ${nova.bg} ${nova.border}`}>
-                            <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">NOVA Group</span>
+                            <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-2">{t("advancedNovaGroup")}</span>
                             <div className={`w-12 h-12 rounded-full ${nova.badge} ring-4 ${nova.ring} flex items-center justify-center mb-1.5 shadow-md`}>
                                 <span className="text-xl font-black text-white">{novaGroup}</span>
                             </div>
-                            <span className={`text-[11px] font-medium ${nova.text} leading-tight max-w-[120px]`}>{nova.description}</span>
+                            <span className={`text-[11px] font-medium ${nova.text} leading-tight max-w-[120px]`}>{t(nova.descriptionKey)}</span>
                         </div>
                     )}
 
@@ -348,7 +356,7 @@ export function AdvancedNutrition({
                         <div className="bg-white dark:bg-neutral-800/50 p-4 rounded-xl border border-green-100/50 dark:border-green-900/20 flex flex-col items-center justify-center text-center shadow-sm">
                             <div className="flex items-center gap-1.5 mb-2">
                                 <Leaf className="w-3.5 h-3.5 text-green-500" />
-                                <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Eco-Score</span>
+                                <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">{t("advancedEcoScore")}</span>
                             </div>
                             {ecoscoreGrade && ['a', 'b', 'c', 'd', 'e', 'f', 'a-plus'].includes(ecoscoreGrade.toLowerCase()) ? (
                                 <div className="flex flex-col items-center gap-1">
@@ -383,7 +391,7 @@ export function AdvancedNutrition({
                     <div className="space-y-3 pt-3">
                         <h4 className="text-sm font-semibold flex items-center gap-2 text-neutral-800 dark:text-neutral-200">
                             <Activity className="w-4 h-4 text-purple-500" />
-                            Nutriment Levels
+                            {t("advancedNutrimentLevels")}
                         </h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-lg">
                             {Object.entries(nutrimentLevels).map(([key, level]) => (
@@ -401,8 +409,8 @@ export function AdvancedNutrition({
                 )}
 
                 {/* ── Detailed Score Breakdowns ─────────────── */}
-                <NutriScoreBreakdown data={nutriscoreData} />
-                <EcoScoreBreakdown data={ecoscoreData} />
+                <NutriScoreBreakdown data={nutriscoreData} t={t} />
+                <EcoScoreBreakdown data={ecoscoreData} t={t} />
             </CardContent>
         </Card>
     );
