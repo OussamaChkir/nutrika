@@ -1,7 +1,7 @@
 import { redirect } from "@/i18n/routing";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { signOutAction } from "@/lib/auth-actions";
@@ -36,7 +36,7 @@ export default async function ProfilePage() {
     const t = await getTranslations("Profile");
 
     if (!session?.user) {
-        redirect("/sign-in");
+        redirect({ href: "/sign-in", locale: await getLocale() });
     }
 
     const [productsCount, contributionsCount, userData, scanHistory] =
