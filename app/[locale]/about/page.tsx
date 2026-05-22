@@ -174,11 +174,12 @@ export default function AboutPage() {
                             How We Calculate Scores
                         </h2>
                     </div>
-                    <p className="text-neutral-600 dark:text-neutral-400 text-lg mb-10 animate-fade-in-up delay-100 leading-relaxed">
-                        Our comprehensive system evaluates products starting
-                        from a neutral base score of 70, applying adjustments
-                        based on key factors.
-                    </p>
+                        <p className="mb-4 text-neutral-600 dark:text-neutral-400">
+                            Our primary Product Score (0-100) evaluates food
+                            quality comprehensively. It starts
+                            from a neutral base score of 85, applying adjustments
+                            based on positive and negative factors:
+                        </p>
 
                     {/* Score Factors Table */}
                     <div className="space-y-3 animate-fade-in-up delay-200">
@@ -268,18 +269,17 @@ export default function AboutPage() {
 
                     {/* Nutri-Score blending note */}
                     <div className="mt-8 p-5 rounded-2xl bg-orange-50/70 dark:bg-orange-950/20 border border-orange-200/60 dark:border-orange-900/40 animate-fade-in-up delay-300">
-                        <h4 className="font-bold text-neutral-900 dark:text-neutral-100 mb-2 flex items-center gap-2">
-                            <span className="text-orange-500">✦</span>{" "}
-                            Nutri-Score Blending
-                        </h4>
-                        <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
-                            If a product has an official Nutri-Score, we blend it
-                            with our custom score (60% custom + 40%
-                            Nutri-Score). A Nutri-Score A adds up to +20 bonus
-                            points while an E subtracts up to -20 points. This
-                            ensures consistency with globally recognized
-                            standards.
-                        </p>
+                        <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-5 dark:border-blue-900/50 dark:bg-blue-900/20">
+                            <h4 className="mb-2 font-semibold text-blue-900 dark:text-blue-200">
+                                Nutri-Score Blending
+                            </h4>
+                            <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                                If a product has an official Nutri-Score, we blend it
+                                with our custom score (80% custom + 20%
+                                Nutri-Score). A Nutri-Score A adds up to +10 bonus
+                                points, while an E subtracts up to 10 points.
+                            </p>
+                        </div>
                     </div>
 
                     {/* Letter Grade Scale */}

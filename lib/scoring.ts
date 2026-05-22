@@ -366,6 +366,15 @@ export function calculateScore(offData: OFFProduct): ScoreResult {
         dietaryTags.push("Diabetic safe");
     }
 
+    // Palm oil
+    if (offData.ingredients_analysis_tags?.includes("en:palm-oil-free")) {
+        dietaryTags.push("Palm oil free");
+    } else if (offData.ingredients_analysis_tags?.includes("en:palm-oil") ||
+               offData.ingredients_text?.toLowerCase().includes("palm") ||
+               offData.ingredients_text?.toLowerCase().includes("palme")) {
+        dietaryTags.push("Contains palm oil");
+    }
+
     return {
         score,
         letter,

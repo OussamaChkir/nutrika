@@ -28,6 +28,7 @@ export interface OFFProduct {
     nutriments?: OFFNutriments;
     ingredients_text?: string;
     ingredients_text_en?: string;
+    ingredients_analysis_tags?: string[];
     allergens?: string;
     allergens_tags?: string[];
     traces_tags?: string[];
