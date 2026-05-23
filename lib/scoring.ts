@@ -97,7 +97,7 @@ const MEDIUM_SEVERITY_ALLERGENS = [
  * Calculate a comprehensive score for a product
  */
 export function calculateScore(offData: OFFProduct): ScoreResult {
-    let score = 85; // Start with a higher neutral score
+    let score = 75; // Start with a higher neutral score
     const positives: PositiveAspect[] = [];
     const negatives: NegativeAspect[] = [];
     const nutriments = offData.nutriments || {};
