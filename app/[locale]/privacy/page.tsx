@@ -1,9 +1,15 @@
 import { Metadata } from "next";
+import { constructMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-    title: "Privacy Policy | Nutrika",
-    description: "Privacy policy and data handling practices for Nutrika.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return constructMetadata({
+        title: "Privacy Policy | Nutrika",
+        description: "Privacy policy and data handling practices for Nutrika.",
+        locale,
+        path: "/privacy"
+    });
+}
 
 export default function PrivacyPage() {
     return (

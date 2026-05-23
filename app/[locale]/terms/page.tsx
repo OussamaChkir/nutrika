@@ -1,9 +1,15 @@
 import { Metadata } from "next";
+import { constructMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-    title: "Terms and Conditions | Nutrika",
-    description: "Terms and conditions of use for Nutrika.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return constructMetadata({
+        title: "Terms and Conditions | Nutrika",
+        description: "Terms and conditions of use for Nutrika.",
+        locale,
+        path: "/terms"
+    });
+}
 
 export default function TermsPage() {
     return (

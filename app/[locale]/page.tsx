@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image'
 import { Card, CardContent } from "@/components/ui/card";
+import { constructMetadata } from "@/lib/seo";
 import {
   Scan,
   Shield,
@@ -14,6 +15,20 @@ import {
   ChevronDown,
   PlayCircle
 } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return constructMetadata({
+    title: "Nutrika - Know What You Eat",
+    description: "Scan product barcodes to discover nutritional scores, health insights, and allergen warnings.",
+    locale,
+    path: "/",
+  });
+}
 
 export default async function HomePage() {
   const t = await getTranslations('Home');
@@ -162,8 +177,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="space-y-4 animate-fade-in-up delay-100 p-6 rounded-3xl bg-orange-50/50 dark:bg-orange-950/10 border border-orange-100 dark:border-orange-900/30">
               <div className="">
-                <Image src="/nutritional-information-icon.png" alt="" width={75} height={75} className="dark:hidden block" />
-                <Image src="/nutritional-information-icon-dark.png" alt="" width={75} height={75} className="hidden dark:block rounded-xl" />
+                <Image src="/nutritional-information-icon.png" alt="Nutritional Information Icon" width={75} height={75} className="dark:hidden block" />
+                <Image src="/nutritional-information-icon-dark.png" alt="Nutritional Information Icon (Dark)" width={75} height={75} className="hidden dark:block rounded-xl" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{t('pillarAccurateTitle')}</h3>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
@@ -173,8 +188,8 @@ export default async function HomePage() {
 
             <div className="space-y-4 animate-fade-in-up delay-200 p-6 rounded-3xl bg-orangina-50/50 dark:bg-orangina-950/10 border border-orange-100/50 dark:border-orangina-900/30">
               <div className="">
-                <Image src="/allergen-detection-icon.png" alt="" width={75} height={75} className="dark:hidden block" />
-                <Image src="/allergen-detection-icon-dark.png" alt="" width={75} height={75} className="hidden dark:block rounded-xl" />
+                <Image src="/allergen-detection-icon.png" alt="Allergen Detection Icon" width={75} height={75} className="dark:hidden block" />
+                <Image src="/allergen-detection-icon-dark.png" alt="Allergen Detection Icon (Dark)" width={75} height={75} className="hidden dark:block rounded-xl" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{t('pillarAllergenTitle')}</h3>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
@@ -184,8 +199,8 @@ export default async function HomePage() {
 
             <div className="space-y-4 animate-fade-in-up delay-300 p-6 rounded-3xl bg-green-50/50 dark:bg-green-950/10 border border-green-100 dark:border-green-900/30">
               <div className="">
-                <Image src="/healthy-eating-icon.png" alt="" width={75} height={75} className="dark:hidden block" />
-                <Image src="/healthy-eating-icon-dark.png" alt="" width={75} height={75} className="hidden dark:block rounded-xl" />
+                <Image src="/healthy-eating-icon.png" alt="Healthy Eating Icon" width={75} height={75} className="dark:hidden block" />
+                <Image src="/healthy-eating-icon-dark.png" alt="Healthy Eating Icon (Dark)" width={75} height={75} className="hidden dark:block rounded-xl" />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{t('pillarHealthyTitle')}</h3>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { constructMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,11 +19,15 @@ import {
     Sparkles,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-    title: "Pricing",
-    description:
-        "Compare Nutrika Free and Premium plans. Unlock advanced features, personalized health insights, and more.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return constructMetadata({
+        title: "Pricing | Nutrika",
+        description: "Compare Nutrika Free and Premium plans. Unlock advanced features, personalized health insights, and more.",
+        locale,
+        path: "/pricing"
+    });
+}
 
 const FREE_FEATURES = [
     { text: "Scan product barcodes", icon: Scan, included: true },

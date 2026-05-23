@@ -34,6 +34,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Nutrika" }],
   creator: "Nutrika",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nutrika.app'),
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",

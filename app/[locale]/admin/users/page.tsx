@@ -1,10 +1,16 @@
 import { prisma } from "@/lib/db";
+import { constructMetadata } from "@/lib/seo";
 import { UsersTable } from "./users-table";
 
-export const metadata = {
-    title: "Admin - Users",
-    description: "Manage users and roles",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    return constructMetadata({
+        title: "Admin - Users",
+        description: "Manage users and roles",
+        locale,
+        path: "/admin/users"
+    });
+}
 
 export default async function AdminUsersPage() {
     const users = await prisma.user.findMany({

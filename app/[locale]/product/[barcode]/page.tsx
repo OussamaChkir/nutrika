@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Metadata } from "next";
+import { constructMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db";
@@ -37,7 +38,7 @@ interface ProductPageProps {
 export async function generateMetadata({
     params,
 }: ProductPageProps): Promise<Metadata> {
-    const { barcode } = await params;
+    const { barcode, locale } = await params as unknown as { barcode: string; locale: string };
     const t = await getTranslations("Product");
 
     const dbProduct = await prisma.product.findUnique({
@@ -45,7 +46,7 @@ export async function generateMetadata({
     });
 
     if (dbProduct) {
-        return {
+        return constructMetadata({
             title: dbProduct.name,
             description: t("metaDescription", {
                 name: dbProduct.name,
@@ -53,13 +54,17 @@ export async function generateMetadata({
                 letter: dbProduct.scoreLetter,
                 score: dbProduct.score,
             }),
-        };
+            locale,
+            path: `/product/${barcode}`
+        });
     }
 
-    return {
+    return constructMetadata({
         title: t("metaTitle", { barcode }),
         description: t("metaDescriptionFallback", { barcode }),
-    };
+        locale,
+        path: `/product/${barcode}`
+    });
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {

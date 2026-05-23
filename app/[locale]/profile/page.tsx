@@ -2,6 +2,7 @@ import { redirect } from "@/i18n/routing";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
+import { constructMetadata } from "@/lib/seo";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { signOutAction } from "@/lib/auth-actions";
@@ -26,9 +27,14 @@ import {
 import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
 import { ALLERGY_OPTIONS } from "@/lib/validators";
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
     const t = await getTranslations("Profile");
-    return { title: t("metaTitle") };
+    return constructMetadata({ 
+        title: t("metaTitle"),
+        locale,
+        path: "/profile"
+    });
 }
 
 export default async function ProfilePage() {
@@ -114,6 +120,7 @@ export default async function ProfilePage() {
                         <Avatar className="h-20 w-20">
                             <AvatarImage
                                 src={user.image || undefined}
+                                alt={user.name || "User Avatar"}
                             />
                             <AvatarFallback className="text-2xl">
                                 {getInitials(

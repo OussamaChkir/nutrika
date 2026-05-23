@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { constructMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
@@ -18,12 +19,19 @@ import {
     Lightbulb,
 } from "lucide-react";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+    const { locale } = await params;
     const t = await getTranslations("About");
-    return {
+    return constructMetadata({
         title: t("metaTitle"),
         description: t("metaDescription"),
-    };
+        locale,
+        path: "/about"
+    });
 }
 
 export default async function AboutPage() {

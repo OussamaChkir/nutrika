@@ -129,7 +129,7 @@ export function ProductsTable({ initialProducts }: { initialProducts: Product[] 
                                             {product.imageUrl && (
                                                 <img
                                                     src={product.imageUrl}
-                                                    alt=""
+                                                    alt={product.name}
                                                     className="h-10 w-10 rounded-md object-contain bg-neutral-50"
                                                 />
                                             )}

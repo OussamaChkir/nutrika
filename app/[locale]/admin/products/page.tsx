@@ -1,10 +1,16 @@
 import { prisma } from "@/lib/db";
+import { constructMetadata } from "@/lib/seo";
 import { ProductsTable } from "./products-table";
 
-export const metadata = {
-    title: "Admin - Products",
-    description: "Manage products",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    return constructMetadata({
+        title: "Admin - Products",
+        description: "Manage products",
+        locale,
+        path: "/admin/products"
+    });
+}
 
 export default async function AdminProductsPage() {
     const products = await prisma.product.findMany({

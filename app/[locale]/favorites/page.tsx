@@ -7,11 +7,17 @@ import { ProductCard } from "@/components/product-card";
 import { Heart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
+import { constructMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-    title: "My Favorites | Nutrika",
-    description: "View your favorite products",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return constructMetadata({
+        title: "My Favorites | Nutrika",
+        description: "View your favorite products",
+        locale,
+        path: "/favorites"
+    });
+}
 
 export default async function FavoritesPage() {
     const session = await auth();
