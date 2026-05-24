@@ -46,7 +46,7 @@ export function Footer() {
                     {/* Social links */}
                     <div className="flex gap-4">
                         <a
-                            href="https://facebook.com"
+                            href="https://www.facebook.com/profile.php?id=61590411448444"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-neutral-400 hover:text-neutral-600 transition-colors dark:hover:text-neutral-300"
@@ -54,7 +54,7 @@ export function Footer() {
                             <Facebook className="h-5 w-5" />
                         </a>
                         <a
-                            href="https://instagram.com"
+                            href="https://www.instagram.com/nutrikapp/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-neutral-400 hover:text-neutral-600 transition-colors dark:hover:text-neutral-300"
