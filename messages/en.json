@@ -16,6 +16,7 @@
   "Compare": {
     "metaTitle": "Compare Products",
     "title": "Compare Products",
+    "subtitle": "Nutritional Comparison",
     "description": "Compare nutritional values side by side",
     "empty": "No products selected for comparison.",
     "addProducts": "Add products to compare",
@@ -25,9 +26,16 @@
     "inCompare": "Added",
     "clearAll": "Clear All",
     "backToScanner": "Back to Scanner",
+    "viewDetails": "View Details",
     "productInfo": "Product Info",
     "scoreAndImpact": "Score & Impact",
-    "nutritionPer100g": "Nutrition facts (per 100g)"
+    "allergensTitle": "Allergens & Warnings",
+    "noAllergens": "No major allergens",
+    "nutritionTitle": "Nutrition Facts",
+    "nutritionPer100g": "Nutrition facts (per 100g)",
+    "per100g": "Per 100g",
+    "nutrient": "Nutrient",
+    "prodLabel": "Prod {num}"
   },
   "Footer": {
     "about": "About",

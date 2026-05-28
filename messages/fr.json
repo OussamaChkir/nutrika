@@ -10,7 +10,32 @@
     "signUp": "S'inscrire",
     "signOut": "Se déconnecter",
     "profile": "Profil",
-    "favorites": "Favoris"
+    "favorites": "Favoris",
+    "compare": "Comparer"
+  },
+  "Compare": {
+    "metaTitle": "Comparer les produits",
+    "title": "Comparer les produits",
+    "subtitle": "Comparaison nutritionnelle",
+    "description": "Comparez les valeurs nutritionnelles côte à côte",
+    "empty": "Aucun produit sélectionné pour la comparaison.",
+    "addProducts": "Ajouter des produits à comparer",
+    "addToCompare": "Ajouter à la comparaison",
+    "removeFromCompare": "Retirer de la comparaison",
+    "compare": "Comparer",
+    "inCompare": "Ajouté",
+    "clearAll": "Tout effacer",
+    "backToScanner": "Retour au scanner",
+    "viewDetails": "Voir détails",
+    "productInfo": "Info produit",
+    "scoreAndImpact": "Score et impact",
+    "allergensTitle": "Allergènes et avertissements",
+    "noAllergens": "Aucun allergène majeur",
+    "nutritionTitle": "Valeurs nutritionnelles",
+    "nutritionPer100g": "Valeurs nutritionnelles (pour 100g)",
+    "per100g": "Pour 100g",
+    "nutrient": "Nutriment",
+    "prodLabel": "Prod {num}"
   },
   "Footer": {
     "about": "À propos",
