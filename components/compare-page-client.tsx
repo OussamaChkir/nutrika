@@ -359,7 +359,7 @@ export function ComparePageClient({ products }: ComparePageClientProps) {
                                                 />
                                             )}
                                             <span
-                                                className={`text-xs font-semibold uppercase tracking-wide ${textColor}`}
+                                                className={`text-xs font-semibold tracking-wide ${textColor}`}
                                             >
                                                 {displayName}
                                             </span>
