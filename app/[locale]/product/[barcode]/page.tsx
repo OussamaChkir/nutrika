@@ -155,8 +155,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const isFavorite = session?.user?.id ? await checkIsFavorite(product.id) : false;
 
     let alternatives: any[] = [];
-    const isBadScore = ["C", "D", "E"].includes(product.scoreLetter as string);
-    if (isBadScore && offData) {
+    if (offData) {
         const categories = offData.categories_tags as string[] | undefined;
         if (categories && categories.length > 0) {
             const specificCategory = categories[categories.length - 1];

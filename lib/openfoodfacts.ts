@@ -234,20 +234,15 @@ export async function fetchBetterAlternatives(
 ): Promise<OFFProduct[]> {
     try {
         const params = new URLSearchParams({
-            action: "process",
-            tagtype_0: "categories",
-            tag_contains_0: "contains",
-            tag_0: category,
-            tagtype_1: "nutrition_grades",
-            tag_contains_1: "contains",
-            tag_1: "A,B",
-            sort_by: "unique_scans_n",
+            categories_tags: category,
+            nutriscore_grade: "a,b",
+            sort_by: "popularity",
             page_size: "5",
             json: "1",
         });
 
         const response = await fetch(
-            `${OFF_BASE_URL.replace('/api/v2', '/cgi')}/search.pl?${params.toString()}`,
+            `${OFF_BASE_URL}/search?${params.toString()}`,
             {
                 headers: {
                     "User-Agent": OFF_USER_AGENT,
