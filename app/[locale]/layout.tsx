@@ -9,6 +9,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
+import { CompareProvider } from "@/components/compare-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -99,9 +100,11 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header user={session?.user} />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <CompareProvider>
+              <Header user={session?.user} />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </CompareProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { InlineScoreBadge } from "@/components/score-badge";
 import { ChevronRight } from "lucide-react";
+import { CompareButton } from "@/components/compare-button";
 
 interface ProductCardProps {
     barcode: string;
@@ -59,10 +60,13 @@ export function ProductCard({
                         </p>
                     </div>
 
-                    {/* Score and arrow */}
-                    <div className="flex items-center gap-2">
-                        <InlineScoreBadge letter={scoreLetter} color={scoreColor} />
-                        <ChevronRight className="h-5 w-5 text-neutral-300 transition-transform group-hover:translate-x-1 dark:text-neutral-600" />
+                    {/* Score and actions */}
+                    <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-2">
+                            <InlineScoreBadge letter={scoreLetter} color={scoreColor} />
+                            <ChevronRight className="h-5 w-5 text-neutral-300 transition-transform group-hover:translate-x-1 dark:text-neutral-600" />
+                        </div>
+                        <CompareButton barcode={barcode} size="icon" variant="ghost" showLabel={false} />
                     </div>
                 </CardContent>
             </Card>

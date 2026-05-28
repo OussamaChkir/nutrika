@@ -10,7 +10,24 @@
     "signUp": "Sign Up",
     "signOut": "Sign Out",
     "profile": "Profile",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "compare": "Compare"
+  },
+  "Compare": {
+    "metaTitle": "Compare Products",
+    "title": "Compare Products",
+    "description": "Compare nutritional values side by side",
+    "empty": "No products selected for comparison.",
+    "addProducts": "Add products to compare",
+    "addToCompare": "Add to Compare",
+    "removeFromCompare": "Remove from Compare",
+    "compare": "Compare",
+    "inCompare": "Added",
+    "clearAll": "Clear All",
+    "backToScanner": "Back to Scanner",
+    "productInfo": "Product Info",
+    "scoreAndImpact": "Score & Impact",
+    "nutritionPer100g": "Nutrition facts (per 100g)"
   },
   "Footer": {
     "about": "About",

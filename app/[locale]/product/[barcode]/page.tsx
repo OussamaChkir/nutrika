@@ -32,6 +32,7 @@ import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
 import { BetterAlternatives } from "@/components/better-alternatives";
+import { CompareButton } from "@/components/compare-button";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -208,11 +209,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
 
             <Card className="animate-fade-in-up relative overflow-hidden border-0 shadow-xl shadow-neutral-200/60 dark:shadow-neutral-950/40 bg-gradient-to-br from-white via-white to-orange-50/40 dark:from-neutral-900 dark:via-neutral-900 dark:to-orange-950/20">
-                {session?.user?.id && (
-                    <div className="absolute top-4 right-4 z-10">
+                <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+                    <CompareButton barcode={product.barcode} size="icon" showLabel={false} className="h-10 w-10 rounded-full bg-white/80 backdrop-blur-md shadow-sm border-neutral-200/50 dark:bg-neutral-900/80 dark:border-neutral-800/50 hover:bg-white dark:hover:bg-neutral-900" />
+                    {session?.user?.id && (
                         <FavoriteButton productId={product.id} initialIsFavorite={isFavorite} />
-                    </div>
-                )}
+                    )}
+                </div>
                 <CardContent className="p-0">
                     {product.status === "PENDING" && (
                         <div className="flex items-center gap-2 border-b border-amber-100 bg-amber-50 px-6 py-3 text-sm font-medium text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/20 dark:text-amber-200">

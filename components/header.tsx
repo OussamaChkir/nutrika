@@ -16,12 +16,14 @@ import {
     Menu,
     X,
     Search,
-    CreditCard,
     Heart,
     Info,
+    Scale,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
+import { useCompare } from "@/components/compare-context";
+import { Badge } from "@/components/ui/badge";
 
 interface HeaderProps {
     user?: {
@@ -39,6 +41,9 @@ export function Header({ user }: HeaderProps) {
     const isAdmin = user?.role === "ADMIN";
 
     const t = useTranslations('Header');
+    const { compareList } = useCompare();
+    const compareCount = compareList.length;
+    const compareHref = compareCount > 0 ? `/compare?ids=${compareList.join(',')}` : '/compare';
 
     const navItems = [
         { href: "/", label: t('home'), icon: Home },
@@ -92,6 +97,22 @@ export function Header({ user }: HeaderProps) {
                             </Link>
                         );
                     })}
+                    
+                    {compareCount > 0 && (
+                        <Link href={compareHref}>
+                            <Button
+                                variant={pathname.startsWith('/compare') ? "secondary" : "ghost"}
+                                size="sm"
+                                className={`gap-2 ${pathname.startsWith('/compare') ? "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400" : ""}`}
+                            >
+                                <Scale className="h-4 w-4" />
+                                {t('compare')}
+                                <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400">
+                                    {compareCount}
+                                </Badge>
+                            </Button>
+                        </Link>
+                    )}
                 </nav>
 
                 {/* User Menu / Auth Buttons */}
@@ -174,6 +195,24 @@ export function Header({ user }: HeaderProps) {
                                 </Link>
                             );
                         })}
+
+                        {compareCount > 0 && (
+                            <Link
+                                href={compareHref}
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                <Button
+                                    variant={pathname.startsWith('/compare') ? "secondary" : "ghost"}
+                                    className={`w-full justify-start gap-3 ${pathname.startsWith('/compare') ? "bg-orange-100 text-orange-700" : ""}`}
+                                >
+                                    <Scale className="h-5 w-5" />
+                                    {t('compare')}
+                                    <Badge variant="secondary" className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-orange-100 p-0 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400">
+                                        {compareCount}
+                                    </Badge>
+                                </Button>
+                            </Link>
+                        )}
 
                         <div className="my-2 border-t border-neutral-200 dark:border-neutral-800" />
 
