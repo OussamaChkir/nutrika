@@ -225,3 +225,47 @@ export function hasLabel(product: OFFProduct, labelKeyword: string): boolean {
         tag.toLowerCase().includes(labelKeyword.toLowerCase())
     );
 }
+
+/**
+ * Fetch better alternatives for a given category
+ */
+export async function fetchBetterAlternatives(
+    category: string
+): Promise<OFFProduct[]> {
+    try {
+        const params = new URLSearchParams({
+            action: "process",
+            tagtype_0: "categories",
+            tag_contains_0: "contains",
+            tag_0: category,
+            tagtype_1: "nutrition_grades",
+            tag_contains_1: "contains",
+            tag_1: "A,B",
+            sort_by: "unique_scans_n",
+            page_size: "5",
+            json: "1",
+        });
+
+        const response = await fetch(
+            `${OFF_BASE_URL.replace('/api/v2', '/cgi')}/search.pl?${params.toString()}`,
+            {
+                headers: {
+                    "User-Agent": OFF_USER_AGENT,
+                },
+                next: {
+                    revalidate: 3600,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            return [];
+        }
+
+        const data = await response.json();
+        return data.products || [];
+    } catch (error) {
+        console.error("Error fetching alternatives from OFF:", error);
+        return [];
+    }
+}

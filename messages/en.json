@@ -130,6 +130,7 @@
     "ctaButton": "Start Scanning Now"
   },
   "Product": {
+    "betterAlternatives": "Better Alternatives",
     "metaTitle": "Product {barcode}",
     "metaDescription": "{name} by {brand} - Score: {letter} ({score}/100)",
     "metaDescriptionFallback": "View nutritional analysis for product {barcode}",

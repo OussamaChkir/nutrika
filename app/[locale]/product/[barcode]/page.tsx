@@ -10,6 +10,7 @@ import {
     fetchProductByBarcode,
     getProductName,
     getProductImage,
+    fetchBetterAlternatives,
 } from "@/lib/openfoodfacts";
 import { calculateScore } from "@/lib/scoring";
 import { parseScoreAspects } from "@/lib/score-messages";
@@ -30,6 +31,7 @@ import { ArrowLeft, Edit, Info, AlertTriangle, Barcode } from "lucide-react";
 import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
+import { BetterAlternatives } from "@/components/better-alternatives";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -151,6 +153,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const isAdmin = session?.user?.role === "ADMIN";
 
     const isFavorite = session?.user?.id ? await checkIsFavorite(product.id) : false;
+
+    let alternatives: any[] = [];
+    const isBadScore = ["C", "D", "E"].includes(product.scoreLetter as string);
+    if (isBadScore && offData) {
+        const categories = offData.categories_tags as string[] | undefined;
+        if (categories && categories.length > 0) {
+            const specificCategory = categories[categories.length - 1];
+            const fetched = await fetchBetterAlternatives(specificCategory);
+            alternatives = fetched.filter((a: any) => a.code !== barcode).slice(0, 4);
+        }
+    }
 
     let matchingAllergens: string[] = [];
     if (session?.user?.id) {
@@ -362,6 +375,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </div>
                 )}
             </div>
+
+            {alternatives.length > 0 && (
+                <BetterAlternatives alternatives={alternatives} />
+            )}
 
             <div className="mt-7 animate-fade-in-up delay-500">
                 <ProductFeedback
