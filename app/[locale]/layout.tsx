@@ -40,10 +40,6 @@ export const metadata: Metadata = {
   creator: "Nutrika",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nutrikafood.com'),
   manifest: "/manifest.json",
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/icons/apple-touch-icon.png",
-  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -105,7 +101,7 @@ export default async function RootLayout({
             "@type": "Organization",
             name: "Nutrika",
             url: "https://nutrikafood.com",
-            logo: "https://nutrikafood.com/icons/icon1.png",
+            logo: "https://nutrikafood.com/icon.png",
             description: "Nutrika helps you scan product barcodes to discover nutritional scores, health insights, and allergen warnings.",
           }}
         />
