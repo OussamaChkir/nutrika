@@ -48,10 +48,8 @@ export function Header({ user }: HeaderProps) {
     const navItems = [
         { href: "/", label: t('home'), icon: Home },
         { href: "/about", label: t('about'), icon: Info },
-        ...(isAdmin ? [{ href: "/search", label: t('search'), icon: Search }] : []),
         { href: "/scan", label: t('scan'), icon: Scan },
         ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
-        ...(user && user.role !== "USER" ? [{ href: "/add-product", label: t('addProduct'), icon: PlusCircle }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];
 
