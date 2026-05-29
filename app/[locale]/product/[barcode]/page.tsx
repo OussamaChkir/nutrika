@@ -159,9 +159,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
     if (offData) {
         const categories = offData.categories_tags as string[] | undefined;
         if (categories && categories.length > 0) {
-            const specificCategory = categories[categories.length - 1];
-            const fetched = await fetchBetterAlternatives(specificCategory);
-            alternatives = fetched.filter((a: any) => a.code !== barcode).slice(0, 4);
+            // Try up to 3 most specific categories if the first ones yield no better alternatives
+            for (let i = categories.length - 1; i >= Math.max(0, categories.length - 3); i--) {
+                const specificCategory = categories[i];
+                const fetched = await fetchBetterAlternatives(specificCategory);
+                const filtered = fetched.filter((a: any) => a.code !== barcode);
+                
+                if (filtered.length > 0) {
+                    alternatives = filtered.slice(0, 4);
+                    break;
+                }
+            }
         }
     }
 

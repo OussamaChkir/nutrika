@@ -10,6 +10,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import { CompareProvider } from "@/components/compare-context";
+import { JsonLd } from "@/components/json-ld";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Nutrika" }],
   creator: "Nutrika",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nutrika.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://nutrikafood.com'),
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nutrika.app",
+    url: "https://nutrikafood.com",
     title: "Nutrika - Know What You Eat",
     description: "Scan product barcodes to discover nutritional insights",
     siteName: "Nutrika",
@@ -93,6 +94,16 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col bg-gradient-to-br from-neutral-50 via-white to-orange-50/30 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/20">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Nutrika",
+            url: "https://nutrikafood.com",
+            logo: "https://nutrikafood.com/icons/icon1.png",
+            description: "Nutrika helps you scan product barcodes to discover nutritional scores, health insights, and allergen warnings.",
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"

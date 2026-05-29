@@ -335,5 +335,10 @@
     "additiveE951": "Aspartame",
     "additiveE950": "Acésulfame K",
     "additiveE955": "Sucralose"
+  },
+  "Blog": {
+    "title": "Blog Nutrition & Santé",
+    "description": "Lisez nos derniers articles sur la nutrition, la santé et la sensibilisation alimentaire.",
+    "backToBlog": "Retour au blog"
   }
 }
