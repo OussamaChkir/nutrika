@@ -59,6 +59,9 @@ export const metadata: Metadata = {
   appleWebApp: {
     title: "Nutrika",
   },
+  verification: {
+    google: "3hKt4OQkxggZ_bl37_4Abm1ccVHW0UCrR2Ub2auNpNY",
+  },
 };
 
 export const viewport: Viewport = {
