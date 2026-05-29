@@ -11,6 +11,7 @@ import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import { CompareProvider } from "@/components/compare-context";
 import { JsonLd } from "@/components/json-ld";
+import { AlternateLinks } from "@/components/alternate-links";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -65,7 +66,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
@@ -95,15 +95,32 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col bg-gradient-to-br from-neutral-50 via-white to-orange-50/30 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/20">
+        <AlternateLinks />
         <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Nutrika",
-            url: "https://nutrikafood.com",
-            logo: "https://nutrikafood.com/icon.png",
-            description: "Nutrika helps you scan product barcodes to discover nutritional scores, health insights, and allergen warnings.",
-          }}
+          data={[
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Nutrika",
+              url: "https://nutrikafood.com",
+              logo: "https://nutrikafood.com/icon.png",
+              description: "Nutrika helps you scan product barcodes to discover nutritional scores, health insights, and allergen warnings.",
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Nutrika",
+              url: "https://nutrikafood.com",
+              applicationCategory: "HealthAndFitnessApplication",
+              operatingSystem: "Any",
+              description: "Scan product barcodes to discover nutritional scores, health insights, and allergen warnings.",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD"
+              }
+            }
+          ]}
         />
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider

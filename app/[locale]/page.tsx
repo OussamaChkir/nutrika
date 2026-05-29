@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image'
 import { Card, CardContent } from "@/components/ui/card";
+import { JsonLd } from "@/components/json-ld";
 import { constructMetadata } from "@/lib/seo";
 import {
   Scan,
@@ -76,6 +77,20 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col w-full overflow-hidden">
+      <JsonLd 
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map(faq => ({
+            "@type": "Question",
+            name: t(faq.qKey),
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: t(faq.aKey)
+            }
+          }))
+        }} 
+      />
       {/* 1. Hero Section */}
       <section className="relative overflow-hidden px-4 py-20 md:py-32 flex flex-col items-center justify-center min-h-[85vh]">
         <div className="absolute inset-0 -z-10 animate-gradient bg-[length:200%_200%] bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/30" />
