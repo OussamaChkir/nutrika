@@ -11,6 +11,7 @@ import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import { CompareProvider } from "@/components/compare-context";
 import { JsonLd } from "@/components/json-ld";
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({
@@ -122,6 +123,7 @@ export default async function RootLayout({
             </CompareProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
