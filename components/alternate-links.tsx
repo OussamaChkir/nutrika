@@ -10,9 +10,9 @@ export function AlternateLinks() {
   
   return (
     <>
-      <link rel="alternate" hreflang="en" href={`${basePath}/en${path}`} />
-      <link rel="alternate" hreflang="fr" href={`${basePath}/fr${path}`} />
-      <link rel="alternate" hreflang="x-default" href={`${basePath}/en${path}`} />
+      <link rel="alternate" hrefLang="en" href={`${basePath}/en${path}`} />
+      <link rel="alternate" hrefLang="fr" href={`${basePath}/fr${path}`} />
+      <link rel="alternate" hrefLang="x-default" href={`${basePath}/en${path}`} />
     </>
   );
 }
