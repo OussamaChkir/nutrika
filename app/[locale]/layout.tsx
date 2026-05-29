@@ -95,7 +95,6 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col bg-gradient-to-br from-neutral-50 via-white to-orange-50/30 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/20">
-        <AlternateLinks />
         <JsonLd
           data={[
             {
@@ -123,6 +122,7 @@ export default async function RootLayout({
           ]}
         />
         <NextIntlClientProvider messages={messages}>
+          <AlternateLinks />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
