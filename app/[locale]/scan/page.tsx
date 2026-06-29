@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { BarcodeScanner } from "@/components/barcode-scanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Keyboard, Scan, Loader2 } from "lucide-react";
 
 export default function ScanPage() {
+    const t = useTranslations("Scan");
     const router = useRouter();
     const [manualBarcode, setManualBarcode] = useState("");
     const [showManualInput, setShowManualInput] = useState(false);
@@ -25,12 +27,12 @@ export default function ScanPage() {
         const trimmed = manualBarcode.trim();
 
         if (!trimmed) {
-            setError("Please enter a barcode");
+            setError(t("errorEmpty"));
             return;
         }
 
         if (!/^\d{8,14}$/.test(trimmed)) {
-            setError("Barcode must be 8-14 digits");
+            setError(t("errorFormat"));
             return;
         }
 
@@ -50,11 +52,10 @@ export default function ScanPage() {
                         </div>
                         <div className="text-center">
                             <p className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                                Analyzing Product...
+                                {t("analyzing")}
                             </p>
                             <p className="mt-1 text-sm text-neutral-500">
-                                Fetching nutritional data and calculating health
-                                score
+                                {t("analyzingDesc")}
                             </p>
                         </div>
                     </div>
@@ -63,10 +64,10 @@ export default function ScanPage() {
 
             <div className="mb-6 text-center">
                 <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-                    Scan a Product
+                    {t("title")}
                 </h1>
                 <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-                    Point your camera at a barcode to analyze the product
+                    {t("subtitle")}
                 </p>
             </div>
 
@@ -88,7 +89,7 @@ export default function ScanPage() {
                     className="gap-2"
                 >
                     <Keyboard className="h-4 w-4" />
-                    {showManualInput ? "Use Camera" : "Enter Barcode Manually"}
+                    {showManualInput ? t("useCamera") : t("useManual")}
                 </Button>
             </div>
 
@@ -96,7 +97,7 @@ export default function ScanPage() {
             {showManualInput && (
                 <Card className="mt-4">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Manual Entry</CardTitle>
+                        <CardTitle className="text-lg">{t("manualEntry")}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form
@@ -107,7 +108,7 @@ export default function ScanPage() {
                                 type="text"
                                 inputMode="numeric"
                                 pattern="[0-9]*"
-                                placeholder="Enter barcode (e.g., 3017620422003)"
+                                placeholder={t("manualPlaceholder")}
                                 value={manualBarcode}
                                 onChange={(e) => {
                                     setManualBarcode(e.target.value);
@@ -131,16 +132,15 @@ export default function ScanPage() {
             {/* Tips */}
             <div className="mt-8 rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900">
                 <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
-                    Scanning Tips
+                    {t("tipsTitle")}
                 </h3>
                 <ul className="mt-2 space-y-1 text-sm text-neutral-600 dark:text-neutral-400">
                     <li>
-                        • Hold your phone steady and align the barcode within
-                        the frame
+                        • {t("tip1")}
                     </li>
-                    <li>• Ensure good lighting for best results</li>
+                    <li>• {t("tip2")}</li>
                     <li>
-                        • Supports EAN-13, EAN-8, UPC-A, UPC-E, and QR codes
+                        • {t("tip3")}
                     </li>
                 </ul>
             </div>
