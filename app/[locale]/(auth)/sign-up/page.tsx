@@ -96,13 +96,13 @@ export default function SignUpPage() {
         <div className="w-full animate-fade-in-up">
             {/* Header */}
             <div className="text-center mb-8">
-                <h1 className="text-[28px] font-bold tracking-tight text-gray-900">
+                <h1 className="text-[28px] font-bold tracking-tight text-gray-900 dark:text-gray-100">
                     Join{" "}
                     <span className="bg-gradient-to-r from-orange-500 to-[#fc686f] bg-clip-text text-transparent">
                         Nutrika
                     </span>
                 </h1>
-                <p className="text-gray-400 mt-1.5 text-[15px]">
+                <p className="text-gray-400 dark:text-gray-500 mt-1.5 text-[15px]">
                     Discover what&apos;s really in your food.
                 </p>
             </div>
@@ -112,7 +112,7 @@ export default function SignUpPage() {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full flex items-center justify-center gap-3 px-4 py-3.5 border border-gray-200 rounded-2xl bg-white hover:bg-gray-50/80 hover:border-gray-300 transition-all duration-200 text-[15px] font-medium text-gray-700 shadow-sm cursor-pointer disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3.5 border border-gray-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-900 hover:bg-gray-50/80 dark:hover:bg-neutral-800/80 hover:border-gray-300 dark:hover:border-neutral-700 transition-all duration-200 text-[15px] font-medium text-gray-700 dark:text-gray-300 shadow-sm cursor-pointer disabled:opacity-50"
                 >
                     <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -127,10 +127,10 @@ export default function SignUpPage() {
             {/* Divider */}
             <div className="relative my-7">
                 <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200" />
+                    <div className="w-full border-t border-gray-200 dark:border-neutral-800" />
                 </div>
                 <div className="relative flex justify-center">
-                    <span className="bg-[#fafafa] px-4 text-[11px] font-medium uppercase tracking-[0.15em] text-gray-400">
+                    <span className="bg-[#fafafa] dark:bg-neutral-950 px-4 text-[11px] font-medium uppercase tracking-[0.15em] text-gray-400 dark:text-gray-500">
                         or continue with
                     </span>
                 </div>
@@ -138,17 +138,17 @@ export default function SignUpPage() {
 
             {/* Step indicator */}
             <div className="flex items-center justify-between mb-6">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-gray-500">
                     Step 1 of 1
                 </span>
-                <div className="h-1.5 w-24 rounded-full bg-gray-200 overflow-hidden">
+                <div className="h-1.5 w-24 rounded-full bg-gray-200 dark:bg-neutral-800 overflow-hidden">
                     <div className="h-full w-full rounded-full bg-gradient-to-r from-orange-400 to-[#fc686f] transition-all duration-500" />
                 </div>
             </div>
 
             {/* Error */}
             {error && (
-                <div className="mb-5 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                <div className="mb-5 flex items-center gap-2 rounded-xl bg-red-50 dark:bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-400">
                     <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
                     </svg>
@@ -177,7 +177,7 @@ export default function SignUpPage() {
                             autoComplete="name"
                             disabled={isLoading}
                             {...register("name")}
-                            className="w-full rounded-2xl border-0 bg-gray-100/80 py-3.5 pl-11 pr-4 text-[15px] text-gray-800 placeholder-gray-400 outline-none transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-orange-300/60 focus:shadow-lg focus:shadow-orange-100/50 disabled:opacity-50"
+                            className="w-full rounded-2xl border-0 bg-gray-100/80 dark:bg-neutral-900 py-3.5 pl-11 pr-4 text-[15px] text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-neutral-950 focus:ring-2 focus:ring-orange-300/60 dark:focus:ring-orange-500/30 focus:shadow-lg focus:shadow-orange-100/50 dark:focus:shadow-none disabled:opacity-50"
                         />
                     </div>
                     {errors.name && (
@@ -204,7 +204,7 @@ export default function SignUpPage() {
                             autoComplete="email"
                             disabled={isLoading}
                             {...register("email")}
-                            className="w-full rounded-2xl border-0 bg-gray-100/80 py-3.5 pl-11 pr-11 text-[15px] text-gray-800 placeholder-gray-400 outline-none transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-orange-300/60 focus:shadow-lg focus:shadow-orange-100/50 disabled:opacity-50"
+                            className="w-full rounded-2xl border-0 bg-gray-100/80 dark:bg-neutral-900 py-3.5 pl-11 pr-11 text-[15px] text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-neutral-950 focus:ring-2 focus:ring-orange-300/60 dark:focus:ring-orange-500/30 focus:shadow-lg focus:shadow-orange-100/50 dark:focus:shadow-none disabled:opacity-50"
                         />
                         {/* Email validation check */}
                         {isEmailValid && (
@@ -237,7 +237,7 @@ export default function SignUpPage() {
                             autoComplete="new-password"
                             disabled={isLoading}
                             {...register("password")}
-                            className="w-full rounded-2xl border-0 bg-gray-100/80 py-3.5 pl-11 pr-12 text-[15px] text-gray-800 placeholder-gray-400 outline-none transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-orange-300/60 focus:shadow-lg focus:shadow-orange-100/50 disabled:opacity-50"
+                            className="w-full rounded-2xl border-0 bg-gray-100/80 dark:bg-neutral-900 py-3.5 pl-11 pr-12 text-[15px] text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-neutral-950 focus:ring-2 focus:ring-orange-300/60 dark:focus:ring-orange-500/30 focus:shadow-lg focus:shadow-orange-100/50 dark:focus:shadow-none disabled:opacity-50"
                         />
                         <button
                             type="button"
@@ -255,7 +255,7 @@ export default function SignUpPage() {
                     {/* Password strength indicator */}
                     {watchPassword && (
                         <div className="mt-2.5 space-y-1.5">
-                            <div className="h-1 w-full rounded-full bg-gray-200 overflow-hidden">
+                            <div className="h-1 w-full rounded-full bg-gray-200 dark:bg-neutral-800 overflow-hidden">
                                 <div
                                     className={`h-full rounded-full bg-gradient-to-r ${cfg.gradient} transition-all duration-500 ease-out ${cfg.width}`}
                                 />
@@ -290,7 +290,7 @@ export default function SignUpPage() {
                             autoComplete="new-password"
                             disabled={isLoading}
                             {...register("confirmPassword")}
-                            className="w-full rounded-2xl border-0 bg-gray-100/80 py-3.5 pl-11 pr-12 text-[15px] text-gray-800 placeholder-gray-400 outline-none transition-all duration-200 focus:bg-white focus:ring-2 focus:ring-orange-300/60 focus:shadow-lg focus:shadow-orange-100/50 disabled:opacity-50"
+                            className="w-full rounded-2xl border-0 bg-gray-100/80 dark:bg-neutral-900 py-3.5 pl-11 pr-12 text-[15px] text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-neutral-950 focus:ring-2 focus:ring-orange-300/60 dark:focus:ring-orange-500/30 focus:shadow-lg focus:shadow-orange-100/50 dark:focus:shadow-none disabled:opacity-50"
                         />
                         <button
                             type="button"
@@ -319,7 +319,7 @@ export default function SignUpPage() {
                             onChange={(e) => setAgreedToTerms(e.target.checked)}
                             className="sr-only peer"
                         />
-                        <div className="h-[18px] w-[18px] rounded-md border-2 border-gray-300 bg-white transition-all peer-checked:border-orange-400 peer-checked:bg-orange-400 group-hover:border-gray-400 shrink-0" />
+                        <div className="h-[18px] w-[18px] rounded-md border-2 border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 transition-all peer-checked:border-orange-400 peer-checked:bg-orange-400 group-hover:border-gray-400 dark:group-hover:border-neutral-500 shrink-0" />
                         <svg
                             className="absolute top-0.5 left-0.5 h-3.5 w-3.5 text-white opacity-0 transition-opacity peer-checked:opacity-100"
                             viewBox="0 0 14 14"
