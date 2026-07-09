@@ -136,16 +136,6 @@ export default function SignUpPage() {
                 </div>
             </div>
 
-            {/* Step indicator */}
-            <div className="flex items-center justify-between mb-6">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 dark:text-gray-500">
-                    Step 1 of 1
-                </span>
-                <div className="h-1.5 w-24 rounded-full bg-gray-200 dark:bg-neutral-800 overflow-hidden">
-                    <div className="h-full w-full rounded-full bg-gradient-to-r from-orange-400 to-[#fc686f] transition-all duration-500" />
-                </div>
-            </div>
-
             {/* Error */}
             {error && (
                 <div className="mb-5 flex items-center gap-2 rounded-xl bg-red-50 dark:bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-400">
