@@ -77,7 +77,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col w-full overflow-hidden">
-      <JsonLd 
+      <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "FAQPage",
@@ -89,7 +89,7 @@ export default async function HomePage() {
               text: t(faq.aKey)
             }
           }))
-        }} 
+        }}
       />
       {/* 1. Hero Section */}
       <section className="relative overflow-hidden px-4 py-20 md:py-32 flex flex-col items-center justify-center min-h-[85vh]">
@@ -108,7 +108,7 @@ export default async function HomePage() {
             {t('heroBadge')}
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 mb-6 leading-[1.1]">
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 mb-6 leading-[1.1]">
             {t('heroTitle')}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orangina-300">
               {t('heroSubtitle')}
@@ -279,7 +279,7 @@ export default async function HomePage() {
               {t('testimonialsDesc')}
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {reviews.map((review, i) => {
               const name = t(review.nameKey);
