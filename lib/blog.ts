@@ -12,8 +12,16 @@ const WP_API_URL = "https://blognutrikafood.kesug.com/wp-json/wp/v2";
 
 export async function fetchBlogPosts(): Promise<BlogPost[]> {
   try {
-    const res = await fetch(`${WP_API_URL}/posts?_embed`, { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
+    const res = await fetch(`${WP_API_URL}/posts?_embed`, {
+      next: { revalidate: 3600 },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
+    if (!res.ok) {
+      console.error(`WP API error: ${res.status} ${res.statusText}`);
+      return [];
+    }
     const posts = await res.json();
     return posts.map((post: any) => ({
       slug: post.slug,
@@ -33,8 +41,16 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPost(slug: string): Promise<BlogPost | undefined> {
   try {
-    const res = await fetch(`${WP_API_URL}/posts?_embed&slug=${slug}`, { next: { revalidate: 3600 } });
-    if (!res.ok) return undefined;
+    const res = await fetch(`${WP_API_URL}/posts?_embed&slug=${slug}`, {
+      next: { revalidate: 3600 },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
+    if (!res.ok) {
+      console.error(`WP API error fetching post ${slug}: ${res.status} ${res.statusText}`);
+      return undefined;
+    }
     const posts = await res.json();
     if (!posts || posts.length === 0) return undefined;
     const post = posts[0];

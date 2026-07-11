@@ -11,7 +11,8 @@
     "signOut": "Sign Out",
     "profile": "Profile",
     "favorites": "Favorites",
-    "compare": "Compare"
+    "compare": "Compare",
+    "blog": "Blog"
   },
   "Compare": {
     "metaTitle": "Compare Products",
