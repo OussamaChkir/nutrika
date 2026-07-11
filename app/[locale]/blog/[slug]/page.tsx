@@ -1,12 +1,14 @@
-import { getBlogPost, blogPosts } from "@/lib/blog";
+import { getBlogPost, fetchBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { JsonLd } from "@/components/json-ld";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
+  const posts = await fetchBlogPosts();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
@@ -17,7 +19,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await getBlogPost(slug);
 
   if (!post) {
     return {
@@ -25,8 +27,8 @@ export async function generateMetadata({
     };
   }
 
-  const title = post.title[locale] || post.title["en"];
-  const description = post.description[locale] || post.description["en"];
+  const title = post.title;
+  const description = post.description;
 
   return {
     title,
@@ -52,16 +54,16 @@ export default async function BlogPostPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const post = getBlogPost(slug);
+  const post = await getBlogPost(slug);
 
   if (!post) {
     notFound();
   }
 
   const t = await getTranslations({ locale, namespace: "Blog" });
-  const title = post.title[locale] || post.title["en"];
-  const description = post.description[locale] || post.description["en"];
-  const content = post.content[locale] || post.content["en"];
+  const title = post.title;
+  const description = post.description;
+  const content = post.content;
 
   // Article JSON-LD for rich snippets
   const articleJsonLd = {
@@ -100,9 +102,7 @@ export default async function BlogPostPage({
 
       <article className="prose prose-neutral dark:prose-invert lg:prose-lg mx-auto">
         <div className="mb-8 not-prose">
-          <h1 className="text-4xl font-extrabold tracking-tight mb-4">
-            {title}
-          </h1>
+          <h1 className="text-4xl font-extrabold tracking-tight mb-4" dangerouslySetInnerHTML={{ __html: title }}></h1>
           <div className="flex items-center gap-x-4 text-sm text-muted-foreground">
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString(locale, {
@@ -116,18 +116,20 @@ export default async function BlogPostPage({
           </div>
         </div>
 
-        {/* Basic markdown rendering via dangerouslySetInnerHTML or you could use a proper MD parser */}
+        {post.imageUrl && (
+          <div className="mb-8 not-prose rounded-xl overflow-hidden relative w-full h-[400px]">
+            <Image 
+              src={post.imageUrl} 
+              alt={title} 
+              fill 
+              className="object-cover" 
+            />
+          </div>
+        )}
+
         <div
           dangerouslySetInnerHTML={{
             __html: content
-              .split('\n')
-              .filter(line => line.trim() !== '')
-              .map(line => {
-                if (line.startsWith('# ')) return `<h1>${line.slice(2)}</h1>`;
-                if (line.startsWith('## ')) return `<h2>${line.slice(3)}</h2>`;
-                return `<p>${line}</p>`;
-              })
-              .join('')
           }}
         />
       </article>
