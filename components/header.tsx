@@ -51,7 +51,6 @@ export function Header({ user }: HeaderProps) {
         { href: "/", label: t('home'), icon: Home },
         { href: "/about", label: t('about'), icon: Info },
         { href: "/scan", label: t('scan'), icon: Scan },
-        { href: "/calculator", label: t('calculator'), icon: Calculator },
         ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];
