@@ -20,6 +20,7 @@ import {
     Info,
     Scale,
     Newspaper,
+    Calculator,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
@@ -50,7 +51,7 @@ export function Header({ user }: HeaderProps) {
         { href: "/", label: t('home'), icon: Home },
         { href: "/about", label: t('about'), icon: Info },
         { href: "/scan", label: t('scan'), icon: Scan },
-        { href: "/blog", label: t('blog'), icon: Newspaper },
+        { href: "/calculator", label: t('calculator'), icon: Calculator },
         ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];

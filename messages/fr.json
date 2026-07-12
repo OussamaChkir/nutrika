@@ -12,7 +12,8 @@
     "profile": "Profil",
     "favorites": "Favoris",
     "compare": "Comparer",
-    "blog": "Blog"
+    "blog": "Blog",
+    "calculator": "Calculateur"
   },
   "Compare": {
     "metaTitle": "Comparer les produits",
@@ -405,5 +406,32 @@
     "section6Content": "En aucun cas Nutrika, ni ses directeurs, employés, partenaires, agents, fournisseurs ou affiliés, ne pourront être tenus responsables de tout dommage indirect, accessoire, spécial, consécutif ou punitif, y compris sans limitation, perte de profits, données, utilisation, bonne volonté, ou autres pertes intangibles, résultant de votre accès, utilisation ou incapacité d'accès ou d'utilisation du service.",
     "section7Title": "7. Modifications des conditions",
     "section7Content": "Nous nous réservons le droit, à notre seule discrétion, de modifier ou de remplacer ces Conditions à tout moment. En continuant à accéder ou à utiliser notre service après l'entrée en vigueur de ces révisions, vous acceptez d'être lié par les conditions révisées."
+  },
+  "Calculator": {
+    "title": "Calculateur de Calories & Macros",
+    "description": "Calculez vos besoins caloriques quotidiens et vos macros recommandées en fonction de votre profil.",
+    "age": "Âge",
+    "gender": "Genre",
+    "male": "Homme",
+    "female": "Femme",
+    "height": "Taille (cm)",
+    "weight": "Poids (kg)",
+    "activityLevel": "Niveau d'activité",
+    "sedentary": "Sédentaire (peu ou pas d'exercice)",
+    "light": "Légèrement actif (exercice léger 1-3 jours/semaine)",
+    "moderate": "Modérément actif (exercice modéré 3-5 jours/semaine)",
+    "active": "Très actif (exercice intense 6-7 jours/semaine)",
+    "veryActive": "Extrêmement actif (exercice très intense, travail physique)",
+    "goal": "Objectif",
+    "lose": "Perdre du poids",
+    "maintain": "Maintenir le poids",
+    "gain": "Prendre du poids",
+    "calculate": "Calculer",
+    "results": "Vos Résultats",
+    "dailyCalories": "Calories Quotidiennes",
+    "macros": "Macros Recommandées",
+    "protein": "Protéines",
+    "carbs": "Glucides",
+    "fats": "Lipides"
   }
 }
