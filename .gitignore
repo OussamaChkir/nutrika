@@ -42,3 +42,9 @@ next-env.d.ts
 
 *storybook.log
 storybook-static
+
+# next-pwa generated service worker files
+/public/sw.js
+/public/sw.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map

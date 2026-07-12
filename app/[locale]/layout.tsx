@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation';
 import { CompareProvider } from "@/components/compare-context";
 import { JsonLd } from "@/components/json-ld";
 import { AlternateLinks } from "@/components/alternate-links";
+import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -68,6 +69,8 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     title: "NutrikaFood",
+    statusBarStyle: "default",
+    capable: true,
   },
   verification: {
     google: "3hKt4OQkxggZ_bl37_4Abm1ccVHW0UCrR2Ub2auNpNY",
@@ -148,6 +151,7 @@ export default async function RootLayout({
             </CompareProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <PWAInstallPrompt />
         <Analytics />
         <SpeedInsights />
       </body>
