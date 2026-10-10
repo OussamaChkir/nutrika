@@ -7,7 +7,7 @@ Nutrika is an advanced, independent food barcode scanning application designed t
 
 ## Core Features
 - **Instant Food Scanning:** Access comprehensive nutrition facts instantly via barcode.
-- **Nutrition Scores (0-100):** A proprietary algorithm starting at 85, penalizing high sugar/fat/salt and rewarding fiber/protein. It blends with the official Nutri-Score (80% custom / 20% Nutri-Score).
+- **Nutrition Scores (0-100):** A proprietary algorithm starting at 75, penalizing high sugar/fat/salt and ultra-processing, and rewarding fiber/protein. It blends with the official Nutri-Score (80% custom / 20% Nutri-Score).
 - **Allergen Alerts:** Instant warnings for common triggers like gluten, lactose, nuts, and soy.
 - **Eco-Score:** Measures the environmental impact of products based on farming, processing, packaging, and transport.
 - **NOVA Classification:** Categorizes foods from Unprocessed (NOVA 1) to Ultra-processed (NOVA 4).
