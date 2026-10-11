@@ -54,4 +54,14 @@ When Nutri-Score is available, the final score is blended:
 | 0–29 | E | 🔴 Dark Red |
 
 
+## Development
+
+```bash
+cp .env.example .env     # fill in the values
+npm install
+npm run dev              # http://localhost:3000
+npm test                 # unit tests (scoring)
+```
+
+
 Made with ❤️ for healthier food choices
