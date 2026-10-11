@@ -64,4 +64,25 @@ npm test                 # unit tests (scoring)
 ```
 
 
+## AI score explanations
+
+Product pages can show an "Explain this score" card: a short, plain-language explanation of
+the score, written by an LLM in the user's language (English or French). It is served by the
+separate [nutrika-ai](https://github.com/OussamaChkir/nutrika-ai) service (FastAPI + Gemini).
+
+- The LLM only explains values already computed by `lib/scoring.ts`; it never changes them.
+- Explanations are cached in MongoDB (`ProductExplanation`) per product, language and prompt
+  version, so each one is generated once. A changed score invalidates the cache.
+- Generating a new explanation requires a signed-in user (10 per hour). Cached ones are public.
+- The feature is off unless `NUTRIKA_AI_URL` is set.
+
+```bash
+# 1. run nutrika-ai (see its README), then in this repo's .env:
+NUTRIKA_AI_URL="http://localhost:8000"
+NUTRIKA_AI_KEY=""            # must equal SERVICE_API_KEY on the service, if you set one
+# 2. create the new collection's index and regenerate the client
+npx prisma db push && npx prisma generate
+```
+
+
 Made with ❤️ for healthier food choices

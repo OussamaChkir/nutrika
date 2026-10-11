@@ -127,6 +127,7 @@ model Product {
   scanHistory      ScanHistory[]
   feedbacks        ProductFeedback[]
   favorites        Favorite[]
+  explanations     ProductExplanation[]
 }
 
 model Contribution {
@@ -200,6 +201,28 @@ model Favorite {
   createdAt DateTime @default(now())
 
   @@unique([userId, productId])
+}
+
+// ============================================
+// AI SCORE EXPLANATIONS (cache for the nutrika-ai service)
+// ============================================
+// Not user-specific: the same explanation is shown to everyone for a given
+// product, language and prompt version. Fallback (non-LLM) answers are never stored.
+
+model ProductExplanation {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId     String   @db.ObjectId
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  locale        String                 // "en" | "fr"
+  promptVersion String                 // e.g. "explain-v1", returned by the AI service
+  score         Int                    // product score when generated; a changed score makes this stale
+  summary       String
+  highlights    Json                   // Array of { topic, detail, tone }
+  swapTip       String?
+  model         String?                // LLM that wrote it, for traceability
+  createdAt     DateTime @default(now())
+
+  @@unique([productId, locale, promptVersion])
 }
 
 // ============================================
