@@ -433,5 +433,21 @@
     "protein": "Protein",
     "carbs": "Carbs",
     "fats": "Fats"
+  },
+  "Explain": {
+    "title": "Explain this score",
+    "subtitle": "A short plain-language summary of why this product got its score.",
+    "button": "Explain this score",
+    "retry": "Try again",
+    "loading": "Writing the explanation... this can take up to 30 seconds.",
+    "tip": "Tip",
+    "disclaimer": "AI-generated from the data on this page. It can make mistakes and is not medical advice.",
+    "signIn": "Sign in",
+    "signInHint": "You need to be signed in to generate a new explanation.",
+    "error": {
+      "unauthorized": "Please sign in to generate an explanation.",
+      "rate_limited": "You have reached the hourly limit for explanations. Please try again later.",
+      "unavailable": "The explanation could not be generated right now. Please try again later."
+    }
   }
 }

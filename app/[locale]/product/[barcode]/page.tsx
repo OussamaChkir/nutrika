@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { constructMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import {
@@ -33,6 +33,9 @@ import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
 import { BetterAlternatives } from "@/components/better-alternatives";
 import { CompareButton } from "@/components/compare-button";
+import { ExplainScore } from "@/components/explain-score";
+import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
+import { getCachedExplanation } from "@/lib/ai-cache";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -154,6 +157,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const isAdmin = session?.user?.role === "ADMIN";
 
     const isFavorite = session?.user?.id ? await checkIsFavorite(product.id) : false;
+
+    // AI score explanation: only for approved products, when the AI service is configured.
+    // A cached explanation is rendered immediately; otherwise the card shows a button.
+    const locale = await getLocale();
+    const showExplanation =
+        !!getAiConfig() &&
+        isAiLocale(locale) &&
+        isExplainableBarcode(product.barcode) &&
+        product.status === "APPROVED";
+    const cachedExplanation =
+        showExplanation && isAiLocale(locale)
+            ? await getCachedExplanation(product.id, locale, product.score).catch(() => null)
+            : null;
 
     let alternatives: any[] = [];
     if (offData) {
@@ -277,6 +293,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </div>
                 </CardContent>
             </Card>
+
+            {showExplanation && (
+                <ExplainScore
+                    barcode={product.barcode}
+                    locale={locale}
+                    initial={cachedExplanation}
+                    signedIn={!!session?.user?.id}
+                />
+            )}
 
             <div className="mt-5 animate-fade-in-up delay-100 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40 p-4">
                 <div className="flex gap-3">

@@ -433,5 +433,21 @@
     "protein": "Protéines",
     "carbs": "Glucides",
     "fats": "Lipides"
+  },
+  "Explain": {
+    "title": "Expliquer ce score",
+    "subtitle": "Un court résumé en langage simple expliquant pourquoi ce produit a obtenu ce score.",
+    "button": "Expliquer ce score",
+    "retry": "Réessayer",
+    "loading": "Rédaction de l'explication... cela peut prendre jusqu'à 30 secondes.",
+    "tip": "Astuce",
+    "disclaimer": "Généré par IA à partir des données de cette page. Peut contenir des erreurs et ne constitue pas un avis médical.",
+    "signIn": "Se connecter",
+    "signInHint": "Vous devez être connecté pour générer une nouvelle explication.",
+    "error": {
+      "unauthorized": "Veuillez vous connecter pour générer une explication.",
+      "rate_limited": "Vous avez atteint la limite horaire d'explications. Veuillez réessayer plus tard.",
+      "unavailable": "L'explication n'a pas pu être générée pour le moment. Veuillez réessayer plus tard."
+    }
   }
 }
