@@ -6,6 +6,6 @@ export default defineConfig({
     test: {
         name: "unit",
         environment: "node",
-        include: ["lib/**/*.test.ts"],
+        include: ["lib/**/*.test.ts", "scripts/**/*.test.ts"],
     },
 });

@@ -85,4 +85,15 @@ npx prisma db push && npx prisma generate
 ```
 
 
+### Evaluating the AI
+
+`scripts/export-golden.ts` builds the test set used by the nutrika-ai eval harness: real Open Food
+Facts products, scored with `calculateScore` and turned into the exact request the product page
+sends. It needs internet access and takes about 80 seconds (Open Food Facts rate limit).
+
+```bash
+npx tsx scripts/export-golden.ts --out ../nutrika-ai/evals/golden.jsonl
+```
+
+
 Made with ❤️ for healthier food choices
