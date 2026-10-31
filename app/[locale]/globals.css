@@ -270,3 +270,17 @@
     display: none;
   }
 }
+
+/*
+ * iOS Safari auto-zooms into any form control with a font size under 16px
+ * when it is focused. The viewport no longer sets maximum-scale=1 (that blocked
+ * pinch-zoom for low-vision users), so keep form controls at 16px on small
+ * screens to avoid the focus-zoom without disabling user zoom.
+ */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

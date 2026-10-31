@@ -137,8 +137,8 @@ export function Header({ user }: HeaderProps) {
                                 </Button>
                             </Link>
                             <form action={signOutAction}>
-                                <Button type="submit" variant="ghost" size="icon">
-                                    <LogOut className="h-4 w-4" />
+                                <Button type="submit" variant="ghost" size="icon" aria-label={t('signOut')}>
+                                    <LogOut className="h-4 w-4" aria-hidden="true" />
                                 </Button>
                             </form>
                         </div>
@@ -161,8 +161,10 @@ export function Header({ user }: HeaderProps) {
                         size="icon"
                         className="md:hidden"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label={mobileMenuOpen ? t('closeMenu') : t('openMenu')}
+                        aria-expanded={mobileMenuOpen}
                     >
-                        {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                        {mobileMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
                     </Button>
                 </div>
             </div>

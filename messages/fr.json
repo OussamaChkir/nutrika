@@ -13,7 +13,9 @@
     "favorites": "Favoris",
     "compare": "Comparer",
     "blog": "Blog",
-    "calculator": "Calculateur"
+    "calculator": "Calculateur",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
   },
   "Compare": {
     "metaTitle": "Comparer les produits",
@@ -44,7 +46,9 @@
     "pricing": "Tarification",
     "privacy": "Confidentialité",
     "terms": "Conditions",
-    "allRightsReserved": "Tous droits réservés"
+    "allRightsReserved": "Tous droits réservés",
+    "facebook": "Nutrika sur Facebook",
+    "instagram": "Nutrika sur Instagram"
   },
   "Home": {
     "heroBadge": "Scanner alimentaire mondial pour manger plus intelligemment",
