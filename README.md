@@ -1,6 +1,6 @@
 # Nutrika 🥗
 
-A mobile-first web application for scanning product barcodes to discover nutritional scores, health insights, and allergen warnings. Built with Next.js 15.
+A mobile-first web application for scanning product barcodes to discover nutritional scores, health insights, and allergen warnings. Built with Next.js 16.
 
 
 ## Features
