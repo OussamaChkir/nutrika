@@ -1,7 +1,10 @@
 import { Metadata } from "next";
 import { constructMetadata } from "@/lib/seo";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+
+// Bump this whenever the policy text changes.
+const POLICY_LAST_UPDATED = "2026-10-31";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -16,6 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default function PrivacyPage() {
     const t = useTranslations("Privacy");
+    const locale = useLocale();
+    const lastUpdated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(locale, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+    });
     return (
         <div className="flex flex-col w-full min-h-screen">
             <section className="relative overflow-hidden px-4 py-20 bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/30">
@@ -31,7 +41,7 @@ export default function PrivacyPage() {
             
             <section className="px-4 py-16">
                 <div className="mx-auto max-w-3xl prose prose-lg prose-orange dark:prose-invert">
-                    <p><strong>{t("lastUpdated", { date: new Date().toLocaleDateString() })}</strong></p>
+                    <p><strong>{t("lastUpdated", { date: lastUpdated })}</strong></p>
                     
                     <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section1Title")}</h2>
                     <p>{t("section1Content")}</p>
@@ -43,6 +53,7 @@ export default function PrivacyPage() {
                         <li>{t("section2List2")}</li>
                         <li>{t("section2List3")}</li>
                         <li>{t("section2List4")}</li>
+                        <li>{t("section2List5")}</li>
                     </ul>
 
                     <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section3Title")}</h2>
