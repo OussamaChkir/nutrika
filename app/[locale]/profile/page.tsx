@@ -27,6 +27,7 @@ import {
 import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
 import { ALLERGY_OPTIONS } from "@/lib/validators";
 import { MedicalDisclaimer } from "@/components/medical-disclaimer";
+import { isFeatureEnabled } from "@/lib/flags";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -41,6 +42,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function ProfilePage() {
     const session = await auth();
     const t = await getTranslations("Profile");
+    const tPersonal = await getTranslations("PersonalProfile");
+    const personalEnabled = isFeatureEnabled("personalScore");
 
     const user = session?.user;
     if (!user || !user.id) {
@@ -270,6 +273,13 @@ export default async function ProfilePage() {
                                         {t("healthProfileEmpty")}
                                     </p>
                                 </div>
+                            </Link>
+                        )}
+                        {personalEnabled && (
+                            <Link href="/profile/personal" className="block">
+                                <Button variant="outline" size="sm" className="w-full">
+                                    {tPersonal("title")}
+                                </Button>
                             </Link>
                         )}
                         <MedicalDisclaimer variant="inline" />

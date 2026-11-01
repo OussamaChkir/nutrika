@@ -66,6 +66,8 @@ describe("normalizeOffProduct", () => {
             fairTrade: false,
             vegan: true,
             vegetarian: false,
+            lactoseFree: false,
+            glutenFree: false,
         });
         expect(normalizeOffProduct(off({ labels_tags: ["fr:ab-agriculture-biologique", "fr:bio"] })).labels.organic).toBe(true);
     });

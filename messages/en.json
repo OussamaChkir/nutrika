@@ -464,5 +464,155 @@
   "MedicalDisclaimer": {
     "title": "Not medical advice",
     "body": "Nutrika gives general information based on product data and is not medical advice. If you have an allergy, a medical condition or a special diet, always read the product label and ask a health professional."
+  },
+  "PersonalProfile": {
+    "metaTitle": "Personal profile",
+    "back": "Back to my account",
+    "title": "Your personal profile",
+    "intro": "Nutrika can judge each product for you: allergens, health conditions, diets and goals. Everything is optional and you can change or delete it at any time.",
+    "listTitle": "Your profiles",
+    "empty": "You have no profile yet.",
+    "create": "Create a profile",
+    "createTitle": "New profile",
+    "editTitle": "Edit profile",
+    "default": "Default",
+    "defaultHint": "Used to score products for you",
+    "makeDefault": "Use this profile for my scores",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this profile and all its data? This cannot be undone.",
+    "cancel": "Cancel",
+    "nameLabel": "Nickname",
+    "namePlaceholder": "e.g. Me, Sara",
+    "ageBandLabel": "Age group",
+    "ageBands": {
+      "child": "Child",
+      "teen": "Teen",
+      "adult": "Adult"
+    },
+    "allergensLabel": "Allergies",
+    "allergensHint": "Select every allergen you need to avoid.",
+    "allergensPrefilled": "We pre-selected the allergies saved in your account. Check them before saving.",
+    "strictnessLabel": "\"May contain\" traces",
+    "strictness": {
+      "avoid_traces": {
+        "label": "Avoid traces too",
+        "desc": "Products that may contain your allergen are marked not suitable. Recommended if you react to small amounts."
+      },
+      "intentional_only": {
+        "label": "Ingredients only",
+        "desc": "Products that may contain your allergen get a caution. Declared ingredients are still marked not suitable."
+      }
+    },
+    "conditionsLabel": "Health conditions",
+    "conditions": {
+      "diabetes": "Diabetes",
+      "hypertension": "High blood pressure"
+    },
+    "dietsLabel": "Diets",
+    "diets": {
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarian",
+      "keto": "Keto",
+      "low_sodium": "Low sodium"
+    },
+    "goalsLabel": "Goals",
+    "goals": {
+      "weight_loss": "Weight loss",
+      "muscle_gain": "Muscle gain"
+    },
+    "consent": "I agree that Nutrika stores this health information to personalise my results. I can edit or delete it at any time.",
+    "consentRequired": "Please tick the box to save health information.",
+    "privacyLink": "Read the privacy policy",
+    "save": "Save profile",
+    "saving": "Saving...",
+    "saved": "Profile saved",
+    "deleted": "Profile deleted",
+    "errors": {
+      "unauthorized": "Please sign in again.",
+      "disabled": "This feature is not available yet.",
+      "invalid": "Please check the form and try again.",
+      "limit": "You can have up to {max} profiles.",
+      "not_found": "This profile no longer exists.",
+      "failed": "Something went wrong. Please try again."
+    }
+  },
+  "PersonalScore": {
+    "title": "Score for you",
+    "forProfile": "For {name}",
+    "scoreOutOf": "{score}/100",
+    "universal": "Universal score: {score}/100",
+    "scoreHidden": "Score hidden: your allergens cannot be verified",
+    "status": {
+      "not_suitable": "Not suitable",
+      "caution": "Caution",
+      "cannot_verify": "Cannot verify",
+      "good_match": "Good match",
+      "neutral": "Nothing to check"
+    },
+    "neutralHint": "Your profile has no choice that applies to this product.",
+    "banner": {
+      "contains": "Contains {allergens}",
+      "may_contain": "May contain {allergens}",
+      "unknown": "Cannot verify your allergens: the ingredient list is missing or incomplete. Check the package.",
+      "none_found": "No declared allergen from your list. Always check the package."
+    },
+    "groups": {
+      "block": "Not suitable",
+      "caution": "Caution",
+      "unknown": "Check the label",
+      "good": "Good match"
+    },
+    "completeness": {
+      "usable": "Ingredient list available",
+      "incomplete": "Ingredient list incomplete",
+      "missing": "No ingredient list"
+    },
+    "dataUpdated": "Data last updated {date}",
+    "cta": {
+      "signedOutTitle": "Get a verdict made for you",
+      "signedOutText": "Sign in and add your allergies, conditions, diets or goals.",
+      "signIn": "Sign in",
+      "noProfileTitle": "Get a verdict made for you",
+      "noProfileText": "Add your allergies, conditions, diets or goals to see if this product suits you.",
+      "createProfile": "Create my profile"
+    },
+    "because": {
+      "allergy": "Allergy",
+      "diabetes": "Diabetes",
+      "hypertension": "High blood pressure",
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarian",
+      "keto": "Keto",
+      "low_sodium": "Low sodium",
+      "weight_loss": "Weight loss",
+      "muscle_gain": "Muscle gain"
+    },
+    "reasons": {
+      "allergenContains": "Contains {allergen}",
+      "allergenContainsText": "Ingredients mention {allergen}",
+      "allergenMayContain": "May contain traces of {allergen}",
+      "allergenUnknown": "Cannot verify your allergens: the ingredient list is missing or incomplete",
+      "allergenNone": "No declared allergen from your list",
+      "lactoseFree": "Labelled lactose-free",
+      "notVegan": "Not vegan: contains animal-derived ingredients",
+      "veganOk": "Vegan",
+      "veganUnknown": "Vegan status unknown: check the label",
+      "notVegetarian": "Not vegetarian",
+      "vegetarianOk": "Vegetarian",
+      "vegetarianUnknown": "Vegetarian status unknown: check the label",
+      "saltHigh": "High salt ({value} g per {unit})",
+      "saltLow": "Low salt ({value} g per {unit})",
+      "saltUnknown": "Salt content not available",
+      "sugarVeryHigh": "Very high sugar ({value} g per {unit})",
+      "sugarHigh": "High sugar ({value} g per {unit})",
+      "sugarLow": "Low sugar ({value} g per {unit})",
+      "sugarUnknown": "Sugar content not available",
+      "netCarbsHigh": "High net carbs ({value} g per {unit})",
+      "netCarbsLow": "Low net carbs ({value} g per {unit})",
+      "carbsUnknown": "Carbohydrate content not available",
+      "proteinGood": "High protein ({value} g per {unit})",
+      "energyDense": "Energy-dense ({value} kcal per 100 g) with high sugar or saturated fat"
+    }
   }
 }

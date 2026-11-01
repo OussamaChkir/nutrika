@@ -36,6 +36,7 @@ model User {
   scanHistory    ScanHistory[]
   feedbacks      ProductFeedback[]
   favorites      Favorite[]
+  profiles       Profile[]
 }
 
 model Account {
@@ -223,6 +224,33 @@ model ProductExplanation {
   createdAt     DateTime @default(now())
 
   @@unique([productId, locale, promptVersion])
+}
+
+// ============================================
+// PERSONAL PROFILES (F1 personal score, F7 allergen strictness, F4 family)
+// ============================================
+// Many per user from day one, so family profiles need no migration.
+// Values are validated by lib/profiles/constants.ts (profileInputSchema).
+// Health data: only stored after an explicit consent (consentedAt), and deleted with the profile
+// or with the account (onDelete: Cascade). Nickname + age band, never a full name or birth date.
+
+model Profile {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String   @db.ObjectId
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name               String                       // nickname
+  ageBand            String   @default("adult")   // child | teen | adult
+  isDefault          Boolean  @default(false)
+  conditions         String[]                     // diabetes | hypertension
+  diets              String[]                     // vegan | vegetarian | keto | low_sodium
+  goals              String[]                     // weight_loss | muscle_gain
+  allergens          String[]                     // labels from lib/allergens.ts, same as User.allergies
+  allergenStrictness String   @default("avoid_traces") // avoid_traces | intentional_only
+  consentedAt        DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([userId])
 }
 
 // ============================================

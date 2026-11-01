@@ -51,6 +51,10 @@ export interface OFFProduct {
     stores?: string;
     stores_tags?: string[];
     nutrition_grade_fr?: string;
+    /** Data-quality markers, e.g. "en:ingredients-to-be-completed". */
+    states_tags?: string[];
+    /** Unix timestamp (seconds) of the last edit on Open Food Facts. */
+    last_modified_t?: number;
     nutriscore_data?: any;
     ecoscore_data?: any;
     nutriment_levels?: any;
