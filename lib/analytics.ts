@@ -16,6 +16,8 @@ type NoProps = Record<never, never>;
 export interface AnalyticsEvents {
     /** Phase 1: a signed-in user saved a health profile. */
     profile_created: NoProps;
+    /** Phase 1: the "Score for you" card was shown (status only, never health details). */
+    personal_score_viewed: { status: string };
     /** Phase 1: a scan was completed. */
     scan_completed: { withProfile: boolean; offline?: boolean };
     /** Phase 2: ingredient explanation opened. */

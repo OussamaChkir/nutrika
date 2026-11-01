@@ -32,7 +32,18 @@ export interface ProductLabels {
     fairTrade: boolean;
     vegan: boolean;
     vegetarian: boolean;
+    lactoseFree: boolean;
+    glutenFree: boolean;
 }
+
+/**
+ * How far the ingredient list can be trusted, which decides whether "no allergen found"
+ * means anything:
+ *  - usable: an ingredient list exists and nobody flagged it as incomplete
+ *  - incomplete: an ingredient list exists but Open Food Facts flags it "to be completed"
+ *  - missing: no ingredient list at all (always the case for user-added products)
+ */
+export type IngredientsStatus = "usable" | "incomplete" | "missing";
 
 export interface Product {
     barcode: string;
@@ -56,6 +67,9 @@ export interface Product {
     categoryTags: string[];
     ingredientsText?: string;
     ingredientsAnalysisTags: string[];
+    ingredientsStatus: IngredientsStatus;
+    /** Last edit of the source data, unix seconds. Shown so users can judge freshness. */
+    lastModified?: number;
 }
 
 // ============================================
@@ -107,6 +121,12 @@ export function getProductImage(product: OFFProduct): string | null {
     return product.image_front_url || product.image_url || product.image_front_small_url || null;
 }
 
+function getIngredientsStatus(off: OFFProduct): IngredientsStatus {
+    const text = (off.ingredients_text || off.ingredients_text_en || "").trim();
+    if (!text) return "missing";
+    return off.states_tags?.includes("en:ingredients-to-be-completed") ? "incomplete" : "usable";
+}
+
 function parseNutriscoreGrade(grade: string | undefined): NutriscoreGrade | undefined {
     const value = grade?.trim().toLowerCase();
     return value && /^[a-e]$/.test(value) ? (value as NutriscoreGrade) : undefined;
@@ -147,9 +167,88 @@ export function normalizeOffProduct(off: OFFProduct): Product {
             fairTrade: hasLabel(off, "fair-trade"),
             vegan: hasLabel(off, "vegan"),
             vegetarian: hasLabel(off, "vegetarian"),
+            lactoseFree: hasLabel(off, "lactose-free") || hasLabel(off, "no-lactose"),
+            glutenFree: hasLabel(off, "gluten-free") || hasLabel(off, "no-gluten"),
         },
         categoryTags: off.categories_tags ?? [],
-        ingredientsText: off.ingredients_text,
+        ingredientsText: off.ingredients_text || off.ingredients_text_en,
         ingredientsAnalysisTags: off.ingredients_analysis_tags ?? [],
+        ingredientsStatus: getIngredientsStatus(off),
+        lastModified: off.last_modified_t,
+    };
+}
+
+// ============================================
+// FROM A STORED PRODUCT
+// ============================================
+
+/** The fields of a stored `Product` row (Prisma) that normalization needs. */
+export interface StoredProduct {
+    barcode: string;
+    name: string;
+    brand: string | null;
+    imageUrl: string | null;
+    offData: unknown;
+    allergens: string[];
+    fat?: number | null;
+    saturatedFat?: number | null;
+    carbohydrates?: number | null;
+    sugars?: number | null;
+    fiber?: number | null;
+    proteins?: number | null;
+    salt?: number | null;
+}
+
+function isOffData(value: unknown): value is OFFProduct {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+const TRACE_PREFIX = "may contain ";
+
+/**
+ * Normalize a product saved in our database.
+ *
+ * Products fetched from Open Food Facts keep the full OFF payload in `offData`, which is the
+ * source of truth. Products added by users have no `offData`: they have no ingredient list,
+ * so `ingredientsStatus` is "missing" and allergen checks will say "cannot verify".
+ */
+export function productFromStored(row: StoredProduct): Product {
+    if (isOffData(row.offData)) {
+        return normalizeOffProduct({ ...row.offData, code: row.offData.code ?? row.barcode });
+    }
+    const traces = row.allergens
+        .filter((a) => a.toLowerCase().startsWith(TRACE_PREFIX))
+        .map((a) => a.slice(TRACE_PREFIX.length));
+    const allergens = row.allergens.filter((a) => !a.toLowerCase().startsWith(TRACE_PREFIX));
+    const n = (v: number | null | undefined) => v ?? undefined;
+    return {
+        barcode: row.barcode,
+        name: row.name,
+        brand: row.brand,
+        imageUrl: row.imageUrl,
+        nutrients: {
+            // `energy` is stored as kJ or kcal depending on the source, so it is not trusted as kcal.
+            fat: n(row.fat),
+            saturatedFat: n(row.saturatedFat),
+            carbohydrates: n(row.carbohydrates),
+            sugars: n(row.sugars),
+            fiber: n(row.fiber),
+            proteins: n(row.proteins),
+            salt: n(row.salt),
+        },
+        additives: [],
+        allergens,
+        traces,
+        labels: {
+            organic: false,
+            fairTrade: false,
+            vegan: false,
+            vegetarian: false,
+            lactoseFree: false,
+            glutenFree: false,
+        },
+        categoryTags: [],
+        ingredientsAnalysisTags: [],
+        ingredientsStatus: "missing",
     };
 }

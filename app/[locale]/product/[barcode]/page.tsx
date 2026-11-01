@@ -36,6 +36,13 @@ import { CompareButton } from "@/components/compare-button";
 import { ExplainScore } from "@/components/explain-score";
 import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
 import { getCachedExplanation } from "@/lib/ai-cache";
+import { isFeatureEnabled } from "@/lib/flags";
+import { productFromStored } from "@/lib/product";
+import { evaluateProduct, type PersonalVerdict } from "@/lib/profiles/evaluate";
+import { toPersonalProfile } from "@/lib/profiles/profile";
+import { PersonalScoreCard } from "@/components/personal-score-card";
+import { PersonalScoreCta } from "@/components/personal-score-cta";
+import { PersonalScoreTracker } from "@/components/personal-score-tracker";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -202,6 +209,31 @@ export default async function ProductPage({ params }: ProductPageProps) {
         }
     }
 
+    // "Score for you" (F1) and the allergen banner (F7), behind a flag. The universal score is
+    // untouched and stays visible below. A failure here must never break the product page.
+    const personalEnabled = isFeatureEnabled("personalScore");
+    let personalView: { verdict: PersonalVerdict; name: string } | null = null;
+    if (personalEnabled && session?.user?.id) {
+        try {
+            const profileRow = await prisma.profile.findFirst({
+                where: { userId: session.user.id },
+                orderBy: [{ isDefault: "desc" }, { createdAt: "asc" }],
+            });
+            if (profileRow) {
+                personalView = {
+                    name: profileRow.name,
+                    verdict: evaluateProduct(
+                        productFromStored(product),
+                        toPersonalProfile(profileRow),
+                        product.score
+                    ),
+                };
+            }
+        } catch (error) {
+            console.error("Personal score unavailable:", error instanceof Error ? error.message : "unknown error");
+        }
+    }
+
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
             <Link
@@ -229,6 +261,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             })}
                         </p>
                     </div>
+                </div>
+            )}
+
+            {personalEnabled && (
+                <div className="animate-fade-in-up mb-5">
+                    {personalView ? (
+                        <>
+                            <PersonalScoreCard verdict={personalView.verdict} profileName={personalView.name} />
+                            <PersonalScoreTracker status={personalView.verdict.status} />
+                        </>
+                    ) : (
+                        <PersonalScoreCta variant={session?.user?.id ? "no_profile" : "signed_out"} />
+                    )}
                 </div>
             )}
 

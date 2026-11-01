@@ -464,5 +464,155 @@
   "MedicalDisclaimer": {
     "title": "Ne constitue pas un avis médical",
     "body": "Nutrika fournit des informations générales issues des données produit et ne constitue pas un avis médical. En cas d’allergie, de pathologie ou de régime particulier, lisez toujours l’étiquette du produit et demandez conseil à un professionnel de santé."
+  },
+  "PersonalProfile": {
+    "metaTitle": "Profil personnel",
+    "back": "Retour à mon compte",
+    "title": "Votre profil personnel",
+    "intro": "Nutrika peut juger chaque produit pour vous : allergènes, problèmes de santé, régimes et objectifs. Tout est facultatif et vous pouvez tout modifier ou supprimer à tout moment.",
+    "listTitle": "Vos profils",
+    "empty": "Vous n'avez pas encore de profil.",
+    "create": "Créer un profil",
+    "createTitle": "Nouveau profil",
+    "editTitle": "Modifier le profil",
+    "default": "Par défaut",
+    "defaultHint": "Utilisé pour noter les produits pour vous",
+    "makeDefault": "Utiliser ce profil pour mes scores",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteConfirm": "Supprimer ce profil et toutes ses données ? Cette action est irréversible.",
+    "cancel": "Annuler",
+    "nameLabel": "Pseudo",
+    "namePlaceholder": "ex. Moi, Sara",
+    "ageBandLabel": "Tranche d'âge",
+    "ageBands": {
+      "child": "Enfant",
+      "teen": "Adolescent",
+      "adult": "Adulte"
+    },
+    "allergensLabel": "Allergies",
+    "allergensHint": "Sélectionnez chaque allergène à éviter.",
+    "allergensPrefilled": "Nous avons présélectionné les allergies enregistrées dans votre compte. Vérifiez-les avant d'enregistrer.",
+    "strictnessLabel": "Traces « peut contenir »",
+    "strictness": {
+      "avoid_traces": {
+        "label": "Éviter aussi les traces",
+        "desc": "Les produits qui peuvent contenir votre allergène sont marqués non adaptés. Recommandé si vous réagissez à de petites quantités."
+      },
+      "intentional_only": {
+        "label": "Ingrédients uniquement",
+        "desc": "Les produits qui peuvent contenir votre allergène reçoivent une mise en garde. Les ingrédients déclarés restent marqués non adaptés."
+      }
+    },
+    "conditionsLabel": "Problèmes de santé",
+    "conditions": {
+      "diabetes": "Diabète",
+      "hypertension": "Hypertension"
+    },
+    "dietsLabel": "Régimes",
+    "diets": {
+      "vegan": "Végétalien",
+      "vegetarian": "Végétarien",
+      "keto": "Keto",
+      "low_sodium": "Pauvre en sel"
+    },
+    "goalsLabel": "Objectifs",
+    "goals": {
+      "weight_loss": "Perte de poids",
+      "muscle_gain": "Prise de muscle"
+    },
+    "consent": "J'accepte que Nutrika enregistre ces informations de santé pour personnaliser mes résultats. Je peux les modifier ou les supprimer à tout moment.",
+    "consentRequired": "Cochez la case pour enregistrer des informations de santé.",
+    "privacyLink": "Lire la politique de confidentialité",
+    "save": "Enregistrer le profil",
+    "saving": "Enregistrement...",
+    "saved": "Profil enregistré",
+    "deleted": "Profil supprimé",
+    "errors": {
+      "unauthorized": "Veuillez vous reconnecter.",
+      "disabled": "Cette fonctionnalité n'est pas encore disponible.",
+      "invalid": "Vérifiez le formulaire et réessayez.",
+      "limit": "Vous pouvez avoir jusqu'à {max} profils.",
+      "not_found": "Ce profil n'existe plus.",
+      "failed": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "PersonalScore": {
+    "title": "Score pour vous",
+    "forProfile": "Pour {name}",
+    "scoreOutOf": "{score}/100",
+    "universal": "Score universel : {score}/100",
+    "scoreHidden": "Score masqué : vos allergènes ne peuvent pas être vérifiés",
+    "status": {
+      "not_suitable": "Non adapté",
+      "caution": "Attention",
+      "cannot_verify": "Impossible à vérifier",
+      "good_match": "Bon choix",
+      "neutral": "Rien à vérifier"
+    },
+    "neutralHint": "Votre profil ne contient aucun choix qui s'applique à ce produit.",
+    "banner": {
+      "contains": "Contient {allergens}",
+      "may_contain": "Peut contenir {allergens}",
+      "unknown": "Impossible de vérifier vos allergènes : la liste des ingrédients est absente ou incomplète. Vérifiez l'emballage.",
+      "none_found": "Aucun allergène déclaré parmi votre liste. Vérifiez toujours l'emballage."
+    },
+    "groups": {
+      "block": "Non adapté",
+      "caution": "Attention",
+      "unknown": "Vérifiez l'étiquette",
+      "good": "Bon choix"
+    },
+    "completeness": {
+      "usable": "Liste d'ingrédients disponible",
+      "incomplete": "Liste d'ingrédients incomplète",
+      "missing": "Pas de liste d'ingrédients"
+    },
+    "dataUpdated": "Données mises à jour le {date}",
+    "cta": {
+      "signedOutTitle": "Obtenez un verdict fait pour vous",
+      "signedOutText": "Connectez-vous et ajoutez vos allergies, problèmes de santé, régimes ou objectifs.",
+      "signIn": "Se connecter",
+      "noProfileTitle": "Obtenez un verdict fait pour vous",
+      "noProfileText": "Ajoutez vos allergies, problèmes de santé, régimes ou objectifs pour savoir si ce produit vous convient.",
+      "createProfile": "Créer mon profil"
+    },
+    "because": {
+      "allergy": "Allergie",
+      "diabetes": "Diabète",
+      "hypertension": "Hypertension",
+      "vegan": "Végétalien",
+      "vegetarian": "Végétarien",
+      "keto": "Keto",
+      "low_sodium": "Pauvre en sel",
+      "weight_loss": "Perte de poids",
+      "muscle_gain": "Prise de muscle"
+    },
+    "reasons": {
+      "allergenContains": "Contient {allergen}",
+      "allergenContainsText": "Les ingrédients mentionnent {allergen}",
+      "allergenMayContain": "Peut contenir des traces de {allergen}",
+      "allergenUnknown": "Impossible de vérifier vos allergènes : la liste des ingrédients est absente ou incomplète",
+      "allergenNone": "Aucun allergène déclaré parmi votre liste",
+      "lactoseFree": "Étiqueté sans lactose",
+      "notVegan": "Non végétalien : contient des ingrédients d'origine animale",
+      "veganOk": "Végétalien",
+      "veganUnknown": "Statut végétalien inconnu : vérifiez l'étiquette",
+      "notVegetarian": "Non végétarien",
+      "vegetarianOk": "Végétarien",
+      "vegetarianUnknown": "Statut végétarien inconnu : vérifiez l'étiquette",
+      "saltHigh": "Sel élevé ({value} g pour {unit})",
+      "saltLow": "Faible teneur en sel ({value} g pour {unit})",
+      "saltUnknown": "Teneur en sel non disponible",
+      "sugarVeryHigh": "Sucre très élevé ({value} g pour {unit})",
+      "sugarHigh": "Sucre élevé ({value} g pour {unit})",
+      "sugarLow": "Faible teneur en sucre ({value} g pour {unit})",
+      "sugarUnknown": "Teneur en sucre non disponible",
+      "netCarbsHigh": "Glucides nets élevés ({value} g pour {unit})",
+      "netCarbsLow": "Glucides nets faibles ({value} g pour {unit})",
+      "carbsUnknown": "Teneur en glucides non disponible",
+      "proteinGood": "Riche en protéines ({value} g pour {unit})",
+      "energyDense": "Très calorique ({value} kcal pour 100 g) avec beaucoup de sucre ou de graisses saturées"
+    }
   }
 }
