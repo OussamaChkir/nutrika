@@ -1,17 +1,6 @@
-import { ALLERGY_OPTIONS } from "@/lib/validators";
+import { ALLERGENS, ALLERGY_OPTIONS, type AllergyOption } from "@/lib/allergens";
 
-export const ALLERGY_I18N_KEYS: Record<(typeof ALLERGY_OPTIONS)[number], string> = {
-    Gluten: "allergyGluten",
-    Lactose: "allergyLactose",
-    Milk: "allergyMilk",
-    Eggs: "allergyEggs",
-    Peanuts: "allergyPeanuts",
-    "Tree Nuts": "allergyTreeNuts",
-    Soy: "allergySoy",
-    Fish: "allergyFish",
-    Shellfish: "allergyShellfish",
-    Sesame: "allergySesame",
-    Mustard: "allergyMustard",
-    Celery: "allergyCelery",
-    Sulphites: "allergySulphites",
-};
+/** Allergy label -> key under the `Profile` i18n namespace. Derived from the canonical list. */
+export const ALLERGY_I18N_KEYS = Object.fromEntries(
+    ALLERGY_OPTIONS.map((allergy) => [allergy, ALLERGENS[allergy].i18nKey])
+) as Record<AllergyOption, string>;

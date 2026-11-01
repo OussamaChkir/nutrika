@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
 import { ALLERGY_OPTIONS } from "@/lib/validators";
+import { MedicalDisclaimer } from "@/components/medical-disclaimer";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -271,6 +272,7 @@ export default async function ProfilePage() {
                                 </div>
                             </Link>
                         )}
+                        <MedicalDisclaimer variant="inline" />
                     </div>
 
                     <Separator />

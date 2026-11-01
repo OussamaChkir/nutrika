@@ -135,21 +135,9 @@ export type PromoteUserInput = z.infer<typeof promoteUserSchema>;
 // PROFILE SCHEMAS
 // ============================================
 
-export const ALLERGY_OPTIONS = [
-    "Gluten",
-    "Lactose",
-    "Milk",
-    "Eggs",
-    "Peanuts",
-    "Tree Nuts",
-    "Soy",
-    "Fish",
-    "Shellfish",
-    "Sesame",
-    "Mustard",
-    "Celery",
-    "Sulphites",
-] as const;
+// The allergen list lives in ./allergens (single source of truth). Re-exported here
+// because existing code imports ALLERGY_OPTIONS from this module.
+export { ALLERGY_OPTIONS } from "./allergens";
 
 export const profileFormSchema = z.object({
     weight: z.coerce.number().min(1).max(500).optional().nullable(),
