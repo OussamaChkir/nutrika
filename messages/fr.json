@@ -302,16 +302,22 @@
     "allergySoy": "Soja",
     "allergyFish": "Poisson",
     "allergyShellfish": "Crustacés",
+    "allergyMolluscs": "Mollusques",
     "allergySesame": "Sésame",
     "allergyMustard": "Moutarde",
     "allergyCelery": "Céleri",
-    "allergySulphites": "Sulfites"
+    "allergySulphites": "Sulfites",
+    "allergyLupin": "Lupin"
   },
   "ScoreMessages": {
     "veryHighSugar": "Sucre très élevé ({value} g/100 g)",
     "highSugar": "Sucre élevé ({value} g/100 g)",
     "lowSugar": "Faible teneur en sucre ({value} g/100 g)",
+    "veryHighSugarDrink": "Sucre très élevé ({value} g/100 ml)",
+    "highSugarDrink": "Sucre élevé ({value} g/100 ml)",
+    "lowSugarDrink": "Faible teneur en sucre ({value} g/100 ml)",
     "highSaturatedFat": "Graisses saturées élevées ({value} g/100 g)",
+    "highSaturatedFatShare": "Part élevée de graisses saturées ({share} % des graisses)",
     "lowSaturatedFat": "Faible teneur en graisses saturées ({value} g/100 g)",
     "highSalt": "Sel élevé ({value} g/100 g)",
     "lowSalt": "Faible teneur en sel ({value} g/100 g)",
@@ -454,5 +460,9 @@
       "rate_limited": "Vous avez atteint la limite horaire d'explications. Veuillez réessayer plus tard.",
       "unavailable": "L'explication n'a pas pu être générée pour le moment. Veuillez réessayer plus tard."
     }
+  },
+  "MedicalDisclaimer": {
+    "title": "Ne constitue pas un avis médical",
+    "body": "Nutrika fournit des informations générales issues des données produit et ne constitue pas un avis médical. En cas d’allergie, de pathologie ou de régime particulier, lisez toujours l’étiquette du produit et demandez conseil à un professionnel de santé."
   }
 }

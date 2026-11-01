@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
+import { MedicalDisclaimer } from "@/components/medical-disclaimer";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -218,6 +219,7 @@ export default function ProfileEditPage() {
                             )}
                         </Button>
                     </form>
+                    <MedicalDisclaimer className="mt-6" />
                 </CardContent>
             </Card>
         </div>

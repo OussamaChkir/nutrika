@@ -302,16 +302,22 @@
     "allergySoy": "Soy",
     "allergyFish": "Fish",
     "allergyShellfish": "Shellfish",
+    "allergyMolluscs": "Molluscs",
     "allergySesame": "Sesame",
     "allergyMustard": "Mustard",
     "allergyCelery": "Celery",
-    "allergySulphites": "Sulphites"
+    "allergySulphites": "Sulphites",
+    "allergyLupin": "Lupin"
   },
   "ScoreMessages": {
     "veryHighSugar": "Very high sugar ({value}g/100g)",
     "highSugar": "High sugar ({value}g/100g)",
     "lowSugar": "Low sugar ({value}g/100g)",
+    "veryHighSugarDrink": "Very high sugar ({value}g/100ml)",
+    "highSugarDrink": "High sugar ({value}g/100ml)",
+    "lowSugarDrink": "Low sugar ({value}g/100ml)",
     "highSaturatedFat": "High saturated fat ({value}g/100g)",
+    "highSaturatedFatShare": "High share of saturated fat ({share}% of the fat)",
     "lowSaturatedFat": "Low saturated fat ({value}g/100g)",
     "highSalt": "High salt ({value}g/100g)",
     "lowSalt": "Low salt ({value}g/100g)",
@@ -454,5 +460,9 @@
       "rate_limited": "You have reached the hourly limit for explanations. Please try again later.",
       "unavailable": "The explanation could not be generated right now. Please try again later."
     }
+  },
+  "MedicalDisclaimer": {
+    "title": "Not medical advice",
+    "body": "Nutrika gives general information based on product data and is not medical advice. If you have an allergy, a medical condition or a special diet, always read the product label and ask a health professional."
   }
 }
