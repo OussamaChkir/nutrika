@@ -28,6 +28,8 @@ import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
 import { ALLERGY_OPTIONS } from "@/lib/validators";
 import { MedicalDisclaimer } from "@/components/medical-disclaimer";
 import { isFeatureEnabled } from "@/lib/flags";
+import { AccountDataCard } from "@/components/account-data-card";
+import { deleteAccount } from "@/lib/account-actions";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -328,6 +330,10 @@ export default async function ProfilePage() {
                             )}
                         </div>
                     </div>
+
+                    <Separator />
+
+                    <AccountDataCard email={user.email ?? ""} canDelete={user.role !== "ADMIN"} onDelete={deleteAccount} />
 
                     <Separator />
 
