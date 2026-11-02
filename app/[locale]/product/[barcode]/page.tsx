@@ -285,6 +285,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             <PersonalScoreCard
                                 verdict={personalView.verdict}
                                 profileName={personalView.name}
+                                barcode={barcode}
                                 headerAction={
                                     personalView.everyone.length > 1 ? (
                                         <ProfileSwitcher

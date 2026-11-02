@@ -12,6 +12,8 @@ interface PersonalScoreCardProps {
     profileName: string;
     /** Optional control shown under the header, e.g. the profile switcher (F4). */
     headerAction?: React.ReactNode;
+    /** Product barcode. When valid, shows a link to correct the data on Open Food Facts. */
+    barcode?: string;
     className?: string;
 }
 
@@ -21,7 +23,7 @@ const GROUP_ORDER: ReasonLevel[] = ["block", "caution", "unknown", "good"];
  * "Score for you": the same product judged for one profile (F1), with the allergen banner of
  * the "may contain" safety mode (F7). The universal score stays visible elsewhere on the page.
  */
-export function PersonalScoreCard({ verdict, profileName, headerAction, className }: PersonalScoreCardProps) {
+export function PersonalScoreCard({ verdict, profileName, headerAction, barcode, className }: PersonalScoreCardProps) {
     const t = useTranslations("PersonalScore");
     const tBecause = useTranslations("PersonalScore.because");
     const locale = useLocale();
@@ -147,6 +149,19 @@ export function PersonalScoreCard({ verdict, profileName, headerAction, classNam
                 {t(`completeness.${verdict.dataCompleteness}`)}
                 {updated ? ` · ${t("dataUpdated", { date: updated })}` : ""}
             </p>
+
+            {barcode && /^\d{6,14}$/.test(barcode) && (
+                <p className="mt-1 text-xs">
+                    <a
+                        href={`https://world.openfoodfacts.org/product/${barcode}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-50"
+                    >
+                        {t("reportData")}
+                    </a>
+                </p>
+            )}
 
             <MedicalDisclaimer variant="inline" className="mt-2" />
         </section>

@@ -632,7 +632,8 @@
       "keto": "Keto",
       "low_sodium": "Low sodium",
       "weight_loss": "Weight loss",
-      "muscle_gain": "Muscle gain"
+      "muscle_gain": "Muscle gain",
+      "child": "Child"
     },
     "reasons": {
       "allergenContains": "Contains {allergen}",
@@ -658,7 +659,9 @@
       "netCarbsLow": "Low net carbs ({value} g per {unit})",
       "carbsUnknown": "Carbohydrate content not available",
       "proteinGood": "High protein ({value} g per {unit})",
-      "energyDense": "Energy-dense ({value} kcal per 100 g) with high sugar or saturated fat"
+      "energyDense": "Energy-dense ({value} kcal per 100 g) with high sugar or saturated fat",
+      "childSugarHigh": "High sugar for a child ({value} g per {unit})",
+      "childCaffeine": "Contains caffeine (or guarana), not recommended for children"
     },
     "switcher": {
       "label": "Profile",
@@ -673,6 +676,7 @@
       "colWhy": "Main reason",
       "noReason": "Nothing to flag",
       "you": "Selected"
-    }
+    },
+    "reportData": "Ingredients or allergens look wrong? Fix them on Open Food Facts (opens a new tab)."
   }
 }
