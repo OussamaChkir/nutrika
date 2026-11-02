@@ -613,6 +613,20 @@
       "carbsUnknown": "Carbohydrate content not available",
       "proteinGood": "High protein ({value} g per {unit})",
       "energyDense": "Energy-dense ({value} kcal per 100 g) with high sugar or saturated fat"
+    },
+    "switcher": {
+      "label": "Profile",
+      "aria": "Switch profile",
+      "active": "Active"
+    },
+    "everyone": {
+      "title": "Check for everyone",
+      "count": "{count} profiles",
+      "colName": "Profile",
+      "colVerdict": "Verdict",
+      "colWhy": "Main reason",
+      "noReason": "Nothing to flag",
+      "you": "Selected"
     }
   }
 }

@@ -36,12 +36,17 @@ import { CompareButton } from "@/components/compare-button";
 import { ExplainScore } from "@/components/explain-score";
 import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
 import { getCachedExplanation } from "@/lib/ai-cache";
+import { cookies } from "next/headers";
 import { isFeatureEnabled } from "@/lib/flags";
+import { pickActiveProfile } from "@/lib/profiles/active";
+import { ACTIVE_PROFILE_COOKIE } from "@/lib/profiles/constants";
 import { productFromStored } from "@/lib/product";
 import { evaluateProduct, type PersonalVerdict } from "@/lib/profiles/evaluate";
 import { toPersonalProfile } from "@/lib/profiles/profile";
 import { PersonalScoreCard } from "@/components/personal-score-card";
 import { PersonalScoreCta } from "@/components/personal-score-cta";
+import { ProfileSwitcher } from "@/components/profile-switcher";
+import { EveryoneMatrix, type EveryoneRow } from "@/components/everyone-matrix";
 import { PersonalScoreTracker } from "@/components/personal-score-tracker";
 
 interface ProductPageProps {
@@ -212,22 +217,31 @@ export default async function ProductPage({ params }: ProductPageProps) {
     // "Score for you" (F1) and the allergen banner (F7), behind a flag. The universal score is
     // untouched and stays visible below. A failure here must never break the product page.
     const personalEnabled = isFeatureEnabled("personalScore");
-    let personalView: { verdict: PersonalVerdict; name: string } | null = null;
+    let personalView: {
+        verdict: PersonalVerdict;
+        name: string;
+        activeId: string;
+        everyone: EveryoneRow[];
+    } | null = null;
     if (personalEnabled && session?.user?.id) {
         try {
-            const profileRow = await prisma.profile.findFirst({
+            const profileRows = await prisma.profile.findMany({
                 where: { userId: session.user.id },
-                orderBy: [{ isDefault: "desc" }, { createdAt: "asc" }],
+                orderBy: { createdAt: "asc" },
             });
-            if (profileRow) {
-                personalView = {
-                    name: profileRow.name,
-                    verdict: evaluateProduct(
-                        productFromStored(product),
-                        toPersonalProfile(profileRow),
-                        product.score
-                    ),
-                };
+            // The cookie is only a hint: it is matched against this user's own profiles.
+            const activeCookie = (await cookies()).get(ACTIVE_PROFILE_COOKIE)?.value;
+            const active = pickActiveProfile(profileRows, activeCookie);
+            if (active) {
+                const normalized = productFromStored(product);
+                const everyone: EveryoneRow[] = profileRows.map((row) => ({
+                    id: row.id,
+                    name: row.name,
+                    isActive: row.id === active.id,
+                    verdict: evaluateProduct(normalized, toPersonalProfile(row), product.score),
+                }));
+                const current = everyone.find((r) => r.isActive)!;
+                personalView = { verdict: current.verdict, name: current.name, activeId: active.id, everyone };
             }
         } catch (error) {
             console.error("Personal score unavailable:", error instanceof Error ? error.message : "unknown error");
@@ -268,7 +282,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="animate-fade-in-up mb-5">
                     {personalView ? (
                         <>
-                            <PersonalScoreCard verdict={personalView.verdict} profileName={personalView.name} />
+                            <PersonalScoreCard
+                                verdict={personalView.verdict}
+                                profileName={personalView.name}
+                                headerAction={
+                                    personalView.everyone.length > 1 ? (
+                                        <ProfileSwitcher
+                                            profiles={personalView.everyone.map((r) => ({ id: r.id, name: r.name }))}
+                                            activeId={personalView.activeId}
+                                        />
+                                    ) : undefined
+                                }
+                            />
+                            <EveryoneMatrix rows={personalView.everyone} />
                             <PersonalScoreTracker status={personalView.verdict.status} />
                         </>
                     ) : (
