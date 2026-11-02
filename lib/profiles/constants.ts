@@ -48,6 +48,8 @@ export interface PersonalProfile {
     goals: readonly Goal[];
     allergens: readonly (typeof ALLERGY_OPTIONS)[number][];
     allergenStrictness: AllergenStrictness;
+    /** Optional: profiles built without an age band behave like adults. */
+    ageBand?: AgeBand;
 }
 
 const uniqueEnumArray = <T extends readonly [string, ...string[]]>(values: T) =>

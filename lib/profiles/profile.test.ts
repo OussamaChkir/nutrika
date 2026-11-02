@@ -23,6 +23,7 @@ describe("toPersonalProfile", () => {
             goals: ["muscle_gain"],
             allergens: ["Milk", "Eggs"],
             allergenStrictness: "intentional_only",
+            ageBand: "child",
         });
     });
 
@@ -34,6 +35,11 @@ describe("toPersonalProfile", () => {
         expect(p.diets).toEqual([]);
         expect(p.goals).toEqual([]);
         expect(p.allergens).toEqual(["Milk"]);
+    });
+
+    it("keeps a valid age band and falls back to adult for anything else", () => {
+        expect(toPersonalProfile(row({ ageBand: "teen" })).ageBand).toBe("teen");
+        expect(toPersonalProfile(row({ ageBand: "toddler" })).ageBand).toBe("adult");
     });
 
     it("falls back to the safer strictness when the stored value is unknown", () => {

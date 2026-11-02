@@ -35,6 +35,7 @@ function keepAllowed<T extends string>(values: readonly string[], allowed: reado
 
 export function toPersonalProfile(row: StoredProfile): PersonalProfile {
     return {
+        ageBand: (AGE_BANDS as readonly string[]).includes(row.ageBand) ? (row.ageBand as AgeBand) : "adult",
         conditions: keepAllowed(row.conditions, CONDITIONS),
         diets: keepAllowed(row.diets, DIETS),
         goals: keepAllowed(row.goals, GOALS),

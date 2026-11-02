@@ -24,7 +24,7 @@ import type { Condition, Diet, Goal, PersonalProfile } from "./constants";
 
 export type ReasonLevel = "block" | "caution" | "good" | "unknown";
 
-export type ReasonBecause = "allergy" | Condition | Diet | Goal;
+export type ReasonBecause = "allergy" | "child" | Condition | Diet | Goal;
 
 export interface PersonalReason {
     level: ReasonLevel;
@@ -376,6 +376,33 @@ const weightLossRule: Rule = {
     },
 };
 
+// Children: the same sugar threshold as the "high sugar" warning, plus caffeine, which is not
+// recommended for children. PRODUCT DECISION for a dietitian to review. Caffeine is detected in the
+// ingredients text only (Open Food Facts has no reliable caffeine field), so a missing list says nothing.
+const CAFFEINE_WORDS = /\b(caffeine|caf[eé]ine|guarana|guaran[aá])\b|كافيين/i;
+
+const childRule: Rule = {
+    id: "child",
+    applies: (p) => p.ageBand === "child",
+    evaluate: ({ product, unit }) => {
+        const reasons: PersonalReason[] = [];
+        const sugar = product.nutrients.sugars;
+        if (sugar !== undefined && sugar > CATEGORY_RULES[getProductCategory(product.categoryTags)].sugar.high) {
+            reasons.push({
+                level: "caution",
+                key: "childSugarHigh",
+                params: { value: value(sugar), unit },
+                because: "child",
+                delta: DELTA.caution,
+            });
+        }
+        if (product.ingredientsText && CAFFEINE_WORDS.test(product.ingredientsText)) {
+            reasons.push({ level: "caution", key: "childCaffeine", because: "child", delta: DELTA.caution });
+        }
+        return { reasons };
+    },
+};
+
 /** One entry per judgement. Add a rule here, with tests, to support a new profile choice. */
 export const RULES: readonly Rule[] = [
     allergenRule,
@@ -386,6 +413,7 @@ export const RULES: readonly Rule[] = [
     ketoRule,
     muscleGainRule,
     weightLossRule,
+    childRule,
 ];
 
 // ============================================

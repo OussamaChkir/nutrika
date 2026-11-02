@@ -429,6 +429,50 @@ describe("goals", () => {
 
 // ---------- status, score and purity ----------
 
+describe("child profile", () => {
+    const child = profile({ ageBand: "child" });
+
+    it("cautions on high sugar, using the same threshold as the universal score", () => {
+        const v = evaluate(product({ nutriments: { sugars_100g: 15 } }), child);
+        expect(keys(v)).toContain("childSugarHigh");
+        expect(v.status).toBe("caution");
+        expect(v.reasons[0].because).toBe("child");
+    });
+
+    it("judges a drink per 100 ml (a juice with 9 g is high for a child)", () => {
+        const juice = product({ categories_tags: ["en:beverages"], nutriments: { sugars_100g: 9 } });
+        expect(keys(evaluate(juice, child))).toContain("childSugarHigh");
+        expect(keys(evaluate(juice, profile({ ageBand: "adult" })))).not.toContain("childSugarHigh");
+    });
+
+    it.each([
+        "Water, sugar, caffeine, flavourings",
+        "Eau, sucre, caféine, arômes",
+        "Water, guarana extract",
+        "ماء، سكر، كافيين",
+    ])("flags caffeine in %j", (text) => {
+        expect(keys(evaluate(product({ ingredients_text: text, nutriments: { sugars_100g: 1 } }), child))).toContain("childCaffeine");
+    });
+
+    it("does not flag decaffeinated or unrelated text, and says nothing without an ingredient list", () => {
+        expect(keys(evaluate(product({ ingredients_text: "Decaffeinated coffee" }), child))).not.toContain("childCaffeine");
+        expect(keys(evaluate(noIngredients({ nutriments: { sugars_100g: 1 } }), child))).toEqual([]);
+    });
+
+    it("applies only to the child age band", () => {
+        const sweet = product({ nutriments: { sugars_100g: 40 }, ingredients_text: "Sugar, caffeine" });
+        for (const ageBand of ["teen", "adult", undefined] as const) {
+            expect(evaluate(sweet, profile({ ageBand })).reasons).toEqual([]);
+        }
+    });
+
+    it("never weakens the allergy safety net: a child with an allergy and no ingredients is not green", () => {
+        const v = evaluate(noIngredients({ nutriments: { sugars_100g: 1 } }), profile({ ageBand: "child", allergens: ["Peanuts"] }));
+        expect(v.status).toBe("cannot_verify");
+        expect(v.personalScore).toBeNull();
+    });
+});
+
 describe("status precedence", () => {
     const rich = product({
         allergens_tags: ["en:milk"],

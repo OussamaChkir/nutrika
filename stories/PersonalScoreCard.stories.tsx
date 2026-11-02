@@ -146,3 +146,19 @@ export const French: Story = {
     },
     parameters: { locale: "fr" },
 };
+
+/** A child profile: high sugar and caffeine are flagged. Also shows the "fix it on Open Food Facts" link. */
+export const ChildWithReportLink: Story = {
+    args: {
+        profileName: "Yassine",
+        barcode: "5449000000996",
+        verdict: verdict(
+            off({
+                ingredients_text: "Water, sugar, caffeine, flavourings",
+                categories_tags: ["en:beverages"],
+                nutriments: { sugars_100g: 10.6 },
+            }),
+            profile({ ageBand: "child" })
+        ),
+    },
+};

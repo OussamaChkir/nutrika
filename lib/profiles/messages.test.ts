@@ -52,7 +52,7 @@ describe("personal score messages", () => {
             for (const g of GOALS) expect(p.goals, g).toHaveProperty(g);
             for (const a of AGE_BANDS) expect(p.ageBands, a).toHaveProperty(a);
             for (const s of ALLERGEN_STRICTNESS) expect(p.strictness, s).toHaveProperty(s);
-            for (const reason of [...CONDITIONS, ...DIETS, ...GOALS, "allergy"]) {
+            for (const reason of [...CONDITIONS, ...DIETS, ...GOALS, "allergy", "child"]) {
                 expect(locale.PersonalScore.because, reason).toHaveProperty(reason);
             }
         }
