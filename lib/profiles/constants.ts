@@ -33,6 +33,9 @@ export type AllergenStrictness = (typeof ALLERGEN_STRICTNESS)[number];
 /** Safer default: a trace warning is cheap, a missed trace is not. Users can relax it. */
 export const DEFAULT_STRICTNESS: AllergenStrictness = "avoid_traces";
 
+/** Cookie that remembers which profile is active (F4). Holds only a profile id, no health data. */
+export const ACTIVE_PROFILE_COOKIE = "nutrika_profile";
+
 /** Profiles per account (family profiles, F4). */
 export const MAX_PROFILES_PER_USER = 6;
 

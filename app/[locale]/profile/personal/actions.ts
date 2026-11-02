@@ -7,10 +7,17 @@
 //   4. the profile belongs to the signed-in user.
 // Profile data is never logged.
 
+import { cookies } from "next/headers";
+
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isFeatureEnabled } from "@/lib/flags";
-import { MAX_PROFILES_PER_USER, profileInputSchema, type ProfileInput } from "@/lib/profiles/constants";
+import {
+    ACTIVE_PROFILE_COOKIE,
+    MAX_PROFILES_PER_USER,
+    profileInputSchema,
+    type ProfileInput,
+} from "@/lib/profiles/constants";
 import { toProfileDto, type ProfileDto } from "@/lib/profiles/profile";
 
 export type ProfileActionError =
@@ -40,6 +47,17 @@ function storedFields(input: ProfileInput) {
         allergens: input.allergens,
         allergenStrictness: input.allergenStrictness,
     };
+}
+
+/** Remember a profile as the active one (cookie holds only the profile id). */
+async function rememberActive(id: string): Promise<void> {
+    (await cookies()).set(ACTIVE_PROFILE_COOKIE, id, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 365,
+    });
 }
 
 async function requireUser(): Promise<{ userId: string } | { error: ProfileActionError }> {
@@ -73,6 +91,8 @@ export async function createProfile(input: unknown): Promise<ProfileActionResult
                 data: { ...data, userId: user.userId, isDefault: makeDefault, consentedAt: new Date() },
             });
         });
+        // Choosing "use this profile for my scores" (or creating the first one) also makes it active.
+        if (makeDefault) await rememberActive(row.id);
         return { ok: true, profile: toProfileDto(row) };
     } catch {
         return { ok: false, error: "failed" };
@@ -108,6 +128,7 @@ export async function updateProfile(id: string, input: unknown): Promise<Profile
             return tx.profile.findFirst({ where: { id, userId: user.userId } });
         });
         if (!row) return { ok: false, error: "not_found" };
+        if (isDefault && !current.isDefault) await rememberActive(row.id);
         return { ok: true, profile: toProfileDto(row) };
     } catch {
         return { ok: false, error: "failed" };
@@ -134,6 +155,27 @@ export async function deleteProfile(id: string): Promise<DeleteProfileResult> {
                 data: { isDefault: true },
             });
         }
+        return { ok: true };
+    } catch {
+        return { ok: false, error: "failed" };
+    }
+}
+
+/**
+ * Choose which profile products are scored for (F4). Stored in a cookie that holds only the
+ * profile id. The profile must belong to the signed-in user; the product page also re-checks
+ * the id against the user's own profiles, so the cookie is never trusted.
+ */
+export async function setActiveProfile(id: string): Promise<DeleteProfileResult> {
+    const user = await requireUser();
+    if ("error" in user) return { ok: false, error: user.error };
+    if (typeof id !== "string" || !OBJECT_ID.test(id)) return { ok: false, error: "not_found" };
+
+    try {
+        const owned = await prisma.profile.findFirst({ where: { id, userId: user.userId }, select: { id: true } });
+        if (!owned) return { ok: false, error: "not_found" };
+
+        await rememberActive(id);
         return { ok: true };
     } catch {
         return { ok: false, error: "failed" };

@@ -613,6 +613,20 @@
       "carbsUnknown": "Teneur en glucides non disponible",
       "proteinGood": "Riche en protéines ({value} g pour {unit})",
       "energyDense": "Très calorique ({value} kcal pour 100 g) avec beaucoup de sucre ou de graisses saturées"
+    },
+    "switcher": {
+      "label": "Profil",
+      "aria": "Changer de profil",
+      "active": "Actif"
+    },
+    "everyone": {
+      "title": "Vérifier pour tout le monde",
+      "count": "{count} profils",
+      "colName": "Profil",
+      "colVerdict": "Verdict",
+      "colWhy": "Raison principale",
+      "noReason": "Rien à signaler",
+      "you": "Sélectionné"
     }
   }
 }

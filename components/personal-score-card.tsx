@@ -1,79 +1,34 @@
-import { AlertTriangle, CheckCircle2, CircleHelp, ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-import { ALLERGY_I18N_KEYS } from "@/lib/allergy-i18n";
-import type { AllergyOption } from "@/lib/allergens";
-import type { PersonalReason, PersonalVerdict, ReasonLevel, VerdictStatus } from "@/lib/profiles/evaluate";
+import type { PersonalVerdict, ReasonLevel } from "@/lib/profiles/evaluate";
 import { cn } from "@/lib/utils";
 
 import { MedicalDisclaimer } from "./medical-disclaimer";
+import { REASON_STYLE, STATUS_STYLE, useReasonText } from "./personal-score-shared";
 
 interface PersonalScoreCardProps {
     verdict: PersonalVerdict;
     /** Nickname of the profile the verdict is for. */
     profileName: string;
+    /** Optional control shown under the header, e.g. the profile switcher (F4). */
+    headerAction?: React.ReactNode;
     className?: string;
 }
 
-// Colour is never the only signal: every state also has an icon and a text label.
-const STATUS_STYLE: Record<VerdictStatus, { box: string; text: string; Icon: typeof ShieldAlert }> = {
-    not_suitable: {
-        box: "border-red-200 bg-red-50 dark:border-red-900/50 dark:bg-red-950/20",
-        text: "text-red-800 dark:text-red-200",
-        Icon: ShieldAlert,
-    },
-    caution: {
-        box: "border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20",
-        text: "text-amber-900 dark:text-amber-100",
-        Icon: AlertTriangle,
-    },
-    cannot_verify: {
-        box: "border-neutral-300 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-800/60",
-        text: "text-neutral-800 dark:text-neutral-100",
-        Icon: ShieldQuestion,
-    },
-    good_match: {
-        box: "border-emerald-200 bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/20",
-        text: "text-emerald-900 dark:text-emerald-100",
-        Icon: ShieldCheck,
-    },
-    neutral: {
-        box: "border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900",
-        text: "text-neutral-800 dark:text-neutral-100",
-        Icon: CircleHelp,
-    },
-};
-
 const GROUP_ORDER: ReasonLevel[] = ["block", "caution", "unknown", "good"];
-
-const REASON_STYLE: Record<ReasonLevel, { Icon: typeof ShieldAlert; icon: string }> = {
-    block: { Icon: ShieldAlert, icon: "text-red-600 dark:text-red-400" },
-    caution: { Icon: AlertTriangle, icon: "text-amber-600 dark:text-amber-400" },
-    unknown: { Icon: CircleHelp, icon: "text-neutral-500 dark:text-neutral-400" },
-    good: { Icon: CheckCircle2, icon: "text-emerald-600 dark:text-emerald-400" },
-};
 
 /**
  * "Score for you": the same product judged for one profile (F1), with the allergen banner of
  * the "may contain" safety mode (F7). The universal score stays visible elsewhere on the page.
  */
-export function PersonalScoreCard({ verdict, profileName, className }: PersonalScoreCardProps) {
+export function PersonalScoreCard({ verdict, profileName, headerAction, className }: PersonalScoreCardProps) {
     const t = useTranslations("PersonalScore");
-    const tReasons = useTranslations("PersonalScore.reasons");
     const tBecause = useTranslations("PersonalScore.because");
-    const tProfile = useTranslations("Profile");
     const locale = useLocale();
-
-    const allergenName = (allergen: AllergyOption) => tProfile(ALLERGY_I18N_KEYS[allergen]);
+    const { allergenName, reasonText } = useReasonText();
 
     const style = STATUS_STYLE[verdict.status];
     const StatusIcon = style.Icon;
-
-    const reasonText = (r: PersonalReason) =>
-        tReasons(r.key, {
-            ...r.params,
-            ...(r.allergen ? { allergen: allergenName(r.allergen) } : {}),
-        });
 
     const findingsOf = (kind: "contains" | "may_contain") =>
         verdict.allergenFindings.filter((f) => f.kind === kind).map((f) => allergenName(f.allergen));
@@ -134,6 +89,8 @@ export function PersonalScoreCard({ verdict, profileName, className }: PersonalS
                     </p>
                 </div>
             </div>
+
+            {headerAction && <div className="mt-3">{headerAction}</div>}
 
             {verdict.personalScore === null && (
                 <p className="mt-2 text-xs text-neutral-600 dark:text-neutral-300">{t("scoreHidden")}</p>
