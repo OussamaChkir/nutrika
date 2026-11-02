@@ -328,6 +328,50 @@
       "failed": "Un problème est survenu. Réessayez, la suppression reprendra là où elle s'est arrêtée."
     }
   },
+  "Additives": {
+    "title": "Additifs ({count})",
+    "hint": "Touchez un additif pour voir ce que c'est et pourquoi il est utilisé.",
+    "forYouBadge": "Pour vous",
+    "close": "Fermer",
+    "draft": "Brouillon : cette explication n'a pas encore été relue.",
+    "whatItIs": "Ce que c'est",
+    "whyUsed": "Pourquoi on l'utilise",
+    "known": "Ce que l'on sait",
+    "forYou": "Pour vous",
+    "evidence": "Preuves d'effets sur la santé",
+    "sources": "Sources",
+    "noExplanation": "Nous n'avons pas encore d'explication pour cet additif.",
+    "noExplanationShort": "Pas encore d'explication",
+    "categories": {
+      "colour": "Colorant",
+      "preservative": "Conservateur",
+      "sweetener": "Édulcorant",
+      "flavour_enhancer": "Exhausteur de goût",
+      "emulsifier": "Émulsifiant",
+      "thickener": "Épaississant",
+      "acidity_regulator": "Régulateur d'acidité",
+      "antioxidant": "Antioxydant",
+      "other": "Autre"
+    },
+    "evidenceLevels": {
+      "strong": {
+        "label": "Preuves solides",
+        "desc": "des études concordantes montrent un effet"
+      },
+      "limited": {
+        "label": "Preuves limitées",
+        "desc": "quelques études, aux résultats mitigés"
+      },
+      "uncertain": {
+        "label": "Preuves incertaines",
+        "desc": "peu de données, ou contradictoires"
+      },
+      "none_known": {
+        "label": "Aucun problème relevé",
+        "desc": "les autorités n'ont pas relevé de problème de sécurité aux usages actuels"
+      }
+    }
+  },
   "ScoreMessages": {
     "veryHighSugar": "Sucre très élevé ({value} g/100 g)",
     "highSugar": "Sucre élevé ({value} g/100 g)",

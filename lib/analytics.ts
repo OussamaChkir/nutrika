@@ -25,7 +25,7 @@ export interface AnalyticsEvents {
     /** Phase 1: a scan was completed. */
     scan_completed: { withProfile: boolean; offline?: boolean };
     /** Phase 2: ingredient explanation opened. */
-    ingredient_explanation_opened: { kind: "additive" | "ingredient" };
+    ingredient_explanation_opened: { kind: "additive" | "ingredient"; code?: string; hasInfo?: boolean };
     /** Phase 3: an alternative product was tapped. */
     alternative_tapped: { fromGrade: string };
     /** Phase 3: a shopping list was created. */

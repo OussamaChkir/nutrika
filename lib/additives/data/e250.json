@@ -1,0 +1,42 @@
+{
+  "code": "E250",
+  "names": {
+    "en": "Sodium nitrite",
+    "fr": "Nitrite de sodium"
+  },
+  "category": "preservative",
+  "whatItIs": {
+    "en": "A curing salt used in processed meat.",
+    "fr": "Un sel de salaison utilisé dans les charcuteries."
+  },
+  "whyUsed": {
+    "en": "Keeps ham, sausages and bacon safe by stopping the bacteria that cause botulism, and gives them their pink colour.",
+    "fr": "Garde le jambon, les saucisses et le bacon sûrs en bloquant les bactéries du botulisme, et leur donne leur couleur rose."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA (2017) set a safe daily intake, and intake from additive use stays below it for the general population. Nitrite can form nitrosamines, and some studies link dietary nitrite with stomach cancer, but it is hard to separate the effect of added nitrite from nitrosamines already present in food.",
+    "fr": "Autorisé dans l'UE. L'EFSA (2017) a fixé une dose journalière admissible, et l'apport lié aux additifs reste en dessous pour la population générale. Le nitrite peut former des nitrosamines, et certaines études relient le nitrite alimentaire au cancer de l'estomac, mais il est difficile de distinguer l'effet du nitrite ajouté de celui des nitrosamines déjà présentes dans les aliments."
+  },
+  "evidence": "limited",
+  "forYou": [
+    {
+      "for": "child",
+      "note": {
+        "en": "EFSA found that intake can slightly exceed the safe level for children who eat a lot of cured meat.",
+        "fr": "L'EFSA a constaté que l'apport peut dépasser légèrement la dose admissible chez les enfants qui mangent beaucoup de charcuterie."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "EFSA (2017): Re-evaluation of potassium nitrite (E 249) and sodium nitrite (E 250)",
+      "url": "https://efsa.europa.eu/en/efsajournal/pub/4786"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA 2017 abstract checked (ADI, slight exceedance in children at the highest percentile, some evidence for gastric cancer). Botulism and colour use are general knowledge: confirm."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "code": "E471",
+  "names": {
+    "en": "Mono- and diglycerides of fatty acids",
+    "fr": "Mono- et diglycérides d'acides gras"
+  },
+  "category": "emulsifier",
+  "whatItIs": {
+    "en": "Fats modified so that oil and water mix. They can be made from vegetable or animal fat.",
+    "fr": "Des graisses modifiées pour que l'huile et l'eau se mélangent. Elles peuvent provenir de graisse végétale ou animale."
+  },
+  "whyUsed": {
+    "en": "An emulsifier that improves texture and keeps bread, cakes, margarine and ice cream soft and smooth.",
+    "fr": "Un émulsifiant qui améliore la texture et garde moelleux et onctueux le pain, les gâteaux, la margarine et les glaces."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA re-evaluated it in 2017 and did not raise a safety concern for the general population at current uses.",
+    "fr": "Autorisé dans l'UE. L'EFSA l'a réévalué en 2017 et n'a pas soulevé de problème de sécurité pour la population générale aux usages actuels."
+  },
+  "evidence": "none_known",
+  "forYou": [
+    {
+      "for": "vegan",
+      "note": {
+        "en": "May come from animal or plant fat, and the label does not say which. Ask the manufacturer.",
+        "fr": "Peut provenir de graisse animale ou végétale, et l'étiquette ne le précise pas. Demandez au fabricant."
+      }
+    },
+    {
+      "for": "vegetarian",
+      "note": {
+        "en": "May come from animal fat, and the label does not say. Ask the manufacturer.",
+        "fr": "Peut provenir de graisse animale, et l'étiquette ne le précise pas. Demandez au fabricant."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "EFSA (2017): Re-evaluation of mono- and di-glycerides of fatty acids (E 471) as food additives",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7010209/"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "The article page could not be opened (blocked). The conclusion (no safety concern, general population) is from memory, and a later 2021 EFSA opinion covers infants under 16 weeks: confirm both."
+  }
+}
