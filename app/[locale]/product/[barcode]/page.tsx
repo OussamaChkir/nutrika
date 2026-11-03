@@ -38,6 +38,11 @@ import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
 import { getCachedExplanation } from "@/lib/ai-cache";
 import { cookies } from "next/headers";
 import { isFeatureEnabled } from "@/lib/flags";
+import { AdditiveChips, type AdditiveChipItem } from "@/components/additive-chips";
+import { buildIndex, forYouNotes, getAdditiveInfo, productAdditiveCodes } from "@/lib/additives/lookup";
+import { ADDITIVES } from "@/lib/additives/registry";
+import type { AdditiveLocale } from "@/lib/additives/schema";
+import type { PersonalProfile } from "@/lib/profiles/constants";
 import { pickActiveProfile } from "@/lib/profiles/active";
 import { ACTIVE_PROFILE_COOKIE } from "@/lib/profiles/constants";
 import { productFromStored } from "@/lib/product";
@@ -223,6 +228,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         activeId: string;
         everyone: EveryoneRow[];
     } | null = null;
+    let activePersonalProfile: PersonalProfile | null = null;
     if (personalEnabled && session?.user?.id) {
         try {
             const profileRows = await prisma.profile.findMany({
@@ -240,12 +246,29 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     isActive: row.id === active.id,
                     verdict: evaluateProduct(normalized, toPersonalProfile(row), product.score),
                 }));
+                const activeRow = profileRows.find((r: { id: string }) => r.id === active.id);
+                if (activeRow) activePersonalProfile = toPersonalProfile(activeRow);
                 const current = everyone.find((r) => r.isActive)!;
                 personalView = { verdict: current.verdict, name: current.name, activeId: active.id, everyone };
             }
         } catch (error) {
             console.error("Personal score unavailable:", error instanceof Error ? error.message : "unknown error");
         }
+    }
+
+    // Additive explanations (F6), behind a flag. Drafts are only shown outside production.
+    let additiveItems: AdditiveChipItem[] = [];
+    if (isFeatureEnabled("ingredientExplanations")) {
+        const additiveLocale: AdditiveLocale = locale === "fr" ? "fr" : "en";
+        const index = buildIndex(ADDITIVES);
+        const includeDrafts = process.env.NODE_ENV !== "production";
+        additiveItems = productAdditiveCodes(productFromStored(product).additives).map((code) => {
+            const view = getAdditiveInfo(index, code, additiveLocale, { includeDrafts });
+            return { code, view, forYou: view ? forYouNotes(view, activePersonalProfile) : [] };
+        });
+        // Until at least one of the product's additives has a reviewed explanation, a list of
+        // chips that all say "no explanation yet" would only be noise.
+        if (!additiveItems.some((item) => item.view)) additiveItems = [];
     }
 
     return (
@@ -427,6 +450,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             <div className="w-1 bg-gradient-to-b from-red-400 to-red-600 shrink-0" />
                             <CardContent className="p-4 flex-1">
                                 <NegativesList items={negatives} />
+                            </CardContent>
+                        </div>
+                    </Card>
+                )}
+
+                {additiveItems.length > 0 && (
+                    <Card className="animate-fade-in-up delay-200 border-0 shadow-md shadow-violet-100/30 dark:shadow-violet-950/20 overflow-hidden">
+                        <div className="flex">
+                            <div className="w-1 bg-gradient-to-b from-violet-400 to-violet-600 shrink-0" />
+                            <CardContent className="p-4 flex-1">
+                                <AdditiveChips items={additiveItems} />
                             </CardContent>
                         </div>
                     </Card>

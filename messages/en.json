@@ -328,6 +328,50 @@
       "failed": "Something went wrong. Please try again; deletion will pick up where it stopped."
     }
   },
+  "Additives": {
+    "title": "Additives ({count})",
+    "hint": "Tap an additive to see what it is and why it is used.",
+    "forYouBadge": "For you",
+    "close": "Close",
+    "draft": "Draft: this explanation has not been reviewed yet.",
+    "whatItIs": "What it is",
+    "whyUsed": "Why it is used",
+    "known": "What is known",
+    "forYou": "For you",
+    "evidence": "Evidence of health effects",
+    "sources": "Sources",
+    "noExplanation": "We do not have an explanation for this additive yet.",
+    "noExplanationShort": "No explanation yet",
+    "categories": {
+      "colour": "Colour",
+      "preservative": "Preservative",
+      "sweetener": "Sweetener",
+      "flavour_enhancer": "Flavour enhancer",
+      "emulsifier": "Emulsifier",
+      "thickener": "Thickener",
+      "acidity_regulator": "Acidity regulator",
+      "antioxidant": "Antioxidant",
+      "other": "Other"
+    },
+    "evidenceLevels": {
+      "strong": {
+        "label": "Strong evidence",
+        "desc": "consistent studies show an effect"
+      },
+      "limited": {
+        "label": "Limited evidence",
+        "desc": "some studies, with mixed results"
+      },
+      "uncertain": {
+        "label": "Uncertain evidence",
+        "desc": "little or conflicting data"
+      },
+      "none_known": {
+        "label": "No concern found",
+        "desc": "regulators found no safety concern at current uses"
+      }
+    }
+  },
   "ScoreMessages": {
     "veryHighSugar": "Very high sugar ({value}g/100g)",
     "highSugar": "High sugar ({value}g/100g)",

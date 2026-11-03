@@ -1,0 +1,49 @@
+{
+  "code": "E120",
+  "names": {
+    "en": "Carmine (cochineal)",
+    "fr": "Carmin (cochenille)"
+  },
+  "category": "colour",
+  "whatItIs": {
+    "en": "A red colour made from the dried bodies of a scale insect.",
+    "fr": "Un colorant rouge fabriqué à partir du corps séché d'un insecte (la cochenille)."
+  },
+  "whyUsed": {
+    "en": "Colours sweets, drinks, yoghurts and meat products red or pink.",
+    "fr": "Colore en rouge ou rose des bonbons, boissons, yaourts et produits à base de viande."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU and re-evaluated by EFSA in 2015. Allergic reactions are rare but have been reported in some people.",
+    "fr": "Autorisé dans l'UE et réévalué par l'EFSA en 2015. Les réactions allergiques sont rares mais ont été signalées chez certaines personnes."
+  },
+  "evidence": "limited",
+  "forYou": [
+    {
+      "for": "vegan",
+      "note": {
+        "en": "Made from insects, so it is not vegan.",
+        "fr": "Fabriqué à partir d'insectes, donc non végétalien."
+      }
+    },
+    {
+      "for": "vegetarian",
+      "note": {
+        "en": "Made from insects, so many vegetarians avoid it.",
+        "fr": "Fabriqué à partir d'insectes, donc de nombreux végétariens l'évitent."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "EFSA (2015): Scientific opinion on the re-evaluation of cochineal, carminic acid, carmines (E 120)",
+      "url": "https://efsa.europa.eu/en/efsajournal/pub/4288"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA opinion page could not be opened while drafting (title confirmed by search). Allergy statement and insect origin are general knowledge: confirm."
+  }
+}
