@@ -28,6 +28,12 @@ sources sets:
 `node scripts/top-additives.mjs` (read-only) lists the additives that appear most in your
 saved products and scan history. Start with those.
 
+## Real-data coverage
+
+On 2 Nov 2026 the production database (24 products, 14 scans) contained 21 distinct additives
+(sub-types such as E322i count as their parent). `additives.test.ts` lists them and which still
+need an entry: E262, E296, E330, E331, E500, E503. Update that list when the data grows.
+
 ## Switching it on
 
 `NEXT_PUBLIC_FF_INGREDIENT_EXPLANATIONS=1` (needs a redeploy). The section only appears on a

@@ -1,0 +1,34 @@
+{
+  "code": "E150d",
+  "names": {
+    "en": "Sulphite ammonia caramel",
+    "fr": "Caramel au sulfite d'ammonium"
+  },
+  "category": "colour",
+  "whatItIs": {
+    "en": "A dark brown colour made by heating sugar with ammonium and sulphite compounds.",
+    "fr": "Un colorant brun foncé obtenu en chauffant du sucre avec des composés d'ammonium et de sulfite."
+  },
+  "whyUsed": {
+    "en": "Colours colas, other soft drinks, sauces and beers dark brown.",
+    "fr": "Colore en brun foncé les colas, autres sodas, sauces et bières."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA re-evaluated caramel colours in 2011 and found in 2012 that consumer exposure was lower than first estimated. The process can leave small amounts of by-products, so the amounts allowed in the colour are limited.",
+    "fr": "Autorisé dans l'UE. L'EFSA a réévalué les colorants caramel en 2011 et constaté en 2012 que l'exposition des consommateurs était plus faible que prévu. Le procédé peut laisser de petites quantités de sous-produits, c'est pourquoi les teneurs autorisées dans le colorant sont limitées."
+  },
+  "evidence": "uncertain",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2012): Refined exposure assessment for caramel colours (E 150a, c, d)",
+      "url": "https://www.efsa.europa.eu/lv/efsajournal/pub/3030"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "The exposure assessment page was not opened (title confirmed by search); the 2011 opinion was not found. 'Exposure lower than estimated' is from a news headline and 'limited by-products' from memory: confirm both."
+  }
+}

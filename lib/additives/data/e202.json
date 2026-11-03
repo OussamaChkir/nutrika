@@ -1,0 +1,38 @@
+{
+  "code": "E202",
+  "names": {
+    "en": "Potassium sorbate",
+    "fr": "Sorbate de potassium"
+  },
+  "category": "preservative",
+  "whatItIs": {
+    "en": "The potassium salt of sorbic acid, a preservative.",
+    "fr": "Le sel de potassium de l'acide sorbique, un conservateur."
+  },
+  "whyUsed": {
+    "en": "Slows mould and yeast in cheese, bakery products, dried fruit, sauces and drinks.",
+    "fr": "Ralentit les moisissures et les levures dans les fromages, produits de boulangerie, fruits secs, sauces et boissons."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA re-evaluated sorbic acid and sorbates in 2015 and published a follow-up opinion afterwards. Regulators did not raise a safety concern at current uses.",
+    "fr": "Autorisé dans l'UE. L'EFSA a réévalué l'acide sorbique et les sorbates en 2015 et publié un avis complémentaire ensuite. Les autorités n'ont pas soulevé de problème de sécurité aux usages actuels."
+  },
+  "evidence": "none_known",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2015): Scientific opinion on the re-evaluation of sorbic acid and sorbates (E 200-203)",
+      "url": "https://www.efsa.europa.eu/it/efsajournal/pub/4144"
+    },
+    {
+      "label": "EFSA: Opinion on the follow-up of the re-evaluation of sorbic acid (E 200) and potassium sorbate (E 202)",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7009143/"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "Neither EFSA page was opened (titles confirmed by search). The 'no safety concern at current uses' conclusion is from memory: confirm in the 2015 opinion and the follow-up."
+  }
+}

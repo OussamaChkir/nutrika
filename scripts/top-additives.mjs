@@ -20,7 +20,11 @@ const LIMIT = limitArg > -1 ? Math.max(1, Number(process.argv[limitArg + 1]) || 
 function normalize(raw) {
     const cleaned = String(raw).trim().replace(/^[a-z]{2}:/i, "").split("-")[0].replace(/\s+/g, "");
     const m = /^E(\d{3,4})([A-Za-z]{0,2})$/i.exec(cleaned);
-    return m ? `E${m[1]}${m[2].toLowerCase()}` : null;
+    if (!m) return null;
+    // Roman-numeral sub-types count as their parent: E322i -> E322, E500ii -> E500 (E150d stays E150d).
+    const base = `E${m[1]}${m[2].toLowerCase()}`;
+    const roman = /^(E\d{3,4}[a-z]??)(iii|ii|iv|vi{0,3}|ix|i|v)$/.exec(base);
+    return roman ? roman[1] : base;
 }
 
 const prisma = new PrismaClient();

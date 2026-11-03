@@ -1,0 +1,38 @@
+{
+  "code": "E223",
+  "names": {
+    "en": "Sodium metabisulphite",
+    "fr": "Métabisulfite de sodium"
+  },
+  "category": "preservative",
+  "whatItIs": {
+    "en": "A sulphite, used as a preservative and antioxidant.",
+    "fr": "Un sulfite, utilisé comme conservateur et antioxydant."
+  },
+  "whyUsed": {
+    "en": "Stops dried fruit, potato products, sauces, juices and wine from browning and spoiling.",
+    "fr": "Empêche les fruits secs, produits à base de pomme de terre, sauces, jus et vins de brunir et de se détériorer."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU, with limits. Sulphites can trigger asthma-like symptoms or other reactions in sensitive people, which is why the label must declare them above 10 mg per kg or litre. EFSA re-evaluated sulphites in 2016 and published a follow-up in 2022.",
+    "fr": "Autorisé dans l'UE, avec des limites. Les sulfites peuvent provoquer des symptômes de type asthmatique ou d'autres réactions chez les personnes sensibles, c'est pourquoi l'étiquette doit les mentionner au-delà de 10 mg par kg ou par litre. L'EFSA a réévalué les sulfites en 2016 et publié un suivi en 2022."
+  },
+  "evidence": "strong",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2016): Scientific opinion on the re-evaluation of sulfur dioxide and sulfites (E 220-228)",
+      "url": "https://www.efsa.europa.eu/en/efsajournal/pub/4438"
+    },
+    {
+      "label": "EFSA (2022): Follow-up of the re-evaluation of sulfur dioxide and sulfites",
+      "url": "https://www.efsa.europa.eu/sites/default/files/2022-11/EFS2_7594.pdf"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA pages not opened (titles and years from search). The 10 mg/kg labelling threshold and the sensitivity statement are general knowledge: confirm. People with a sulphite allergy are already handled by the allergen check."
+  }
+}

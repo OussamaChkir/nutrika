@@ -1,0 +1,42 @@
+{
+  "code": "E965",
+  "names": {
+    "en": "Maltitol",
+    "fr": "Maltitol"
+  },
+  "category": "sweetener",
+  "whatItIs": {
+    "en": "A sugar alcohol (polyol) made from starch, slightly less sweet than sugar.",
+    "fr": "Un polyol (alcool de sucre) fabriqué à partir d'amidon, un peu moins sucrant que le sucre."
+  },
+  "whyUsed": {
+    "en": "Replaces sugar in “sugar-free” chocolate, sweets, biscuits and ice cream, adding bulk and a sugar-like texture with fewer calories.",
+    "fr": "Remplace le sucre dans les chocolats, bonbons, biscuits et glaces « sans sucre », en apportant du volume et une texture proche du sucre, avec moins de calories."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. Eating a lot of it can cause bloating and a laxative effect, so foods with more than 10% added polyols must say “excessive consumption may produce laxative effects”. It raises blood sugar less than sugar does, but not by zero.",
+    "fr": "Autorisé dans l'UE. En manger beaucoup peut provoquer des ballonnements et un effet laxatif, c'est pourquoi les aliments contenant plus de 10 % de polyols ajoutés doivent porter la mention « une consommation excessive peut avoir des effets laxatifs ». Il fait monter la glycémie moins que le sucre, mais pas de zéro."
+  },
+  "evidence": "strong",
+  "forYou": [
+    {
+      "for": "diabetes",
+      "note": {
+        "en": "A “no added sugar” food with maltitol can still raise blood sugar. Look at the total carbohydrates, not only the sugar figure.",
+        "fr": "Un aliment « sans sucres ajoutés » avec du maltitol peut quand même faire monter la glycémie. Regardez les glucides totaux, pas seulement la ligne « sucres »."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "Regulation (EU) No 1169/2011 on food information to consumers, Annex III (polyols warning)",
+      "url": "https://eur-lex.europa.eu/eli/reg/2011/1169/oj"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EUR-Lex not opened: confirm the polyol warning wording and the 10% threshold in Annex III. The blood-sugar statement has no source here (general knowledge): add one, ideally a dietitian's. No EFSA opinion cited."
+  }
+}

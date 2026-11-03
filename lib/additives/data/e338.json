@@ -1,0 +1,34 @@
+{
+  "code": "E338",
+  "names": {
+    "en": "Phosphoric acid",
+    "fr": "Acide phosphorique"
+  },
+  "category": "acidity_regulator",
+  "whatItIs": {
+    "en": "An acid made from phosphorus.",
+    "fr": "Un acide dérivé du phosphore."
+  },
+  "whyUsed": {
+    "en": "Gives colas and other soft drinks their tangy taste and regulates acidity.",
+    "fr": "Donne leur goût acidulé aux colas et autres sodas et régule l'acidité."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA re-evaluated phosphates in 2019 and set a group safe daily intake. Phosphorus also occurs naturally in food, and intake from food plus additives can reach that level for some people, especially young children with a high intake. People with kidney disease are usually advised to limit phosphates and should ask their doctor.",
+    "fr": "Autorisé dans l'UE. L'EFSA a réévalué les phosphates en 2019 et fixé une dose journalière admissible de groupe. Le phosphore est aussi présent naturellement dans les aliments, et l'apport total (aliments et additifs) peut atteindre ce niveau chez certaines personnes, surtout les jeunes enfants qui en consomment beaucoup. Les personnes atteintes d'une maladie rénale doivent généralement limiter les phosphates et demander conseil à leur médecin."
+  },
+  "evidence": "limited",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2019): Re-evaluation of phosphoric acid, phosphates, di-, tri- and polyphosphates (E 338-341, 343, 450-452)",
+      "url": "https://abdn.elsevierpure.com/en/publications/re-evaluation-of-phosphoric-acidphosphates-di-tri-and-polyphospha"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "The link is a library record of the EFSA opinion, not the opinion itself. The group safe intake, the exposure statement for young children and the kidney advice are from memory: confirm against the opinion."
+  }
+}

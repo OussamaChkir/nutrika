@@ -370,6 +370,37 @@ describe("diabetes (sugar)", () => {
     });
 });
 
+describe("diabetes and polyol sweeteners", () => {
+    const diabetes = profile({ conditions: ["diabetes"] });
+    const sugarFree = { nutriments: { sugars_100g: 0.5 } };
+
+    it("a low sugar figure is a green result", () => {
+        expect(keys(evaluate(product(sugarFree), diabetes))).toContain("sugarLow");
+    });
+
+    it.each(["en:e965", "en:e965i", "en:e420", "en:e421", "en:e953", "en:e966", "en:e967", "en:e968"])(
+        "but not when the product has the polyol %s",
+        (tag) => {
+            const v = evaluate(product({ ...sugarFree, additives_tags: [tag] }), diabetes);
+            expect(keys(v)).not.toContain("sugarLow");
+            expect(v.status).not.toBe("good_match");
+        }
+    );
+
+    it("other additives do not change it", () => {
+        expect(keys(evaluate(product({ ...sugarFree, additives_tags: ["en:e330"] }), diabetes))).toContain("sugarLow");
+    });
+
+    it("a high sugar figure still cautions, polyol or not", () => {
+        const v = evaluate(product({ nutriments: { sugars_100g: 30 }, additives_tags: ["en:e965"] }), diabetes);
+        expect(keys(v)).toContain("sugarVeryHigh");
+    });
+
+    it("does not affect profiles without diabetes", () => {
+        expect(evaluate(product({ ...sugarFree, additives_tags: ["en:e965"] }), profile()).reasons).toEqual([]);
+    });
+});
+
 describe("keto (net carbs)", () => {
     const carbs = (c?: number, fiber?: number) =>
         product({ nutriments: { carbohydrates_100g: c, fiber_100g: fiber } });
