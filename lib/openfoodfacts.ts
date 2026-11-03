@@ -79,8 +79,8 @@ export interface OFFSearchResponse {
 // API FUNCTIONS
 // ============================================
 
-const OFF_BASE_URL = "https://world.openfoodfacts.org/api/v2";
-const OFF_USER_AGENT = "Nutrika/1.0 (contact@nutrika.app)";
+export const OFF_BASE_URL = "https://world.openfoodfacts.org/api/v2";
+export const OFF_USER_AGENT = "Nutrika/1.0 (contact@nutrika.app)";
 
 /**
  * Fetch a product from Open Food Facts by barcode

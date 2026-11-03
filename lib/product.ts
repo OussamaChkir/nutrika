@@ -70,6 +70,8 @@ export interface Product {
     ingredientsStatus: IngredientsStatus;
     /** Last edit of the source data, unix seconds. Shown so users can judge freshness. */
     lastModified?: number;
+    /** OFF country tags where the product is sold, e.g. "en:tunisia". Empty when unknown. */
+    countriesTags: string[];
 }
 
 // ============================================
@@ -175,6 +177,7 @@ export function normalizeOffProduct(off: OFFProduct): Product {
         ingredientsAnalysisTags: off.ingredients_analysis_tags ?? [],
         ingredientsStatus: getIngredientsStatus(off),
         lastModified: off.last_modified_t,
+        countriesTags: off.countries_tags ?? [],
     };
 }
 
@@ -250,5 +253,6 @@ export function productFromStored(row: StoredProduct): Product {
         categoryTags: [],
         ingredientsAnalysisTags: [],
         ingredientsStatus: "missing",
+        countriesTags: [],
     };
 }

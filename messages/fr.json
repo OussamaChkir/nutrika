@@ -722,5 +722,32 @@
       "you": "Sélectionné"
     },
     "reportData": "Ingrédients ou allergènes incorrects ? Corrigez-les sur Open Food Facts (s'ouvre dans un nouvel onglet)."
+  },
+  "Alternatives": {
+    "title": "Meilleures alternatives",
+    "titleForYou": "Meilleures alternatives pour {name}",
+    "subtitle": "Le même type de produit, avec un score nettement meilleur. Comparé sur les données disponibles.",
+    "gain": "+{delta} points par rapport à ce produit",
+    "gainPersonal": "+{delta} points pour vous par rapport à ce produit",
+    "scoreLabel": "Score {score}/100",
+    "reasons": {
+      "lessSugar": "Moins de sucre : {to} g au lieu de {from} g pour {unit}",
+      "lessSalt": "Moins de sel : {to} g au lieu de {from} g pour 100 g",
+      "lessSaturatedFat": "Moins de graisses saturées : {to} g au lieu de {from} g pour 100 g",
+      "fewerAdditives": "Moins d'additifs : {to} au lieu de {from}",
+      "lessProcessed": "Moins transformé",
+      "moreProtein": "Plus de protéines : {to} g au lieu de {from} g pour 100 g",
+      "moreFiber": "Plus de fibres : {to} g au lieu de {from} g pour 100 g",
+      "betterScore": "Meilleur score global"
+    },
+    "status": {
+      "caution": "Prudence pour vous",
+      "good_match": "Bon choix pour vous",
+      "neutral": "Rien à signaler pour vous"
+    },
+    "notSoldHere": "Peut ne pas être vendu près de chez vous",
+    "empty": "Nous n'avons pas trouvé de produit nettement meilleur dans cette catégorie. Cela peut signifier que celui-ci est déjà un bon choix, ou que les données sont incomplètes.",
+    "openProduct": "Voir {name}",
+    "disclaimer": "Les suggestions reposent sur les données d'Open Food Facts, parfois incomplètes. Vérifiez toujours l'étiquette, surtout en cas d'allergie."
   }
 }

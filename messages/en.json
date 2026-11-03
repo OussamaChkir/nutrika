@@ -722,5 +722,32 @@
       "you": "Selected"
     },
     "reportData": "Ingredients or allergens look wrong? Fix them on Open Food Facts (opens a new tab)."
+  },
+  "Alternatives": {
+    "title": "Better alternatives",
+    "titleForYou": "Better alternatives for {name}",
+    "subtitle": "Same kind of product, with a clearly better score. Compared on the data available.",
+    "gain": "+{delta} points vs this product",
+    "gainPersonal": "+{delta} points for you vs this product",
+    "scoreLabel": "Score {score}/100",
+    "reasons": {
+      "lessSugar": "Less sugar: {to} g instead of {from} g per {unit}",
+      "lessSalt": "Less salt: {to} g instead of {from} g per 100 g",
+      "lessSaturatedFat": "Less saturated fat: {to} g instead of {from} g per 100 g",
+      "fewerAdditives": "Fewer additives: {to} instead of {from}",
+      "lessProcessed": "Less processed",
+      "moreProtein": "More protein: {to} g instead of {from} g per 100 g",
+      "moreFiber": "More fibre: {to} g instead of {from} g per 100 g",
+      "betterScore": "Better overall score"
+    },
+    "status": {
+      "caution": "Caution for you",
+      "good_match": "Good match for you",
+      "neutral": "Nothing to flag for you"
+    },
+    "notSoldHere": "May not be sold near you",
+    "empty": "We did not find a clearly better product in this category. That can mean this one is already a good choice, or that the data is incomplete.",
+    "openProduct": "See {name}",
+    "disclaimer": "Suggestions are based on Open Food Facts data, which can be incomplete. Always check the label, especially if you have an allergy."
   }
 }
