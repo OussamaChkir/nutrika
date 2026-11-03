@@ -15,7 +15,8 @@
     "blog": "Blog",
     "calculator": "Calculateur",
     "openMenu": "Ouvrir le menu",
-    "closeMenu": "Fermer le menu"
+    "closeMenu": "Fermer le menu",
+    "shoppingList": "Liste de courses"
   },
   "Compare": {
     "metaTitle": "Comparer les produits",
@@ -315,7 +316,7 @@
     "export": "Télécharger mes données (JSON)",
     "delete": "Supprimer mon compte",
     "deleteTitle": "Supprimer votre compte ?",
-    "deleteWarning": "Cela supprime définitivement votre compte, vos profils personnels, votre historique de scans, vos favoris, vos avis et vos contributions. Cette action est irréversible. Les produits que vous avez ajoutés restent dans le catalogue sans votre nom.",
+    "deleteWarning": "Cela supprime définitivement votre compte, vos profils personnels, votre historique de scans, vos favoris, votre liste de courses, vos avis et vos contributions. Cette action est irréversible. Les produits que vous avez ajoutés restent dans le catalogue sans votre nom.",
     "typeEmail": "Saisissez {email} pour confirmer",
     "cancel": "Annuler",
     "confirmDelete": "Tout supprimer",
@@ -476,7 +477,7 @@
     "retentionTitle": "7. Conserver, exporter et supprimer vos données",
     "retentionContent": "Nous conservons vos données tant que vous avez un compte, et vous gardez le contrôle :",
     "retentionList1": "Supprimez un profil personnel depuis votre page de profil personnel : le profil et tout son contenu sont supprimés immédiatement.",
-    "retentionList2": "Supprimez votre compte depuis votre page de profil : votre compte, vos profils personnels, votre historique de scans, vos favoris, vos avis et vos contributions sont supprimés. Les produits que vous avez ajoutés peuvent rester dans le catalogue partagé sans votre nom.",
+    "retentionList2": "Supprimez votre compte depuis votre page de profil : votre compte, vos profils personnels, votre historique de scans, vos favoris, votre liste de courses, vos avis et vos contributions sont supprimés. Les produits que vous avez ajoutés peuvent rester dans le catalogue partagé sans votre nom.",
     "retentionList3": "Téléchargez vos données : vous pouvez exporter les données de votre compte dans un fichier JSON depuis votre page de profil.",
     "securityTitle": "8. Sécurité des données",
     "securityContent": "Nous avons mis en place des mesures de sécurité appropriées pour éviter que vos données personnelles ne soient accidentellement perdues, utilisées ou consultées de manière non autorisée, modifiées ou divulguées.",
@@ -485,7 +486,8 @@
     "childrenTitle": "10. Enfants et profils familiaux",
     "childrenContent": "Les comptes Nutrika sont destinés aux adultes. Un parent ou un tuteur peut créer un profil pour un enfant afin de vérifier les produits selon les allergies de l'enfant. Ces profils utilisent uniquement un pseudo et une tranche d'âge. Ne créez un profil pour une autre personne que si vous y êtes habilité, par exemple en tant que parent ou tuteur.",
     "contactTitle": "11. Nous contacter",
-    "contactContent": "Si vous avez des questions concernant cette politique de confidentialité ou nos pratiques de confidentialité, veuillez nous contacter à support@nutrika.com."
+    "contactContent": "Si vous avez des questions concernant cette politique de confidentialité ou nos pratiques de confidentialité, veuillez nous contacter à support@nutrika.com.",
+    "collectList7": "Liste de courses et produits enregistrés (facultatif) : les produits que vous marquez comme approuvés ou à éviter, et les articles de votre liste de courses avec leur quantité et leur état coché. Personne d'autre ne peut les voir. Si vous utilisez le bouton Partager, la liste est transmise à votre propre application de messagerie et Nutrika ne la reçoit pas."
   },
   "Terms": {
     "metaTitle": "Conditions générales | Nutrika",
@@ -749,5 +751,79 @@
     "empty": "Nous n'avons pas trouvé de produit nettement meilleur dans cette catégorie. Cela peut signifier que celui-ci est déjà un bon choix, ou que les données sont incomplètes.",
     "openProduct": "Voir {name}",
     "disclaimer": "Les suggestions reposent sur les données d'Open Food Facts, parfois incomplètes. Vérifiez toujours l'étiquette, surtout en cas d'allergie."
+  },
+  "Shopping": {
+    "title": "Liste de courses",
+    "subtitle": "Les articles à acheter la prochaine fois. Scannez un produit et touchez Ajouter à la liste, ou saisissez un article ci-dessous.",
+    "remaining": "{count} à acheter",
+    "allDone": "Tout est coché.",
+    "empty": "Votre liste est vide. Scannez un produit et touchez Ajouter à la liste, ou saisissez un article ci-dessus.",
+    "addLabel": "Ajouter un article",
+    "addPlaceholder": "Par exemple : pain",
+    "addButton": "Ajouter",
+    "boughtTitle": "Acheté",
+    "check": "Marquer {name} comme acheté",
+    "uncheck": "Remettre {name} sur la liste",
+    "quantity": "{name} : quantité {quantity}",
+    "increase": "Un {name} de plus",
+    "decrease": "Un {name} de moins",
+    "remove": "Supprimer {name}",
+    "clearChecked": "Effacer les articles achetés",
+    "share": "Partager la liste",
+    "shareWhatsApp": "WhatsApp",
+    "shareSms": "SMS",
+    "shareNothing": "Rien à partager.",
+    "shareTitle": "Liste de courses",
+    "shareFooter": "Faite avec Nutrika",
+    "aisles": {
+      "produce": "Fruits et légumes",
+      "bakery": "Boulangerie",
+      "dairy": "Produits laitiers et œufs",
+      "meat_fish": "Viande et poisson",
+      "pantry": "Épicerie",
+      "snacks": "Snacks et sucreries",
+      "drinks": "Boissons",
+      "frozen": "Surgelés",
+      "other": "Autres"
+    },
+    "saved": {
+      "title": "Mes produits",
+      "intro": "Les produits que vous avez approuvés ou que vous voulez éviter. Quand vous scannez un produit similaire, Nutrika vous dit comment il se compare.",
+      "approved": "Approuvés",
+      "avoid": "À éviter",
+      "none": "Rien pour l'instant. Après un scan, touchez Approuver ou Éviter.",
+      "remove": "Ne plus marquer {name}",
+      "scoreOf": "Score {score}/100"
+    },
+    "actions": {
+      "group": "Votre choix pour ce produit",
+      "approve": "Approuver",
+      "avoid": "Éviter",
+      "addToList": "Ajouter à la liste",
+      "approvedNow": "Marqué comme approuvé.",
+      "avoidNow": "Marqué à éviter.",
+      "cleared": "Choix retiré.",
+      "added": "Ajouté à votre liste de courses.",
+      "onList": "Déjà sur votre liste",
+      "signIn": "Connectez-vous pour enregistrer des produits et créer une liste de courses.",
+      "signInButton": "Se connecter"
+    },
+    "flags": {
+      "label": "Comparé à vos choix",
+      "avoid": "Vous avez marqué ce produit à éviter.",
+      "approved": "Ce produit est dans votre liste approuvée.",
+      "approvedButCheck": "Vous avez déjà approuvé ce produit, mais vérifiez le verdict ci-dessus : il peut ne pas convenir à ce profil.",
+      "moreSugar": "Plus de sucre que celui que vous achetez d'habitude : {current} g au lieu de {usual} g pour 100 g ou 100 ml.",
+      "moreSalt": "Plus de sel que celui que vous achetez d'habitude : {current} g au lieu de {usual} g pour 100 g ou 100 ml.",
+      "moreSaturatedFat": "Plus de graisses saturées que celui que vous achetez d'habitude : {current} g au lieu de {usual} g pour 100 g ou 100 ml."
+    },
+    "errors": {
+      "unauthorized": "Veuillez vous reconnecter.",
+      "invalid": "Cela n'a pas fonctionné. Vérifiez ce que vous avez saisi.",
+      "not_found": "Cet article ou ce produit est introuvable.",
+      "limit": "Votre liste est pleine. Supprimez d'abord quelques articles.",
+      "disabled": "Cette fonctionnalité n'est pas disponible.",
+      "failed": "Une erreur s'est produite. Réessayez."
+    }
   }
 }

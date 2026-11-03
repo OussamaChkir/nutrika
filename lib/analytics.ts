@@ -30,8 +30,16 @@ export interface AnalyticsEvents {
     alternatives_opened: { count: number; personal: boolean };
     /** Phase 3: an alternative product was tapped. */
     alternative_tapped: { fromGrade: string };
-    /** Phase 3: a shopping list was created. */
+    /** Phase 3: a shopping list was created (the first item was added). */
     list_created: NoProps;
+    /** Phase 3 (F3): an item was added to the list, from a scan result or from the list page. */
+    list_item_added: { source: "scan" | "list" };
+    /** Phase 3 (F3): a product was marked approved or avoid, or the mark was removed. */
+    product_state_set: { state: "approved" | "avoid" | "cleared" };
+    /** Phase 3 (F3): a flag was shown on a scan result (the kind only, never the product). */
+    flag_shown: { kind: string };
+    /** Phase 3 (F3): the list was opened in WhatsApp or SMS. */
+    list_shared: { channel: "whatsapp" | "sms" };
     /** Phase 5: a photo scan ended in a result the user accepted. */
     photo_scan_accepted: NoProps;
     /** Phase 6: a menu scan was done. */

@@ -38,6 +38,8 @@ export interface ExportSource {
     }[];
     scans: { scannedAt: Dated; product: { barcode: string; name: string; brand: string | null } }[];
     favorites: { createdAt: Dated; product: { barcode: string; name: string; brand: string | null } }[];
+    savedProducts: { barcode: string; name: string; brand: string | null; state: string; createdAt: Dated }[];
+    shoppingList: { barcode: string | null; label: string; quantity: number; checked: boolean; createdAt: Dated }[];
     feedbacks: { rating: number; comment: string | null; createdAt: Dated; product: { barcode: string; name: string } }[];
     contributions: { id: string; status: string; reason: string | null; changes: unknown; createdAt: Dated }[];
     productsAdded: { barcode: string; name: string; brand: string | null; status: string; createdAt: Dated }[];
@@ -81,6 +83,18 @@ export function buildAccountExport(src: ExportSource, now: Dated) {
         })),
         scanHistory: src.scans.map((s) => ({ scannedAt: iso(s.scannedAt), ...product(s.product) })),
         favorites: src.favorites.map((f) => ({ addedAt: iso(f.createdAt), ...product(f.product) })),
+        savedProducts: src.savedProducts.map((p) => ({
+            ...product(p),
+            state: p.state,
+            savedAt: iso(p.createdAt),
+        })),
+        shoppingList: src.shoppingList.map((i) => ({
+            barcode: i.barcode,
+            label: i.label,
+            quantity: i.quantity,
+            checked: i.checked,
+            addedAt: iso(i.createdAt),
+        })),
         reviews: src.feedbacks.map((f) => ({
             rating: f.rating,
             comment: f.comment,

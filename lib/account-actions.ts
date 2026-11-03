@@ -31,6 +31,8 @@ export async function deleteAccount(typedEmail: string): Promise<DeleteAccountRe
         await prisma.profile.deleteMany({ where: { userId } });
         await prisma.scanHistory.deleteMany({ where: { userId } });
         await prisma.favorite.deleteMany({ where: { userId } });
+        await prisma.savedProduct.deleteMany({ where: { userId } });
+        await prisma.shoppingListItem.deleteMany({ where: { userId } });
         await prisma.productFeedback.deleteMany({ where: { userId } });
         await prisma.session.deleteMany({ where: { userId } });
         await prisma.account.deleteMany({ where: { userId } });
