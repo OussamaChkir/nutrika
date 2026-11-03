@@ -13,6 +13,18 @@ export function normalizeAdditiveCode(raw: string): string | null {
     return match ? `E${match[1]}${match[2].toLowerCase()}` : null;
 }
 
+const ROMAN_SUFFIX = /^(E\d{3,4}[a-z]??)(iii|ii|iv|vi{0,3}|ix|i|v)$/;
+
+/**
+ * Open Food Facts lists sub-types with a roman numeral next to their parent
+ * ("E322" and "E322i", "E500" and "E500ii"). They are the same additive for a shopper.
+ * "E322i" -> "E322", "E160aii" -> "E160a". Letters stay: E150a and E150d are different additives.
+ */
+export function baseAdditiveCode(code: string): string {
+    const match = ROMAN_SUFFIX.exec(code);
+    return match ? match[1] : code;
+}
+
 /** What the UI needs, in one language. Plain data, safe to send to the browser. */
 export interface AdditiveView {
     code: string;
@@ -47,7 +59,8 @@ export function getAdditiveInfo(
     options: LookupOptions = {}
 ): AdditiveView | null {
     const code = normalizeAdditiveCode(rawCode);
-    const entry = code ? index.get(code) : undefined;
+    // An exact entry wins, then the parent additive ("E322i" uses the E322 entry).
+    const entry = code ? (index.get(code) ?? index.get(baseAdditiveCode(code))) : undefined;
     if (!entry) return null;
     if (entry.review.status !== "reviewed" && !options.includeDrafts) return null;
     return {
@@ -80,12 +93,15 @@ export function forYouNotes(view: AdditiveView, profile: PersonalProfile | null)
     return view.forYou.filter((f) => profileHas(profile, f.for)).map((f) => f.note);
 }
 
-/** Unique, valid additive codes of a product in their original order. Bad entries are dropped. */
+/**
+ * Unique, valid additive codes of a product in their original order. Bad entries are dropped,
+ * and a sub-type is dropped when its parent is also listed (E322 + E322i show once).
+ */
 export function productAdditiveCodes(rawCodes: readonly string[]): string[] {
     const seen = new Set<string>();
     for (const raw of rawCodes) {
         const code = normalizeAdditiveCode(raw);
         if (code) seen.add(code);
     }
-    return Array.from(seen);
+    return Array.from(seen).filter((code) => code === baseAdditiveCode(code) || !seen.has(baseAdditiveCode(code)));
 }

@@ -273,6 +273,11 @@ const sodiumRule: Rule = {
     },
 };
 
+// Polyol sweeteners (sorbitol, mannitol, xylitol, maltitol, lactitol, erythritol...). A "sugar-free"
+// product sweetened with them can still raise blood sugar, so a low sugar figure alone must not
+// earn a green result for diabetes. PRODUCT DECISION for a dietitian to review.
+const POLYOL_ADDITIVE = /^E(420|421|953|965|966|967|968)/i;
+
 const diabetesRule: Rule = {
     id: "sugar",
     applies: (p) => p.conditions.includes("diabetes"),
@@ -295,6 +300,8 @@ const diabetesRule: Rule = {
             };
         }
         if (sugar < t.low) {
+            // Not a green when polyols may hide the carbohydrates: say nothing rather than reassure.
+            if (product.additives.some((code) => POLYOL_ADDITIVE.test(code))) return { reasons: [] };
             return {
                 reasons: [{ level: "good", key: "sugarLow", params, because: "diabetes", delta: DELTA.goodSmall }],
             };

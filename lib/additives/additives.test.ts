@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import type { PersonalProfile } from "../profiles/constants";
-import { buildIndex, forYouNotes, getAdditiveInfo, normalizeAdditiveCode, productAdditiveCodes } from "./lookup";
+import { baseAdditiveCode, buildIndex, forYouNotes, getAdditiveInfo, normalizeAdditiveCode, productAdditiveCodes } from "./lookup";
 import { ADDITIVES } from "./registry";
 import { additiveInfoSchema, type AdditiveInfo } from "./schema";
 
@@ -174,5 +174,47 @@ describe("productAdditiveCodes", () => {
     it("normalizes, de-duplicates, keeps order and drops junk", () => {
         expect(productAdditiveCodes(["E330", "en:e150d", "E330", "not-a-code", "E150D-caramel"])).toEqual(["E330", "E150d"]);
         expect(productAdditiveCodes([])).toEqual([]);
+    });
+});
+
+describe("sub-types (roman numerals) are the same additive", () => {
+    it.each([
+        ["E322i", "E322"],
+        ["E500ii", "E500"],
+        ["E262ii", "E262"],
+        ["E503ii", "E503"],
+        ["E450i", "E450"],
+        ["E331iii", "E331"],
+        ["E160aii", "E160a"],
+        ["E160ai", "E160a"],
+        // Letters are different additives, not sub-types.
+        ["E150a", "E150a"],
+        ["E150d", "E150d"],
+        ["E160a", "E160a"],
+        ["E102", "E102"],
+    ])("%s -> %s", (code, base) => {
+        expect(baseAdditiveCode(code)).toBe(base);
+    });
+
+    it("a sub-type uses its parent's entry, an exact entry still wins", () => {
+        expect(getAdditiveInfo(index, "en:e322i", "en", { includeDrafts: true })?.code).toBe("E322");
+        const exact: AdditiveInfo = { ...valid(), code: "E322i" };
+        const view = getAdditiveInfo(buildIndex([...ADDITIVES, exact]), "E322i", "en", { includeDrafts: true });
+        expect(view?.code).toBe("E322i");
+    });
+
+    it("a product listing E322 and E322i shows one chip, but a lone sub-type stays", () => {
+        expect(productAdditiveCodes(["en:e322", "en:e322i", "en:e500", "en:e500ii", "en:e262ii"])).toEqual(["E322", "E500", "E262ii"]);
+        expect(productAdditiveCodes(["en:e150a", "en:e150d"])).toEqual(["E150a", "E150d"]);
+    });
+});
+
+describe("coverage of the additives found in the real database (2 Nov 2026)", () => {
+    // Base codes from the production database, ranked by scans. Update when the data grows.
+    const seen = ["E322", "E500", "E503", "E965", "E150d", "E330", "E338", "E450", "E621", "E120", "E150a", "E202", "E223", "E250", "E262", "E296", "E300", "E331", "E451", "E950", "E951"];
+    it("every one has an entry, except these still to write", () => {
+        const stillToWrite = new Set(["E262", "E296", "E330", "E331", "E500", "E503"]);
+        const missing = seen.filter((c) => !index.has(c));
+        expect(new Set(missing)).toEqual(stillToWrite);
     });
 });
