@@ -14,7 +14,7 @@ export async function GET() {
     }
 
     const productSelect = { barcode: true, name: true, brand: true } as const;
-    const [user, profiles, scans, favorites, feedbacks, contributions, productsAdded] = await Promise.all([
+    const [user, profiles, scans, favorites, savedProducts, shoppingList, feedbacks, contributions, productsAdded] = await Promise.all([
         prisma.user.findUnique({
             where: { id: userId },
             select: {
@@ -30,6 +30,14 @@ export async function GET() {
         prisma.favorite.findMany({
             where: { userId }, orderBy: { createdAt: "desc" },
             select: { createdAt: true, product: { select: productSelect } },
+        }),
+        prisma.savedProduct.findMany({
+            where: { userId }, orderBy: { createdAt: "desc" },
+            select: { barcode: true, name: true, brand: true, state: true, createdAt: true },
+        }),
+        prisma.shoppingListItem.findMany({
+            where: { userId }, orderBy: { createdAt: "asc" },
+            select: { barcode: true, label: true, quantity: true, checked: true, createdAt: true },
         }),
         prisma.productFeedback.findMany({
             where: { userId },
@@ -50,7 +58,7 @@ export async function GET() {
     }
 
     const body = buildAccountExport(
-        { user, profiles, scans, favorites, feedbacks, contributions, productsAdded },
+        { user, profiles, scans, favorites, savedProducts, shoppingList, feedbacks, contributions, productsAdded },
         new Date()
     );
     const stamp = new Date().toISOString().slice(0, 10);

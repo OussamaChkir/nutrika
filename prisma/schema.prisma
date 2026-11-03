@@ -37,6 +37,8 @@ model User {
   feedbacks      ProductFeedback[]
   favorites      Favorite[]
   profiles       Profile[]
+  savedProducts  SavedProduct[]
+  shoppingListItems ShoppingListItem[]
 }
 
 model Account {
@@ -249,6 +251,48 @@ model Profile {
   consentedAt        DateTime
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ============================================
+// SHOPPING LIST (F3)
+// ============================================
+// A product the user marked "approved" or "avoid", and the items on their shopping list.
+// Both belong to the account (not to a profile) and are deleted with it. Name, category,
+// score and nutrients are snapshots, so the list still reads well if the catalogue changes.
+
+model SavedProduct {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  barcode      String
+  name         String
+  brand        String?
+  category     String?                      // most specific Open Food Facts category tag
+  score        Int
+  scoreLetter  String                       // A | B | C | D | E
+  sugars       Float?                       // per 100 g or 100 ml, for "more sugar than usual"
+  saturatedFat Float?
+  salt         Float?
+  state        String                       // approved | avoid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, barcode])
+  @@index([userId, state])
+}
+
+model ShoppingListItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  barcode   String?                         // null for free text ("bread")
+  label     String                          // product name or free text
+  category  String?                         // snapshot, used to group by aisle
+  quantity  Int      @default(1)
+  checked   Boolean  @default(false)
+  createdAt DateTime @default(now())
 
   @@index([userId])
 }

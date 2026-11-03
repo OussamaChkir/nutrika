@@ -34,6 +34,8 @@ const source: ExportSource = {
     ],
     scans: [{ scannedAt: d("2026-03-01T10:00:00Z"), product: { barcode: "123", name: "Spread", brand: "B" } }],
     favorites: [],
+    savedProducts: [{ barcode: "123", name: "Spread", brand: "B", state: "avoid", createdAt: d("2026-03-03T00:00:00Z") }],
+    shoppingList: [{ barcode: null, label: "Bread", quantity: 2, checked: false, createdAt: d("2026-03-04T00:00:00Z") }],
     feedbacks: [{ rating: 4, comment: "ok", createdAt: d("2026-03-02T00:00:00Z"), product: { barcode: "123", name: "Spread" } }],
     contributions: [],
     productsAdded: [],
@@ -51,6 +53,17 @@ describe("buildAccountExport", () => {
         });
         expect(out.scanHistory[0]).toMatchObject({ barcode: "123", scannedAt: "2026-03-01T10:00:00.000Z" });
         expect(out.exportedAt).toBe("2026-11-02T00:00:00.000Z");
+    });
+
+    it("includes saved products and the shopping list", () => {
+        expect(out.savedProducts[0]).toMatchObject({ barcode: "123", state: "avoid", savedAt: "2026-03-03T00:00:00.000Z" });
+        expect(out.shoppingList[0]).toEqual({
+            barcode: null,
+            label: "Bread",
+            quantity: 2,
+            checked: false,
+            addedAt: "2026-03-04T00:00:00.000Z",
+        });
     });
 
     it("never contains secrets, even if the loaded rows carry extra fields", () => {

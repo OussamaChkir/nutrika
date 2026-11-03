@@ -36,6 +36,12 @@ import { AlternativesList } from "@/components/alternatives-list";
 import { findAlternatives } from "@/lib/alternatives/find";
 import { shouldOfferAlternatives, type Alternative } from "@/lib/alternatives/rank";
 import { isOffTag } from "@/lib/off/search";
+import { ProductSaveActionsBar } from "@/components/product-save-actions";
+import { ScanFlags } from "@/components/scan-flags";
+import { addProductToList, setProductState } from "@/app/[locale]/shopping/actions";
+import { buildScanFlags, type ScanFlag } from "@/lib/shopping/flags";
+import { MAX_COMPARE_PRODUCTS, parseSavedState, type SavedState } from "@/lib/shopping/rules";
+import { compareWithUsual } from "@/lib/shopping/usual";
 import { CompareButton } from "@/components/compare-button";
 import { ExplainScore } from "@/components/explain-score";
 import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
@@ -289,6 +295,49 @@ export default async function ProductPage({ params }: ProductPageProps) {
         }
     }
 
+    // Approve / Add to list / Avoid and the flags from the user's own choices (F3), behind a flag.
+    // On failure nothing is shown rather than buttons with a wrong state.
+    let shoppingView: { signedIn: boolean; state: SavedState | null; onList: boolean; flags: ScanFlag[] } | null = null;
+    if (isFeatureEnabled("shoppingList")) {
+        const userId = session?.user?.id;
+        if (!userId) {
+            shoppingView = { signedIn: false, state: null, onList: false, flags: [] };
+        } else {
+            try {
+                const tags = productFromStored(product).categoryTags;
+                const category = tags.length > 0 ? tags[tags.length - 1] : null;
+                const [saved, peers, listed] = await Promise.all([
+                    prisma.savedProduct.findUnique({
+                        where: { userId_barcode: { userId, barcode: product.barcode } },
+                        select: { state: true },
+                    }),
+                    category
+                        ? prisma.savedProduct.findMany({
+                              where: { userId, state: "approved", category },
+                              orderBy: { updatedAt: "desc" },
+                              take: MAX_COMPARE_PRODUCTS,
+                              select: { barcode: true, category: true, sugars: true, salt: true, saturatedFat: true },
+                          })
+                        : Promise.resolve([]),
+                    prisma.shoppingListItem.count({ where: { userId, barcode: product.barcode, checked: false } }),
+                ]);
+                const state = parseSavedState(saved?.state);
+                const comparisons = compareWithUsual(
+                    { barcode: product.barcode, category, sugars: product.sugars, salt: product.salt, saturatedFat: product.saturatedFat },
+                    peers
+                );
+                shoppingView = {
+                    signedIn: true,
+                    state,
+                    onList: listed > 0,
+                    flags: buildScanFlags({ state, comparisons, verdictStatus: personalView?.verdict.status ?? null }),
+                };
+            } catch (error) {
+                console.error("Shopping list unavailable:", error instanceof Error ? error.message : "unknown error");
+            }
+        }
+    }
+
     // Additive explanations (F6), behind a flag. Drafts are only shown outside production.
     let additiveItems: AdditiveChipItem[] = [];
     if (isFeatureEnabled("ingredientExplanations")) {
@@ -421,6 +470,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </div>
                 </CardContent>
             </Card>
+
+            {shoppingView && (
+                <div className="animate-fade-in-up">
+                    <ScanFlags flags={shoppingView.flags} />
+                    <ProductSaveActionsBar
+                        barcode={product.barcode}
+                        signedIn={shoppingView.signedIn}
+                        initialState={shoppingView.state}
+                        initialOnList={shoppingView.onList}
+                        actions={{ setState: setProductState, addToList: addProductToList }}
+                    />
+                </div>
+            )}
 
             {showExplanation && (
                 <ExplainScore

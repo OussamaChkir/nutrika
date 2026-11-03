@@ -21,11 +21,13 @@ import {
     Scale,
     Newspaper,
     Calculator,
+    ShoppingCart,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
 import { useCompare } from "@/components/compare-context";
 import { Badge } from "@/components/ui/badge";
+import { isFeatureEnabled } from "@/lib/flags";
 
 interface HeaderProps {
     user?: {
@@ -52,6 +54,7 @@ export function Header({ user }: HeaderProps) {
         { href: "/about", label: t('about'), icon: Info },
         { href: "/scan", label: t('scan'), icon: Scan },
         ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
+        ...(user && isFeatureEnabled("shoppingList") ? [{ href: "/shopping", label: t('shoppingList'), icon: ShoppingCart }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];
 

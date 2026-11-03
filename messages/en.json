@@ -15,7 +15,8 @@
     "blog": "Blog",
     "calculator": "Calculator",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "shoppingList": "Shopping list"
   },
   "Compare": {
     "metaTitle": "Compare Products",
@@ -315,7 +316,7 @@
     "export": "Download my data (JSON)",
     "delete": "Delete my account",
     "deleteTitle": "Delete your account?",
-    "deleteWarning": "This permanently deletes your account, personal profiles, scan history, favourites, reviews and contributions. It cannot be undone. Products you added stay in the catalogue without your name.",
+    "deleteWarning": "This permanently deletes your account, personal profiles, scan history, favourites, shopping list, reviews and contributions. It cannot be undone. Products you added stay in the catalogue without your name.",
     "typeEmail": "Type {email} to confirm",
     "cancel": "Cancel",
     "confirmDelete": "Delete everything",
@@ -476,7 +477,7 @@
     "retentionTitle": "7. Keeping, Exporting and Deleting Your Data",
     "retentionContent": "We keep your data for as long as you have an account, and you stay in control of it:",
     "retentionList1": "Delete a personal profile from your personal profile page: the profile and everything in it is deleted immediately.",
-    "retentionList2": "Delete your account from your profile page: your account, personal profiles, scan history, favourites, reviews and contributions are deleted. Products you added may stay in the shared catalogue without your name.",
+    "retentionList2": "Delete your account from your profile page: your account, personal profiles, scan history, favourites, shopping list, reviews and contributions are deleted. Products you added may stay in the shared catalogue without your name.",
     "retentionList3": "Download your data: you can export your account data as a JSON file from your profile page.",
     "securityTitle": "8. Data Security",
     "securityContent": "We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way, altered, or disclosed.",
@@ -485,7 +486,8 @@
     "childrenTitle": "10. Children and Family Profiles",
     "childrenContent": "Nutrika accounts are meant for adults. A parent or guardian can create a profile for a child to check products against the child's allergies. These profiles use a nickname and an age band only. Create a profile for another person only if you are entitled to do so, such as a parent or guardian.",
     "contactTitle": "11. Contact Us",
-    "contactContent": "If you have any questions about this privacy policy or our privacy practices, please contact us at support@nutrika.com."
+    "contactContent": "If you have any questions about this privacy policy or our privacy practices, please contact us at support@nutrika.com.",
+    "collectList7": "Shopping List and Saved Products (optional): the products you mark as approved or to avoid, and the items on your shopping list with their quantity and whether you checked them off. Nobody else can see them. If you use the Share button, the list is passed to your own messaging app and Nutrika does not receive it."
   },
   "Terms": {
     "metaTitle": "Terms and Conditions | Nutrika",
@@ -749,5 +751,79 @@
     "empty": "We did not find a clearly better product in this category. That can mean this one is already a good choice, or that the data is incomplete.",
     "openProduct": "See {name}",
     "disclaimer": "Suggestions are based on Open Food Facts data, which can be incomplete. Always check the label, especially if you have an allergy."
+  },
+  "Shopping": {
+    "title": "Shopping list",
+    "subtitle": "Items to buy next time. Scan a product and tap Add to list, or type an item below.",
+    "remaining": "{count} left to buy",
+    "allDone": "Everything is checked off.",
+    "empty": "Your list is empty. Scan a product and tap Add to list, or type an item above.",
+    "addLabel": "Add an item",
+    "addPlaceholder": "For example: bread",
+    "addButton": "Add",
+    "boughtTitle": "Bought",
+    "check": "Mark {name} as bought",
+    "uncheck": "Put {name} back on the list",
+    "quantity": "{name}: quantity {quantity}",
+    "increase": "One more {name}",
+    "decrease": "One less {name}",
+    "remove": "Remove {name}",
+    "clearChecked": "Clear bought items",
+    "share": "Share the list",
+    "shareWhatsApp": "WhatsApp",
+    "shareSms": "SMS",
+    "shareNothing": "Nothing left to share.",
+    "shareTitle": "Shopping list",
+    "shareFooter": "Made with Nutrika",
+    "aisles": {
+      "produce": "Fruit and vegetables",
+      "bakery": "Bakery",
+      "dairy": "Dairy and eggs",
+      "meat_fish": "Meat and fish",
+      "pantry": "Pantry",
+      "snacks": "Snacks and sweets",
+      "drinks": "Drinks",
+      "frozen": "Frozen",
+      "other": "Other"
+    },
+    "saved": {
+      "title": "My products",
+      "intro": "Products you approved or want to avoid. When you scan a similar product, Nutrika tells you how it compares.",
+      "approved": "Approved",
+      "avoid": "Avoid",
+      "none": "Nothing here yet. After a scan, tap Approve or Avoid.",
+      "remove": "Stop marking {name}",
+      "scoreOf": "Score {score}/100"
+    },
+    "actions": {
+      "group": "Your choice for this product",
+      "approve": "Approve",
+      "avoid": "Avoid",
+      "addToList": "Add to list",
+      "approvedNow": "Marked as approved.",
+      "avoidNow": "Marked as avoid.",
+      "cleared": "Choice removed.",
+      "added": "Added to your shopping list.",
+      "onList": "Already on your list",
+      "signIn": "Sign in to save products and build a shopping list.",
+      "signInButton": "Sign in"
+    },
+    "flags": {
+      "label": "Compared with your choices",
+      "avoid": "You marked this product as Avoid.",
+      "approved": "This product is on your approved list.",
+      "approvedButCheck": "You approved this product before, but check the verdict above: it may not suit this profile.",
+      "moreSugar": "More sugar than the one you usually buy: {current} g instead of {usual} g per 100 g or 100 ml.",
+      "moreSalt": "More salt than the one you usually buy: {current} g instead of {usual} g per 100 g or 100 ml.",
+      "moreSaturatedFat": "More saturated fat than the one you usually buy: {current} g instead of {usual} g per 100 g or 100 ml."
+    },
+    "errors": {
+      "unauthorized": "Please sign in again.",
+      "invalid": "That did not work. Check what you typed.",
+      "not_found": "This item or product was not found.",
+      "limit": "Your list is full. Remove some items first.",
+      "disabled": "This feature is not available.",
+      "failed": "Something went wrong. Try again."
+    }
   }
 }
