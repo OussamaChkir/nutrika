@@ -32,6 +32,10 @@ import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
 import { BetterAlternatives } from "@/components/better-alternatives";
+import { AlternativesList } from "@/components/alternatives-list";
+import { findAlternatives } from "@/lib/alternatives/find";
+import { shouldOfferAlternatives, type Alternative } from "@/lib/alternatives/rank";
+import { isOffTag } from "@/lib/off/search";
 import { CompareButton } from "@/components/compare-button";
 import { ExplainScore } from "@/components/explain-score";
 import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
@@ -188,8 +192,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
             ? await getCachedExplanation(product.id, locale, product.score).catch(() => null)
             : null;
 
+    // F2 replaces the early version below when its flag is on; the early one stays as the fallback.
+    const alternativesEnabled = isFeatureEnabled("alternatives");
     let alternatives: any[] = [];
-    if (offData) {
+    if (offData && !alternativesEnabled) {
         const categories = offData.categories_tags as string[] | undefined;
         if (categories && categories.length > 0) {
             // Try up to 3 most specific categories if the first ones yield no better alternatives
@@ -253,6 +259,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
             }
         } catch (error) {
             console.error("Personal score unavailable:", error instanceof Error ? error.message : "unknown error");
+        }
+    }
+
+    // Better alternatives (F2), behind a flag. Offered for a grade C or worse, or when the personal
+    // verdict is not good news. Ranked on the personal score when a profile is active. Failures
+    // (OFF down, slow) just mean no block: this must never break the product page.
+    let alternativesView: { items: Alternative[]; profileName: string | null; countryTag: string | null } | null = null;
+    if (alternativesEnabled) {
+        try {
+            const letter = product.scoreLetter as "A" | "B" | "C" | "D" | "E";
+            if (shouldOfferAlternatives({ letter, status: personalView?.verdict.status ?? null })) {
+                const configuredCountry = process.env.ALTERNATIVES_COUNTRY?.trim().toLowerCase() || null;
+                const countryTag = configuredCountry && isOffTag(configuredCountry) ? configuredCountry : null;
+                const items = await findAlternatives({
+                    current: productFromStored(product),
+                    currentScore: product.score,
+                    profile: activePersonalProfile,
+                    country: countryTag,
+                });
+                alternativesView = {
+                    items,
+                    profileName: activePersonalProfile && personalView ? personalView.name : null,
+                    countryTag,
+                };
+            }
+        } catch (error) {
+            console.error("Alternatives unavailable:", error instanceof Error ? error.message : "unknown error");
         }
     }
 
@@ -516,8 +549,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 )}
             </div>
 
-            {alternatives.length > 0 && (
-                <BetterAlternatives alternatives={alternatives} />
+            {alternativesView ? (
+                <AlternativesList
+                    alternatives={alternativesView.items}
+                    fromLetter={product.scoreLetter}
+                    profileName={alternativesView.profileName}
+                    countryTag={alternativesView.countryTag}
+                />
+            ) : (
+                alternatives.length > 0 && <BetterAlternatives alternatives={alternatives} />
             )}
 
             <div className="mt-7 animate-fade-in-up delay-500">

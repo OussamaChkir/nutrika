@@ -26,6 +26,8 @@ export interface AnalyticsEvents {
     scan_completed: { withProfile: boolean; offline?: boolean };
     /** Phase 2: ingredient explanation opened. */
     ingredient_explanation_opened: { kind: "additive" | "ingredient"; code?: string; hasInfo?: boolean };
+    /** Phase 3 (F2): the alternatives block was shown (counts and a flag only). */
+    alternatives_opened: { count: number; personal: boolean };
     /** Phase 3: an alternative product was tapped. */
     alternative_tapped: { fromGrade: string };
     /** Phase 3: a shopping list was created. */
