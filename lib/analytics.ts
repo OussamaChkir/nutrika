@@ -40,6 +40,10 @@ export interface AnalyticsEvents {
     flag_shown: { kind: string };
     /** Phase 3 (F3): the list was opened in WhatsApp or SMS. */
     list_shared: { channel: "whatsapp" | "sms" };
+    /** Phase 4 (F9): the insights page was viewed (counts only). */
+    insights_viewed: { scans: number; insights: number };
+    /** Phase 4 (F9): the user turned scan insights on or off. */
+    insights_toggled: { enabled: boolean };
     /** Phase 5: a photo scan ended in a result the user accepted. */
     photo_scan_accepted: NoProps;
     /** Phase 6: a menu scan was done. */

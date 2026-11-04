@@ -22,6 +22,7 @@ export interface ExportSource {
         height: number | null;
         dateOfBirth: Dated | null;
         allergies: string[];
+        scanInsightsOptIn?: boolean | null;
     };
     profiles: {
         id: string;
@@ -40,6 +41,20 @@ export interface ExportSource {
     favorites: { createdAt: Dated; product: { barcode: string; name: string; brand: string | null } }[];
     savedProducts: { barcode: string; name: string; brand: string | null; state: string; createdAt: Dated }[];
     shoppingList: { barcode: string | null; label: string; quantity: number; checked: boolean; createdAt: Dated }[];
+    scanEvents: {
+        barcode: string;
+        score: number;
+        grade: string;
+        sugar100: number | null;
+        salt100: number | null;
+        satFat100: number | null;
+        protein100: number | null;
+        nova: number | null;
+        category: string | null;
+        brand: string | null;
+        profileId: string | null;
+        createdAt: Dated;
+    }[];
     feedbacks: { rating: number; comment: string | null; createdAt: Dated; product: { barcode: string; name: string } }[];
     contributions: { id: string; status: string; reason: string | null; changes: unknown; createdAt: Dated }[];
     productsAdded: { barcode: string; name: string; brand: string | null; status: string; createdAt: Dated }[];
@@ -67,6 +82,7 @@ export function buildAccountExport(src: ExportSource, now: Dated) {
             heightCm: src.user.height,
             dateOfBirth: iso(src.user.dateOfBirth),
             allergies: src.user.allergies,
+            scanInsights: src.user.scanInsightsOptIn === true,
         },
         personalProfiles: src.profiles.map((p) => ({
             id: p.id,
@@ -94,6 +110,20 @@ export function buildAccountExport(src: ExportSource, now: Dated) {
             quantity: i.quantity,
             checked: i.checked,
             addedAt: iso(i.createdAt),
+        })),
+        scanEvents: src.scanEvents.map((e) => ({
+            scannedAt: iso(e.createdAt),
+            barcode: e.barcode,
+            score: e.score,
+            grade: e.grade,
+            sugarPer100: e.sugar100,
+            saltPer100: e.salt100,
+            saturatedFatPer100: e.satFat100,
+            proteinPer100: e.protein100,
+            nova: e.nova,
+            category: e.category,
+            brand: e.brand,
+            profileId: e.profileId,
         })),
         reviews: src.feedbacks.map((f) => ({
             rating: f.rating,

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { isFeatureEnabled } from "@/lib/flags";
+import { recordScanEvent } from "@/lib/insights/record";
 
 const MAX_HISTORY = 10;
 
@@ -82,6 +84,15 @@ export async function POST(request: Request) {
                 productId: product.id,
             },
         });
+
+        // F9: a detailed record for insights, only for users who turned them on. Never fails the scan.
+        if (isFeatureEnabled("scanInsights")) {
+            try {
+                await recordScanEvent(session.user.id, product);
+            } catch (error) {
+                console.error("Scan event not recorded:", error instanceof Error ? error.message : "unknown error");
+            }
+        }
 
         // Prune old entries – keep only the latest MAX_HISTORY
         const allScans = await prisma.scanHistory.findMany({

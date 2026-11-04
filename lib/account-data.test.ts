@@ -36,6 +36,7 @@ const source: ExportSource = {
     favorites: [],
     savedProducts: [{ barcode: "123", name: "Spread", brand: "B", state: "avoid", createdAt: d("2026-03-03T00:00:00Z") }],
     shoppingList: [{ barcode: null, label: "Bread", quantity: 2, checked: false, createdAt: d("2026-03-04T00:00:00Z") }],
+    scanEvents: [{ barcode: "123", score: 40, grade: "D", sugar100: 30, salt100: 0.4, satFat100: 8, protein100: 6, nova: 4, category: "en:biscuits", brand: "B", profileId: null, createdAt: d("2026-03-05T00:00:00Z") }],
     feedbacks: [{ rating: 4, comment: "ok", createdAt: d("2026-03-02T00:00:00Z"), product: { barcode: "123", name: "Spread" } }],
     contributions: [],
     productsAdded: [],
@@ -64,6 +65,13 @@ describe("buildAccountExport", () => {
             checked: false,
             addedAt: "2026-03-04T00:00:00.000Z",
         });
+    });
+
+    it("includes scan records for insights, and whether insights are on", () => {
+        expect(out.scanEvents[0]).toMatchObject({ barcode: "123", scannedAt: "2026-03-05T00:00:00.000Z", sugarPer100: 30, nova: 4 });
+        expect(out.account.scanInsights).toBe(false);
+        const on = buildAccountExport({ ...source, user: { ...source.user, scanInsightsOptIn: true } }, d("2026-11-02T00:00:00Z"));
+        expect(on.account.scanInsights).toBe(true);
     });
 
     it("never contains secrets, even if the loaded rows carry extra fields", () => {

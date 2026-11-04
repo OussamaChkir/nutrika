@@ -22,6 +22,7 @@ import {
     Newspaper,
     Calculator,
     ShoppingCart,
+    BarChart3,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
@@ -54,6 +55,7 @@ export function Header({ user }: HeaderProps) {
         { href: "/about", label: t('about'), icon: Info },
         { href: "/scan", label: t('scan'), icon: Scan },
         ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
+        ...(user && isFeatureEnabled("scanInsights") ? [{ href: "/insights", label: t('insights'), icon: BarChart3 }] : []),
         ...(user && isFeatureEnabled("shoppingList") ? [{ href: "/shopping", label: t('shoppingList'), icon: ShoppingCart }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];

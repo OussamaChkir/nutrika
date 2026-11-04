@@ -39,6 +39,11 @@ model User {
   profiles       Profile[]
   savedProducts  SavedProduct[]
   shoppingListItems ShoppingListItem[]
+  scanEvents     ScanEvent[]
+
+  // F9: opt-in to detailed scan records for insights. Optional on purpose: on MongoDB a
+  // required field missing from older documents makes reads fail. Null or false means off.
+  scanInsightsOptIn Boolean?
 }
 
 model Account {
@@ -253,6 +258,34 @@ model Profile {
   updatedAt          DateTime @updatedAt
 
   @@index([userId])
+}
+
+// ============================================
+// SCAN EVENTS (F9)
+// ============================================
+// One row per scan, only for users who turned insights on. Values are snapshots taken at scan
+// time, so insights do not change when Open Food Facts data changes. Kept for 12 months.
+// (ScanHistory above is a different thing: the 10 most recent products, one row each.)
+
+model ScanEvent {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId  String?  @db.ObjectId            // active profile at scan time, if any
+  barcode    String
+  score      Int
+  grade      String                            // A | B | C | D | E
+  sugar100   Float?
+  salt100    Float?
+  satFat100  Float?
+  protein100 Float?
+  nova       Int?
+  category   String?                           // most specific Open Food Facts category tag
+  brand      String?
+  highSugar  Boolean?                          // above the "high sugar" level for its category
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 // ============================================
