@@ -144,6 +144,9 @@ export async function deleteProfile(id: string): Promise<DeleteProfileResult> {
         const deleted = await prisma.profile.deleteMany({ where: { id, userId: user.userId } });
         if (deleted.count === 0) return { ok: false, error: "not_found" };
 
+        // Scan records made with this profile go with it (F9); a failure here must not undo the delete.
+        await prisma.scanEvent.deleteMany({ where: { userId: user.userId, profileId: id } }).catch(() => undefined);
+
         // If the default profile was deleted, promote the oldest remaining one.
         const remaining = await prisma.profile.findMany({
             where: { userId: user.userId },

@@ -16,7 +16,8 @@
     "calculator": "Calculateur",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
-    "shoppingList": "Liste de courses"
+    "shoppingList": "Liste de courses",
+    "insights": "Bilan"
   },
   "Compare": {
     "metaTitle": "Comparer les produits",
@@ -316,7 +317,7 @@
     "export": "Télécharger mes données (JSON)",
     "delete": "Supprimer mon compte",
     "deleteTitle": "Supprimer votre compte ?",
-    "deleteWarning": "Cela supprime définitivement votre compte, vos profils personnels, votre historique de scans, vos favoris, votre liste de courses, vos avis et vos contributions. Cette action est irréversible. Les produits que vous avez ajoutés restent dans le catalogue sans votre nom.",
+    "deleteWarning": "Cela supprime définitivement votre compte, vos profils personnels, votre historique de scans, vos favoris, votre liste de courses, vos données de bilan de scans, vos avis et vos contributions. Cette action est irréversible. Les produits que vous avez ajoutés restent dans le catalogue sans votre nom.",
     "typeEmail": "Saisissez {email} pour confirmer",
     "cancel": "Annuler",
     "confirmDelete": "Tout supprimer",
@@ -477,7 +478,7 @@
     "retentionTitle": "7. Conserver, exporter et supprimer vos données",
     "retentionContent": "Nous conservons vos données tant que vous avez un compte, et vous gardez le contrôle :",
     "retentionList1": "Supprimez un profil personnel depuis votre page de profil personnel : le profil et tout son contenu sont supprimés immédiatement.",
-    "retentionList2": "Supprimez votre compte depuis votre page de profil : votre compte, vos profils personnels, votre historique de scans, vos favoris, votre liste de courses, vos avis et vos contributions sont supprimés. Les produits que vous avez ajoutés peuvent rester dans le catalogue partagé sans votre nom.",
+    "retentionList2": "Supprimez votre compte depuis votre page de profil : votre compte, vos profils personnels, votre historique de scans, vos favoris, votre liste de courses, vos données de bilan de scans, vos avis et vos contributions sont supprimés. Les produits que vous avez ajoutés peuvent rester dans le catalogue partagé sans votre nom.",
     "retentionList3": "Téléchargez vos données : vous pouvez exporter les données de votre compte dans un fichier JSON depuis votre page de profil.",
     "securityTitle": "8. Sécurité des données",
     "securityContent": "Nous avons mis en place des mesures de sécurité appropriées pour éviter que vos données personnelles ne soient accidentellement perdues, utilisées ou consultées de manière non autorisée, modifiées ou divulguées.",
@@ -487,7 +488,9 @@
     "childrenContent": "Les comptes Nutrika sont destinés aux adultes. Un parent ou un tuteur peut créer un profil pour un enfant afin de vérifier les produits selon les allergies de l'enfant. Ces profils utilisent uniquement un pseudo et une tranche d'âge. Ne créez un profil pour une autre personne que si vous y êtes habilité, par exemple en tant que parent ou tuteur.",
     "contactTitle": "11. Nous contacter",
     "contactContent": "Si vous avez des questions concernant cette politique de confidentialité ou nos pratiques de confidentialité, veuillez nous contacter à support@nutrika.com.",
-    "collectList7": "Liste de courses et produits enregistrés (facultatif) : les produits que vous marquez comme approuvés ou à éviter, et les articles de votre liste de courses avec leur quantité et leur état coché. Personne d'autre ne peut les voir. Si vous utilisez le bouton Partager, la liste est transmise à votre propre application de messagerie et Nutrika ne la reçoit pas."
+    "collectList7": "Liste de courses et produits enregistrés (facultatif) : les produits que vous marquez comme approuvés ou à éviter, et les articles de votre liste de courses avec leur quantité et leur état coché. Personne d'autre ne peut les voir. Si vous utilisez le bouton Partager, la liste est transmise à votre propre application de messagerie et Nutrika ne la reçoit pas.",
+    "collectList8": "Données de scan pour le bilan (facultatif, uniquement si vous activez le bilan) : pour chaque scan, le code-barres du produit, son score et ses principaux nutriments tels qu'ils étaient à ce moment-là, sa marque et sa catégorie, le profil utilisé et la date. Elles servent uniquement à vous montrer des tendances, ne sont jamais partagées, sont conservées 12 mois, et vous pouvez désactiver cette option et les supprimer à tout moment depuis la page Bilan.",
+    "retentionList4": "Les données de scan détaillées du bilan n'existent que si vous avez activé le bilan. Elles sont supprimées après 12 mois, ou immédiatement quand vous les supprimez depuis la page Bilan."
   },
   "Terms": {
     "metaTitle": "Conditions générales | Nutrika",
@@ -824,6 +827,60 @@
       "limit": "Votre liste est pleine. Supprimez d'abord quelques articles.",
       "disabled": "Cette fonctionnalité n'est pas disponible.",
       "failed": "Une erreur s'est produite. Réessayez."
+    }
+  },
+  "Insights": {
+    "title": "Bilan de vos scans",
+    "subtitle": "Les tendances des produits que vous avez scannés. Scanné ne veut pas dire mangé : ces données portent sur vos scans, pas sur ce que vous mangez.",
+    "forProfile": "Scans faits avec {name}, et scans d'avant les profils",
+    "optIn": {
+      "title": "Activer le bilan des scans",
+      "text": "Nutrika peut garder une trace de chaque produit que vous scannez (son score, ses principaux nutriments, sa marque, sa catégorie et le profil utilisé) pour montrer des tendances dans le temps. Vous seul pouvez la voir. Elle est conservée 12 mois, et vous pouvez la désactiver et la supprimer à tout moment.",
+      "enable": "Activer le bilan",
+      "note": "Les scans faits avant l'activation ne sont pas inclus."
+    },
+    "progress": {
+      "title": "Continuez à scanner",
+      "text": "Le bilan apparaît après {min} scans. Vous en avez {count} pour l'instant.",
+      "remaining": "Encore {remaining} à faire",
+      "aria": "{count} scans sur {min}"
+    },
+    "noPattern": "Pas encore de tendance claire. Continuez à scanner et revenez plus tard.",
+    "severity": {
+      "positive": "Bonne nouvelle",
+      "notice": "À regarder",
+      "info": "À titre d'information"
+    },
+    "chart": {
+      "title": "Score moyen par semaine",
+      "desc": "Score moyen des produits que vous avez scannés, semaine après semaine.",
+      "point": "Semaine du {date} : moyenne {average}/100 sur {scans} scans",
+      "needMore": "Le graphique apparaît dès que vous avez des scans sur au moins deux semaines différentes."
+    },
+    "items": {
+      "scoreImproved": "Le score moyen des produits que vous avez scannés a augmenté, de {from} à {to}.",
+      "scoreDropped": "Le score moyen des produits que vous avez scannés a baissé, de {from} à {to}.",
+      "highSugarCount": "Ces {days} derniers jours, {count} des produits que vous avez scannés étaient riches en sucre pour leur type de produit.",
+      "ultraProcessed": "{percent} % des produits que vous avez scannés (quand le groupe NOVA est connu) sont ultra-transformés (NOVA 4).",
+      "saltPattern": "Les produits que vous avez scannés contiennent en moyenne {avg} g de sel pour 100 g.",
+      "proteinHabit": "{percent} % des produits que vous avez scannés sont riches en protéines ({grams} g ou plus pour 100 g).",
+      "bestCategory": "Le type de produit au score moyen le plus élevé parmi vos scans : {aisle} ({avg}/100, {scans} scans).",
+      "worstCategory": "Le type de produit au score moyen le plus bas parmi vos scans : {aisle} ({avg}/100, {scans} scans).",
+      "topBrand": "La marque que vous avez le plus scannée : {brand} ({count} scans)."
+    },
+    "data": {
+      "title": "Vos données de scan",
+      "text": "Le bilan repose sur une trace de chaque scan, conservée 12 mois. Vous seul pouvez la voir.",
+      "count": "{count} enregistrements",
+      "export": "Télécharger mes données",
+      "turnOff": "Désactiver le bilan",
+      "deleteAll": "Supprimer les données de scan",
+      "confirmDelete": "Supprimer toutes vos données de scan ? Cette action est irréversible.",
+      "confirm": "Oui, supprimer",
+      "cancel": "Annuler",
+      "deleted": "Données de scan supprimées.",
+      "turnedOff": "Le bilan est désactivé. Les données déjà enregistrées sont conservées jusqu'à ce que vous les supprimiez.",
+      "error": "Une erreur s'est produite. Réessayez."
     }
   }
 }

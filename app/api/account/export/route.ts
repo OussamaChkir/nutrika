@@ -14,12 +14,12 @@ export async function GET() {
     }
 
     const productSelect = { barcode: true, name: true, brand: true } as const;
-    const [user, profiles, scans, favorites, savedProducts, shoppingList, feedbacks, contributions, productsAdded] = await Promise.all([
+    const [user, profiles, scans, favorites, savedProducts, shoppingList, scanEvents, feedbacks, contributions, productsAdded] = await Promise.all([
         prisma.user.findUnique({
             where: { id: userId },
             select: {
                 id: true, name: true, email: true, image: true, role: true, createdAt: true,
-                weight: true, height: true, dateOfBirth: true, allergies: true,
+                weight: true, height: true, dateOfBirth: true, allergies: true, scanInsightsOptIn: true,
             },
         }),
         prisma.profile.findMany({ where: { userId }, orderBy: { createdAt: "asc" } }),
@@ -38,6 +38,13 @@ export async function GET() {
         prisma.shoppingListItem.findMany({
             where: { userId }, orderBy: { createdAt: "asc" },
             select: { barcode: true, label: true, quantity: true, checked: true, createdAt: true },
+        }),
+        prisma.scanEvent.findMany({
+            where: { userId }, orderBy: { createdAt: "desc" },
+            select: {
+                barcode: true, score: true, grade: true, sugar100: true, salt100: true, satFat100: true,
+                protein100: true, nova: true, category: true, brand: true, profileId: true, createdAt: true,
+            },
         }),
         prisma.productFeedback.findMany({
             where: { userId },
@@ -58,7 +65,7 @@ export async function GET() {
     }
 
     const body = buildAccountExport(
-        { user, profiles, scans, favorites, savedProducts, shoppingList, feedbacks, contributions, productsAdded },
+        { user, profiles, scans, favorites, savedProducts, shoppingList, scanEvents, feedbacks, contributions, productsAdded },
         new Date()
     );
     const stamp = new Date().toISOString().slice(0, 10);

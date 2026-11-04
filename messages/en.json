@@ -16,7 +16,8 @@
     "calculator": "Calculator",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "shoppingList": "Shopping list"
+    "shoppingList": "Shopping list",
+    "insights": "Insights"
   },
   "Compare": {
     "metaTitle": "Compare Products",
@@ -316,7 +317,7 @@
     "export": "Download my data (JSON)",
     "delete": "Delete my account",
     "deleteTitle": "Delete your account?",
-    "deleteWarning": "This permanently deletes your account, personal profiles, scan history, favourites, shopping list, reviews and contributions. It cannot be undone. Products you added stay in the catalogue without your name.",
+    "deleteWarning": "This permanently deletes your account, personal profiles, scan history, favourites, shopping list, scan insights data, reviews and contributions. It cannot be undone. Products you added stay in the catalogue without your name.",
     "typeEmail": "Type {email} to confirm",
     "cancel": "Cancel",
     "confirmDelete": "Delete everything",
@@ -477,7 +478,7 @@
     "retentionTitle": "7. Keeping, Exporting and Deleting Your Data",
     "retentionContent": "We keep your data for as long as you have an account, and you stay in control of it:",
     "retentionList1": "Delete a personal profile from your personal profile page: the profile and everything in it is deleted immediately.",
-    "retentionList2": "Delete your account from your profile page: your account, personal profiles, scan history, favourites, shopping list, reviews and contributions are deleted. Products you added may stay in the shared catalogue without your name.",
+    "retentionList2": "Delete your account from your profile page: your account, personal profiles, scan history, favourites, shopping list, scan insights data, reviews and contributions are deleted. Products you added may stay in the shared catalogue without your name.",
     "retentionList3": "Download your data: you can export your account data as a JSON file from your profile page.",
     "securityTitle": "8. Data Security",
     "securityContent": "We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way, altered, or disclosed.",
@@ -487,7 +488,9 @@
     "childrenContent": "Nutrika accounts are meant for adults. A parent or guardian can create a profile for a child to check products against the child's allergies. These profiles use a nickname and an age band only. Create a profile for another person only if you are entitled to do so, such as a parent or guardian.",
     "contactTitle": "11. Contact Us",
     "contactContent": "If you have any questions about this privacy policy or our privacy practices, please contact us at support@nutrika.com.",
-    "collectList7": "Shopping List and Saved Products (optional): the products you mark as approved or to avoid, and the items on your shopping list with their quantity and whether you checked them off. Nobody else can see them. If you use the Share button, the list is passed to your own messaging app and Nutrika does not receive it."
+    "collectList7": "Shopping List and Saved Products (optional): the products you mark as approved or to avoid, and the items on your shopping list with their quantity and whether you checked them off. Nobody else can see them. If you use the Share button, the list is passed to your own messaging app and Nutrika does not receive it.",
+    "collectList8": "Scan Records for Insights (optional, only if you turn insights on): for each scan, the product's barcode, its score and main nutrients as they were at that moment, its brand and category, the profile you used and the date. They are used only to show you patterns, never shared, kept for 12 months, and you can turn this off and delete them at any time from the Insights page.",
+    "retentionList4": "Detailed scan records for insights exist only if you turned insights on. They are deleted after 12 months, or at once when you delete them from the Insights page."
   },
   "Terms": {
     "metaTitle": "Terms and Conditions | Nutrika",
@@ -824,6 +827,60 @@
       "limit": "Your list is full. Remove some items first.",
       "disabled": "This feature is not available.",
       "failed": "Something went wrong. Try again."
+    }
+  },
+  "Insights": {
+    "title": "Scan insights",
+    "subtitle": "Patterns in the products you scanned. Scanned does not mean eaten, so these are about your scans, not about what you eat.",
+    "forProfile": "Scans made with {name}, and scans from before profiles",
+    "optIn": {
+      "title": "Turn on scan insights",
+      "text": "Nutrika can keep a record of each product you scan (its score, main nutrients, brand, category and the profile you used) to show patterns over time. Only you can see it. It is kept for 12 months, and you can turn it off and delete it at any time.",
+      "enable": "Turn on insights",
+      "note": "Scans made before you turn this on are not included."
+    },
+    "progress": {
+      "title": "Keep scanning",
+      "text": "Insights appear after {min} scans. You have {count} so far.",
+      "remaining": "{remaining} more to go",
+      "aria": "{count} of {min} scans"
+    },
+    "noPattern": "No clear pattern yet. Keep scanning and check back.",
+    "severity": {
+      "positive": "Good news",
+      "notice": "Worth a look",
+      "info": "For your information"
+    },
+    "chart": {
+      "title": "Average score by week",
+      "desc": "Average score of the products you scanned, week by week.",
+      "point": "Week of {date}: average {average}/100 over {scans} scans",
+      "needMore": "The chart appears once you have scans in at least two different weeks."
+    },
+    "items": {
+      "scoreImproved": "The average score of the products you scanned went up, from {from} to {to}.",
+      "scoreDropped": "The average score of the products you scanned went down, from {from} to {to}.",
+      "highSugarCount": "In the last {days} days, {count} of the products you scanned were high in sugar for their kind of product.",
+      "ultraProcessed": "{percent}% of the products you scanned (where the NOVA group is known) are ultra-processed (NOVA 4).",
+      "saltPattern": "The products you scanned average {avg} g of salt per 100 g.",
+      "proteinHabit": "{percent}% of the products you scanned are high in protein ({grams} g or more per 100 g).",
+      "bestCategory": "The kind of product with the highest average score among your scans: {aisle} ({avg}/100, {scans} scans).",
+      "worstCategory": "The kind of product with the lowest average score among your scans: {aisle} ({avg}/100, {scans} scans).",
+      "topBrand": "The brand you scanned most: {brand} ({count} scans)."
+    },
+    "data": {
+      "title": "Your scan records",
+      "text": "Insights are built from a record of each scan, kept for 12 months. Only you can see it.",
+      "count": "{count} records stored",
+      "export": "Download my data",
+      "turnOff": "Turn off insights",
+      "deleteAll": "Delete scan records",
+      "confirmDelete": "Delete all your scan records? This cannot be undone.",
+      "confirm": "Yes, delete",
+      "cancel": "Cancel",
+      "deleted": "Scan records deleted.",
+      "turnedOff": "Insights are off. Records already stored are kept until you delete them.",
+      "error": "Something went wrong. Try again."
     }
   }
 }
