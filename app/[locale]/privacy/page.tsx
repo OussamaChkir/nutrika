@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { PRIVACY_SECTIONS } from "@/lib/privacy-sections";
 
 // Bump this whenever the policy text changes.
-const POLICY_LAST_UPDATED = "2026-11-02";
+const POLICY_LAST_UPDATED = "2026-11-05";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;

@@ -44,6 +44,12 @@ export interface AnalyticsEvents {
     insights_viewed: { scans: number; insights: number };
     /** Phase 4 (F9): the user turned scan insights on or off. */
     insights_toggled: { enabled: boolean };
+    /** Phase 5 (F5): a label photo was sent for reading (after consent). */
+    photo_scan_started: NoProps;
+    /** Phase 5 (F5): the user corrected the read values before accepting. */
+    photo_scan_edited: { fields: number };
+    /** Phase 5 (F5): reading failed or was blocked (the reason code only). */
+    photo_scan_failed: { reason: string };
     /** Phase 5: a photo scan ended in a result the user accepted. */
     photo_scan_accepted: NoProps;
     /** Phase 6: a menu scan was done. */

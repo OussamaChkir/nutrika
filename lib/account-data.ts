@@ -55,6 +55,7 @@ export interface ExportSource {
         profileId: string | null;
         createdAt: Dated;
     }[];
+    labelScanUsage: { createdAt: Dated }[];
     feedbacks: { rating: number; comment: string | null; createdAt: Dated; product: { barcode: string; name: string } }[];
     contributions: { id: string; status: string; reason: string | null; changes: unknown; createdAt: Dated }[];
     productsAdded: { barcode: string; name: string; brand: string | null; status: string; createdAt: Dated }[];
@@ -125,6 +126,8 @@ export function buildAccountExport(src: ExportSource, now: Dated) {
             brand: e.brand,
             profileId: e.profileId,
         })),
+        // F5: only the time of each photo scan (kept 7 days); the photo and the result are never stored.
+        photoScans: src.labelScanUsage.map((u) => ({ at: iso(u.createdAt) })),
         reviews: src.feedbacks.map((f) => ({
             rating: f.rating,
             comment: f.comment,

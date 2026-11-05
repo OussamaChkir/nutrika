@@ -434,6 +434,127 @@
     "tip2": "Ensure good lighting for best results",
     "tip3": "Supports EAN-13, EAN-8, UPC-A, UPC-E, and QR codes"
   },
+  "Label": {
+    "title": "Scan a label",
+    "subtitle": "No barcode? Photograph the ingredient list and nutrition table.",
+    "linkTitle": "No barcode? Photograph the label",
+    "linkDesc": "Take a photo of the ingredients and nutrition table instead.",
+    "backToBarcode": "Back to barcode scanning",
+    "untitled": "Photographed product",
+    "unavailable": {
+      "region": {
+        "title": "Not available in your region yet",
+        "body": "Photo reading uses a free Google service that Google does not allow for users in the European Economic Area, Switzerland and the United Kingdom. Barcode scanning works as usual."
+      },
+      "unknown_region": {
+        "title": "We could not confirm your region",
+        "body": "Photo reading is only offered where we can confirm it is allowed. Try again without a VPN or proxy. Barcode scanning works as usual."
+      },
+      "not_configured": {
+        "title": "Photo reading is not set up",
+        "body": "This feature is switched on but not fully configured yet. Barcode scanning works as usual."
+      }
+    },
+    "consent": {
+      "free": {
+        "title": "Before you send a photo",
+        "body": "To read the label, your photo is sent to Google's Gemini API. We use Google's free service: Google may use what is sent to improve its products, and people at Google may read it. Please do not send anything that is not a product label.",
+        "agree": "I understand and agree to send this photo to Google to read the label."
+      },
+      "paid": {
+        "title": "Before you send a photo",
+        "body": "To read the label, your photo is sent to Google's Gemini API. Under Google's paid-service terms, Google does not use it to improve its products.",
+        "agree": "I agree to send this photo to Google to read the label."
+      },
+      "labelOnly": "Photograph only the label: no people, faces, documents or places.",
+      "notStored": "Nutrika does not keep the photo or the text that was read. We only count how many photos you send per day.",
+      "reviewYourself": "The reading can be wrong. You check and correct it before anything is scored."
+    },
+    "takePhoto": "Take a photo",
+    "choosePhoto": "Choose a photo",
+    "remaining": "{count, plural, one {# photo left today} other {# photos left today}}",
+    "limitReached": "You have used all your photos for today. Try again tomorrow, or scan a barcode.",
+    "reading": "Reading the label...",
+    "readingDesc": "This usually takes a few seconds.",
+    "tip1": "Photograph the ingredient list and the nutrition table. Two photos are not needed: use the clearest side.",
+    "tip2": "Good light, no glare, text sharp and straight.",
+    "tip3": "Make sure the whole ingredient list is in the photo.",
+    "errors": {
+      "busy": "The reading service is busy right now. Your photo was not counted. Please try again in a minute.",
+      "config": "Photo reading is temporarily unavailable. Your photo was not counted.",
+      "blocked": "The photo could not be processed. Try a clearer photo of the label only.",
+      "bad_output": "We could not read this label. Your photo was not counted. Try a sharper, closer photo.",
+      "network": "Connection problem. Your photo was not counted. Please try again.",
+      "timeout": "Reading took too long. Your photo was not counted. Please try again.",
+      "too_large": "This photo is too large. Try again with a smaller photo.",
+      "bad_type": "Only JPEG, PNG or WebP photos can be read.",
+      "bad_request": "The photo could not be sent. Please try again.",
+      "user_limit": "You have used all your photos for today. Try again tomorrow, or scan a barcode.",
+      "global_limit": "Photo reading has reached its daily limit for everyone. Please try again tomorrow, or scan a barcode.",
+      "region": "Photo reading is not available in your region.",
+      "unknown_region": "We could not confirm your region, so photo reading is off.",
+      "not_configured": "Photo reading is not set up yet.",
+      "consent_required": "The terms for photo reading changed. Reload the page and read them again before sending a photo.",
+      "unauthorized": "Please sign in to read a label.",
+      "disabled": "Photo reading is not available.",
+      "unreadable_file": "This file could not be opened as a photo. Try another one.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "review": {
+      "intro": "Check what was read against the package and fix anything that is wrong. Nothing is scored until you confirm.",
+      "photoAlt": "The photo you took",
+      "name": "Product name",
+      "brand": "Brand",
+      "kind": "Type of product",
+      "ingredients": "Ingredients",
+      "ingredientsHint": "Exactly as printed, in the original language.",
+      "complete": "This is the complete ingredient list",
+      "completeHint": "Tick only if nothing is missing. If you have an allergy, an incomplete list can never be shown as safe.",
+      "contains": "Contains (allergens)",
+      "mayContain": "May contain traces of",
+      "listHint": "Separate with commas.",
+      "nutritionPer100g": "Nutrition per 100 g",
+      "nutritionPer100ml": "Nutrition per 100 ml",
+      "invalid": "Some values are not possible (for example more than 100 g per 100 g). Please correct them.",
+      "confirm": "Confirm and see the score",
+      "retake": "Take another photo"
+    },
+    "kinds": {
+      "food": "Food",
+      "drink": "Drink",
+      "cheese": "Cheese",
+      "oil_fat": "Oil, butter or margarine"
+    },
+    "nutrients": {
+      "energyKcal": "Energy (kcal)",
+      "fat": "Fat (g)",
+      "saturatedFat": "Saturated fat (g)",
+      "carbohydrates": "Carbohydrates (g)",
+      "sugars": "Sugars (g)",
+      "fiber": "Fibre (g)",
+      "proteins": "Protein (g)",
+      "salt": "Salt (g)"
+    },
+    "warnings": {
+      "unreadable": "The label was hard to read. Check every value.",
+      "partial": "Part of the label was hard to read. Check the values carefully.",
+      "lowConfidence": "The reading is not very sure. Check every value.",
+      "noIngredients": "No ingredient list was found. With an allergy, the result will say it cannot be verified.",
+      "perServingConverted": "The table was per serving. We converted it to per 100 g using the serving size.",
+      "perServingNoSize": "The table was per serving without a serving size, so the values were left empty. Enter them per 100 g.",
+      "saltFromSodium": "Only sodium was printed. Salt was calculated as sodium × 2.5.",
+      "valueRemoved": "{field}: the value did not look possible and was removed. Please enter it.",
+      "basisUnknown": "We could not tell whether the table is per 100 g or per serving. Check the values."
+    },
+    "result": {
+      "fromPhoto": "Read from a photo and checked by you. Not saved.",
+      "incomplete": "The ingredient list is not confirmed as complete, so allergens cannot be verified.",
+      "profile": "Profile",
+      "notSaved": "This result is not saved in your history, and no photo is kept.",
+      "edit": "Edit the values",
+      "another": "Scan another label"
+    }
+  },
   "Privacy": {
     "metaTitle": "Privacy Policy | Nutrika",
     "metaDescription": "Privacy policy and data handling practices for Nutrika.",
@@ -490,7 +611,10 @@
     "contactContent": "If you have any questions about this privacy policy or our privacy practices, please contact us at support@nutrika.com.",
     "collectList7": "Shopping List and Saved Products (optional): the products you mark as approved or to avoid, and the items on your shopping list with their quantity and whether you checked them off. Nobody else can see them. If you use the Share button, the list is passed to your own messaging app and Nutrika does not receive it.",
     "collectList8": "Scan Records for Insights (optional, only if you turn insights on): for each scan, the product's barcode, its score and main nutrients as they were at that moment, its brand and category, the profile you used and the date. They are used only to show you patterns, never shared, kept for 12 months, and you can turn this off and delete them at any time from the Insights page.",
-    "retentionList4": "Detailed scan records for insights exist only if you turned insights on. They are deleted after 12 months, or at once when you delete them from the Insights page."
+    "retentionList4": "Detailed scan records for insights exist only if you turned insights on. They are deleted after 12 months, or at once when you delete them from the Insights page.",
+    "collectList9": "Label Photos (optional, only if you use photo scanning): the photo is sent to Google's Gemini API to read the text on the label and is not kept by Nutrika; neither is the text that was read. We keep only the time of each photo you send for up to 7 days, to apply the daily limit. Photos should show only the product label.",
+    "shareList6": "Google (Gemini API), only if you choose to send a label photo and agree first: the photo is processed by Google. Under the free service Google may use it to improve its products and people at Google may read it, which is why photo scanning is not offered in the European Economic Area, Switzerland and the United Kingdom unless we use Google's paid service, under which Google does not use it for that. Your profile and account details are never sent.",
+    "retentionList5": "Photo scanning keeps no photo and no extracted text. A record of when you sent each photo (no content) is deleted after 7 days, or immediately when you delete your account."
   },
   "Terms": {
     "metaTitle": "Terms and Conditions | Nutrika",
