@@ -29,6 +29,7 @@ import { ALLERGY_OPTIONS } from "@/lib/validators";
 import { MedicalDisclaimer } from "@/components/medical-disclaimer";
 import { isFeatureEnabled } from "@/lib/flags";
 import { AccountDataCard } from "@/components/account-data-card";
+import { OfflineSettings } from "@/components/offline-settings";
 import { deleteAccount } from "@/lib/account-actions";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -334,6 +335,13 @@ export default async function ProfilePage() {
                     <Separator />
 
                     <AccountDataCard email={user.email ?? ""} canDelete={user.role !== "ADMIN"} onDelete={deleteAccount} />
+
+                    {isFeatureEnabled("offlineMode") && (
+                        <>
+                            <Separator />
+                            <OfflineSettings />
+                        </>
+                    )}
 
                     <Separator />
 

@@ -50,3 +50,7 @@ storybook-static
 /public/workbox-*.js
 /public/workbox-*.js.map
 /public/fallback-*.js
+
+# Playwright
+/test-results/
+/playwright-report/

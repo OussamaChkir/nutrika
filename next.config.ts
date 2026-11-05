@@ -5,6 +5,9 @@ import withPWAInit from 'next-pwa';
 
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
+// Same "on" values as lib/flags.ts. Read at build time, like every NEXT_PUBLIC_ flag.
+const offlineModeOn = ['1', 'true', 'on', 'yes'].includes((process.env.NEXT_PUBLIC_FF_OFFLINE_MODE ?? '').trim().toLowerCase());
+
 const withPWA = withPWAInit({
   dest: 'public',
   register: true,
@@ -44,20 +47,28 @@ const withPWA = withPWAInit({
         expiration: { maxEntries: 200, maxAgeSeconds: 30 * 24 * 60 * 60 },
       },
     },
-    // Network-first for API routes (fresh data preferred, fallback to cache)
+    // API responses are never kept by the service worker: they can hold personal data (profile,
+    // history, account export). Offline product data lives in IndexedDB instead (F8).
     {
       urlPattern: /\/api\/.*/i,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'api-cache',
-        expiration: { maxEntries: 50, maxAgeSeconds: 5 * 60 },
-        networkTimeoutSeconds: 10,
-        cacheableResponse: { statuses: [0, 200] },
-      },
+      handler: 'NetworkOnly',
     },
-    // Stale-while-revalidate for page navigations
+    // With offline mode on, product pages are never cached: they contain the personal verdict.
+    // When there is no connection the offline screen rebuilds the verdict from IndexedDB (F8).
+    // (The build flag is read here; a function rule cannot see variables from this file.)
+    ...(offlineModeOn
+      ? [{ urlPattern: /^https?:\/\/[^/]+\/(?:(?:en|fr)\/)?product(?:\/|$)/i, handler: 'NetworkOnly' }]
+      : []),
+    // Stale-while-revalidate for public page navigations. Pages that show a signed-in user's own
+    // data are NOT kept, so someone else using the same device cannot open them from the cache.
+    // (With offline mode on, product pages are excluded by the rule just above.)
     {
-      urlPattern: /^https:\/\/.+\/(?!api\/).*/i,
+      urlPattern: ({ url }: { url: URL }) => {
+        if (url.origin !== self.location.origin) return false;
+        const path = url.pathname.replace(/^\/(?:en|fr)(?=\/|$)/, '');
+        if (/^\/(?:api|profile|shopping|insights|admin|add-product|search|sign-in|sign-up|favorites|scan\/label)(?:\/|$)/.test(path)) return false;
+        return true;
+      },
       handler: 'StaleWhileRevalidate',
       options: {
         cacheName: 'pages',
