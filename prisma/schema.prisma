@@ -40,6 +40,7 @@ model User {
   savedProducts  SavedProduct[]
   shoppingListItems ShoppingListItem[]
   scanEvents     ScanEvent[]
+  labelScanUsage LabelScanUsage[]
 
   // F9: opt-in to detailed scan records for insights. Optional on purpose: on MongoDB a
   // required field missing from older documents makes reads fail. Null or false means off.
@@ -365,4 +366,19 @@ enum AllergenSeverity {
   LOW
   MEDIUM
   HIGH
+}
+
+// ============================================
+// LABEL PHOTO SCANNING (F5)
+// ============================================
+// One row per photo sent for reading. It stores NO image, NO text and NO result: only who and when,
+// so the per-user and global daily limits can be counted. Rows older than 7 days are deleted.
+model LabelScanUsage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
 }

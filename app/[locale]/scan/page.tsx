@@ -7,10 +7,13 @@ import { BarcodeScanner } from "@/components/barcode-scanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Keyboard, Scan, Loader2 } from "lucide-react";
+import { Keyboard, Scan, Loader2, Camera } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import { isFeatureEnabled } from "@/lib/flags";
 
 export default function ScanPage() {
     const t = useTranslations("Scan");
+    const tLabel = useTranslations("Label");
     const router = useRouter();
     const [manualBarcode, setManualBarcode] = useState("");
     const [showManualInput, setShowManualInput] = useState(false);
@@ -92,6 +95,20 @@ export default function ScanPage() {
                     {showManualInput ? t("useCamera") : t("useManual")}
                 </Button>
             </div>
+
+            {/* Photo of the label, for products without a usable barcode (F5, behind a flag) */}
+            {isFeatureEnabled("labelScan") && (
+                <Link
+                    href="/scan/label"
+                    className="mt-4 flex items-start gap-3 rounded-xl border-2 border-dashed border-neutral-300 p-4 text-left transition-colors hover:border-orange-400 dark:border-neutral-700"
+                >
+                    <Camera className="mt-0.5 h-5 w-5 shrink-0 text-orange-500" aria-hidden />
+                    <span>
+                        <span className="block font-semibold text-neutral-900 dark:text-neutral-100">{tLabel("linkTitle")}</span>
+                        <span className="block text-sm text-neutral-600 dark:text-neutral-400">{tLabel("linkDesc")}</span>
+                    </span>
+                </Link>
+            )}
 
             {/* Manual barcode input */}
             {showManualInput && (

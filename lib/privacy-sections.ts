@@ -11,12 +11,12 @@ export interface PrivacySection {
 
 export const PRIVACY_SECTIONS: readonly PrivacySection[] = [
     { id: "intro" },
-    { id: "collect", list: 8 },
+    { id: "collect", list: 9 },
     { id: "health", list: 4 },
     { id: "use", list: 4 },
-    { id: "share", list: 5 },
+    { id: "share", list: 6 },
     { id: "cookies", list: 4 },
-    { id: "retention", list: 4 },
+    { id: "retention", list: 5 },
     { id: "security" },
     { id: "rights" },
     { id: "children" },
