@@ -52,12 +52,14 @@ const withPWA = withPWAInit({
     {
       urlPattern: /\/api\/.*/i,
       handler: 'NetworkOnly',
+      // next-pwa reads `options` on every rule when fallbacks are on: it must exist.
+      options: { cacheName: 'api-network-only' },
     },
     // With offline mode on, product pages are never cached: they contain the personal verdict.
     // When there is no connection the offline screen rebuilds the verdict from IndexedDB (F8).
     // (The build flag is read here; a function rule cannot see variables from this file.)
     ...(offlineModeOn
-      ? [{ urlPattern: /^https?:\/\/[^/]+\/(?:(?:en|fr)\/)?product(?:\/|$)/i, handler: 'NetworkOnly' }]
+      ? [{ urlPattern: /^https?:\/\/[^/]+\/(?:(?:en|fr)\/)?product(?:\/|$)/i, handler: 'NetworkOnly', options: { cacheName: 'product-network-only' } }]
       : []),
     // Stale-while-revalidate for public page navigations. Pages that show a signed-in user's own
     // data are NOT kept, so someone else using the same device cannot open them from the cache.
