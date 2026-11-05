@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Card, CardContent } from "@/components/ui/card";
 import { JsonLd } from "@/components/json-ld";
 import { constructMetadata } from "@/lib/seo";
+import { isFeatureEnabled } from "@/lib/flags";
 import {
   Scan,
   Shield,
@@ -68,7 +69,7 @@ export default async function HomePage() {
     { qKey: "faq1Q" as const, aKey: "faq1A" as const },
     { qKey: "faq2Q" as const, aKey: "faq2A" as const },
     { qKey: "faq3Q" as const, aKey: "faq3A" as const },
-    { qKey: "faq4Q" as const, aKey: "faq4A" as const },
+    { qKey: "faq4Q" as const, aKey: (isFeatureEnabled("offlineMode") ? "faq4AOffline" : "faq4A") as "faq4A" | "faq4AOffline" },
   ];
 
   const richTags = {

@@ -108,7 +108,8 @@
     "ctaTitle": "Ready to change how you eat?",
     "ctaDesc": "Because knowing what you eat changes how you eat. Start your health journey today.",
     "ctaScanButton": "Try Free Demo",
-    "ctaSignUpButton": "See How It Works"
+    "ctaSignUpButton": "See How It Works",
+    "faq4AOffline": "Yes, partly. Products you have already scanned stay available on your device, and if you use a personal profile it is kept on your device too, so you get the same score and allergen alerts without a connection (with a note of how old the data is). A product that is not saved on your device cannot be looked up offline: we keep its barcode and look it up when you are back online. Barcode scanning itself works offline. Photo scanning, alternatives, your shopping list and insights need a connection."
   },
   "About": {
     "metaTitle": "About Us",
@@ -555,6 +556,66 @@
       "another": "Scan another label"
     }
   },
+  "Offline": {
+    "badge": "Offline",
+    "badgeHint": "Showing data saved on this device",
+    "sync": {
+      "ready": "{count, plural, one {# product you scanned offline is ready} other {# products you scanned offline are ready}}",
+      "view": "View {name}",
+      "notFound": "{count, plural, one {# barcode you scanned offline was not found} other {# barcodes you scanned offline were not found}}",
+      "dismiss": "Dismiss"
+    },
+    "lookup": {
+      "loading": "Looking on this device...",
+      "title": "Offline result",
+      "savedAgo": {
+        "justNow": "Saved on this device just now.",
+        "minutes": "{count, plural, one {Saved on this device # minute ago.} other {Saved on this device # minutes ago.}}",
+        "hours": "{count, plural, one {Saved on this device # hour ago.} other {Saved on this device # hours ago.}}",
+        "days": "{count, plural, one {Saved on this device # day ago.} other {Saved on this device # days ago.}}"
+      },
+      "stale": "This data is more than 30 days old and may be out of date. Check again when you are online.",
+      "unverified": "The ingredient list is missing or incomplete, so allergens cannot be verified.",
+      "profile": "Profile",
+      "per100": "Per 100 g or 100 ml",
+      "nutrients": {
+        "sugars": "Sugars",
+        "saturatedFat": "Saturated fat",
+        "salt": "Salt"
+      },
+      "unknownValue": "unknown",
+      "notSaved": {
+        "title": "Not saved on this device",
+        "queued": "You are offline and this product has not been saved on this device. We kept its barcode and will look it up when you are back online.",
+        "notQueued": "You are offline and this product has not been saved on this device. Scan it again when you are back online."
+      },
+      "error": "The saved data on this device could not be read. Scan again when you are back online.",
+      "online": "You are back online. Open the full page for this product.",
+      "openOnline": "Open the full page",
+      "scanAnother": "Scan another product"
+    },
+    "page": {
+      "title": "You're offline",
+      "body": "It looks like you have lost your internet connection. Products you scanned before are still available on this device.",
+      "retry": "Try again",
+      "retrying": "Retrying...",
+      "home": "Go home",
+      "scan": "Scan a product"
+    },
+    "settings": {
+      "title": "Offline data on this device",
+      "description": "Nutrika keeps your recent products and your profile on this device so scans and allergen alerts still work without a connection. Nothing here is sent anywhere.",
+      "products": "{count, plural, one {# product saved} other {# products saved}}",
+      "size": "About {size}",
+      "profileSaved": "Your profile is saved here, so allergen alerts work offline.",
+      "profileNone": "No profile is saved on this device.",
+      "pending": "{count, plural, one {# barcode waiting for a connection} other {# barcodes waiting for a connection}}",
+      "clear": "Clear offline data",
+      "cleared": "Offline data cleared.",
+      "failed": "Could not read the offline data on this device.",
+      "unavailable": "This browser does not allow offline storage."
+    }
+  },
   "Privacy": {
     "metaTitle": "Privacy Policy | Nutrika",
     "metaDescription": "Privacy policy and data handling practices for Nutrika.",
@@ -614,7 +675,9 @@
     "retentionList4": "Detailed scan records for insights exist only if you turned insights on. They are deleted after 12 months, or at once when you delete them from the Insights page.",
     "collectList9": "Label Photos (optional, only if you use photo scanning): the photo is sent to Google's Gemini API to read the text on the label and is not kept by Nutrika; neither is the text that was read. We keep only the time of each photo you send for up to 7 days, to apply the daily limit. Photos should show only the product label.",
     "shareList6": "Google (Gemini API), only if you choose to send a label photo and agree first: the photo is processed by Google. Under the free service Google may use it to improve its products and people at Google may read it, which is why photo scanning is not offered in the European Economic Area, Switzerland and the United Kingdom unless we use Google's paid service, under which Google does not use it for that. Your profile and account details are never sent.",
-    "retentionList5": "Photo scanning keeps no photo and no extracted text. A record of when you sent each photo (no content) is deleted after 7 days, or immediately when you delete your account."
+    "retentionList5": "Photo scanning keeps no photo and no extracted text. A record of when you sent each photo (no content) is deleted after 7 days, or immediately when you delete your account.",
+    "collectList10": "Offline Data on Your Device (optional, only if offline mode is on): your recent products and, if you are signed in with a personal profile, a copy of that profile (conditions, diets, goals, allergens) are kept in your own browser so scans and allergen alerts work without a connection. This copy is never sent to us or to anyone else, is replaced each time you view a product online, is deleted when you sign out, and you can clear it at any time from your profile page.",
+    "retentionList6": "Offline data lives only in your browser: clear it from your profile page, when you sign out, or by clearing your browser's site data. We cannot read or delete it for you."
   },
   "Terms": {
     "metaTitle": "Terms and Conditions | Nutrika",

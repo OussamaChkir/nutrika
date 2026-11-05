@@ -56,6 +56,8 @@ import type { PersonalProfile } from "@/lib/profiles/constants";
 import { pickActiveProfile } from "@/lib/profiles/active";
 import { ACTIVE_PROFILE_COOKIE } from "@/lib/profiles/constants";
 import { productFromStored } from "@/lib/product";
+import { OfflineCacheWriter } from "@/components/offline-cache-writer";
+import { isCacheable, type ProfileSnapshot } from "@/lib/offline/policy";
 import { evaluateProduct, type PersonalVerdict } from "@/lib/profiles/evaluate";
 import { toPersonalProfile } from "@/lib/profiles/profile";
 import { PersonalScoreCard } from "@/components/personal-score-card";
@@ -241,7 +243,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
         everyone: EveryoneRow[];
     } | null = null;
     let activePersonalProfile: PersonalProfile | null = null;
+    // F8: the profile copy kept on the device. null = nobody signed in (or personal score off):
+    // remove it. undefined = we could not load the profiles just now: leave the copy as it is.
+    let offlineProfiles: ProfileSnapshot[] | null | undefined = null;
+    let offlineActiveId: string | null = null;
     if (personalEnabled && session?.user?.id) {
+        offlineProfiles = undefined;
         try {
             const profileRows = await prisma.profile.findMany({
                 where: { userId: session.user.id },
@@ -250,6 +257,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
             // The cookie is only a hint: it is matched against this user's own profiles.
             const activeCookie = (await cookies()).get(ACTIVE_PROFILE_COOKIE)?.value;
             const active = pickActiveProfile(profileRows, activeCookie);
+            offlineProfiles = profileRows.map((row: Parameters<typeof toPersonalProfile>[0] & { id: string; name: string; isDefault: boolean }) => ({
+                id: row.id,
+                name: row.name,
+                isDefault: row.isDefault,
+                profile: toPersonalProfile(row),
+            }));
+            offlineActiveId = active?.id ?? null;
             if (active) {
                 const normalized = productFromStored(product);
                 const everyone: EveryoneRow[] = profileRows.map((row) => ({
@@ -651,6 +665,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
 
             <RecordScan barcode={product.barcode} userId={session?.user?.id} />
+            {isFeatureEnabled("offlineMode") && isCacheable(product, product.status) && (
+                <OfflineCacheWriter product={productFromStored(product)} profiles={offlineProfiles} activeId={offlineActiveId} />
+            )}
         </div>
     );
 }

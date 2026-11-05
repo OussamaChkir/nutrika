@@ -108,7 +108,8 @@
     "ctaTitle": "Prêt à changer votre façon de manger ?",
     "ctaDesc": "Parce que savoir ce que vous mangez change la façon dont vous mangez. Commencez votre parcours santé dès aujourd'hui.",
     "ctaScanButton": "Essayer la démo gratuite",
-    "ctaSignUpButton": "Voir comment ça marche"
+    "ctaSignUpButton": "Voir comment ça marche",
+    "faq4AOffline": "Oui, en partie. Les produits déjà scannés restent disponibles sur votre appareil, et si vous utilisez un profil personnel il y est aussi conservé : vous obtenez le même score et les mêmes alertes d'allergènes sans connexion (avec l'ancienneté des données). Un produit non enregistré sur votre appareil ne peut pas être recherché hors ligne : nous gardons son code-barres et le recherchons dès que vous êtes de nouveau en ligne. Le scan du code-barres fonctionne hors ligne. Le scan par photo, les alternatives, la liste de courses et le bilan nécessitent une connexion."
   },
   "About": {
     "metaTitle": "À propos",
@@ -555,6 +556,66 @@
       "another": "Scanner une autre étiquette"
     }
   },
+  "Offline": {
+    "badge": "Hors ligne",
+    "badgeHint": "Affichage des données enregistrées sur cet appareil",
+    "sync": {
+      "ready": "{count, plural, one {# produit scanné hors ligne est prêt} other {# produits scannés hors ligne sont prêts}}",
+      "view": "Voir {name}",
+      "notFound": "{count, plural, one {# code-barres scanné hors ligne est introuvable} other {# codes-barres scannés hors ligne sont introuvables}}",
+      "dismiss": "Fermer"
+    },
+    "lookup": {
+      "loading": "Recherche sur cet appareil...",
+      "title": "Résultat hors ligne",
+      "savedAgo": {
+        "justNow": "Enregistré sur cet appareil à l'instant.",
+        "minutes": "{count, plural, one {Enregistré sur cet appareil il y a # minute.} other {Enregistré sur cet appareil il y a # minutes.}}",
+        "hours": "{count, plural, one {Enregistré sur cet appareil il y a # heure.} other {Enregistré sur cet appareil il y a # heures.}}",
+        "days": "{count, plural, one {Enregistré sur cet appareil il y a # jour.} other {Enregistré sur cet appareil il y a # jours.}}"
+      },
+      "stale": "Ces données ont plus de 30 jours et peuvent être périmées. Vérifiez à nouveau quand vous serez en ligne.",
+      "unverified": "La liste des ingrédients est absente ou incomplète : les allergènes ne peuvent pas être vérifiés.",
+      "profile": "Profil",
+      "per100": "Pour 100 g ou 100 ml",
+      "nutrients": {
+        "sugars": "Sucres",
+        "saturatedFat": "Acides gras saturés",
+        "salt": "Sel"
+      },
+      "unknownValue": "inconnu",
+      "notSaved": {
+        "title": "Non enregistré sur cet appareil",
+        "queued": "Vous êtes hors ligne et ce produit n'est pas enregistré sur cet appareil. Nous avons gardé son code-barres et le rechercherons dès que vous serez de nouveau en ligne.",
+        "notQueued": "Vous êtes hors ligne et ce produit n'est pas enregistré sur cet appareil. Scannez-le à nouveau quand vous serez en ligne."
+      },
+      "error": "Les données enregistrées sur cet appareil n'ont pas pu être lues. Scannez à nouveau quand vous serez en ligne.",
+      "online": "Vous êtes de nouveau en ligne. Ouvrez la page complète de ce produit.",
+      "openOnline": "Ouvrir la page complète",
+      "scanAnother": "Scanner un autre produit"
+    },
+    "page": {
+      "title": "Vous êtes hors ligne",
+      "body": "Vous avez perdu votre connexion internet. Les produits scannés auparavant restent disponibles sur cet appareil.",
+      "retry": "Réessayer",
+      "retrying": "Nouvel essai...",
+      "home": "Accueil",
+      "scan": "Scanner un produit"
+    },
+    "settings": {
+      "title": "Données hors ligne sur cet appareil",
+      "description": "Nutrika garde vos produits récents et votre profil sur cet appareil pour que les scans et les alertes d'allergènes fonctionnent sans connexion. Rien de tout cela n'est envoyé ailleurs.",
+      "products": "{count, plural, one {# produit enregistré} other {# produits enregistrés}}",
+      "size": "Environ {size}",
+      "profileSaved": "Votre profil est enregistré ici : les alertes d'allergènes fonctionnent hors ligne.",
+      "profileNone": "Aucun profil n'est enregistré sur cet appareil.",
+      "pending": "{count, plural, one {# code-barres en attente de connexion} other {# codes-barres en attente de connexion}}",
+      "clear": "Effacer les données hors ligne",
+      "cleared": "Données hors ligne effacées.",
+      "failed": "Impossible de lire les données hors ligne de cet appareil.",
+      "unavailable": "Ce navigateur n'autorise pas le stockage hors ligne."
+    }
+  },
   "Privacy": {
     "metaTitle": "Politique de confidentialité | Nutrika",
     "metaDescription": "Politique de confidentialité et pratiques de gestion des données de Nutrika.",
@@ -614,7 +675,9 @@
     "retentionList4": "Les données de scan détaillées du bilan n'existent que si vous avez activé le bilan. Elles sont supprimées après 12 mois, ou immédiatement quand vous les supprimez depuis la page Bilan.",
     "collectList9": "Photos d'étiquettes (facultatif, uniquement si vous utilisez le scan par photo) : la photo est envoyée à l'API Gemini de Google pour lire le texte de l'étiquette et n'est pas conservée par Nutrika ; le texte lu non plus. Nous ne gardons que l'heure de chaque photo envoyée pendant 7 jours au maximum, pour appliquer la limite quotidienne. Les photos doivent montrer uniquement l'étiquette du produit.",
     "shareList6": "Google (API Gemini), uniquement si vous choisissez d'envoyer une photo d'étiquette et l'acceptez au préalable : la photo est traitée par Google. Avec le service gratuit, Google peut l'utiliser pour améliorer ses produits et des personnes chez Google peuvent la lire ; c'est pourquoi le scan par photo n'est pas proposé dans l'Espace économique européen, en Suisse et au Royaume-Uni, sauf si nous utilisons le service payant de Google, avec lequel Google ne l'utilise pas à cette fin. Votre profil et les informations de votre compte ne sont jamais envoyés.",
-    "retentionList5": "Le scan par photo ne conserve ni photo ni texte extrait. Une trace de l'heure d'envoi de chaque photo (sans contenu) est supprimée après 7 jours, ou immédiatement quand vous supprimez votre compte."
+    "retentionList5": "Le scan par photo ne conserve ni photo ni texte extrait. Une trace de l'heure d'envoi de chaque photo (sans contenu) est supprimée après 7 jours, ou immédiatement quand vous supprimez votre compte.",
+    "collectList10": "Données hors ligne sur votre appareil (facultatif, uniquement si le mode hors ligne est activé) : vos produits récents et, si vous êtes connecté avec un profil personnel, une copie de ce profil (pathologies, régimes, objectifs, allergènes) sont conservés dans votre propre navigateur pour que les scans et les alertes d'allergènes fonctionnent sans connexion. Cette copie n'est jamais envoyée à nous ni à personne d'autre, est remplacée à chaque consultation d'un produit en ligne, est supprimée à votre déconnexion, et vous pouvez l'effacer à tout moment depuis votre page de profil.",
+    "retentionList6": "Les données hors ligne n'existent que dans votre navigateur : effacez-les depuis votre page de profil, à la déconnexion, ou en supprimant les données du site dans votre navigateur. Nous ne pouvons ni les lire ni les supprimer à votre place."
   },
   "Terms": {
     "metaTitle": "Conditions générales | Nutrika",
