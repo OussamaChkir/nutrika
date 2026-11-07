@@ -37,6 +37,7 @@ export async function deleteAccount(typedEmail: string): Promise<DeleteAccountRe
         await prisma.productFeedback.deleteMany({ where: { userId } });
         await prisma.session.deleteMany({ where: { userId } });
         await prisma.account.deleteMany({ where: { userId } });
+        await prisma.passwordResetToken.deleteMany({ where: { userId } });
         await prisma.user.delete({ where: { id: userId } });
     } catch {
         return { ok: false, error: "failed" };

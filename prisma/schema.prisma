@@ -41,6 +41,7 @@ model User {
   shoppingListItems ShoppingListItem[]
   scanEvents     ScanEvent[]
   labelScanUsage LabelScanUsage[]
+  passwordResetTokens PasswordResetToken[]
 
   // F9: opt-in to detailed scan records for insights. Optional on purpose: on MongoDB a
   // required field missing from older documents makes reads fail. Null or false means off.
@@ -81,6 +82,20 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// Password reset links sent by email (Resend). Only the SHA-256 hash of the token is stored, so a
+// database leak does not give working reset links. A token is single use and short lived: it is
+// deleted when used, and every older token of the user is deleted when a new one is requested.
+model PasswordResetToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 // ============================================
