@@ -4,17 +4,20 @@ import { z } from "zod";
 // AUTH SCHEMAS
 // ============================================
 
+// Shared by sign up and password reset, so both enforce the same rules.
+const newPasswordSchema = z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+    );
+
 export const signUpSchema = z
     .object({
         name: z.string().min(2, "Name must be at least 2 characters"),
         email: z.string().email("Invalid email address"),
-        password: z
-            .string()
-            .min(8, "Password must be at least 8 characters")
-            .regex(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-            ),
+        password: newPasswordSchema,
         confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
@@ -30,6 +33,25 @@ export const signInSchema = z.object({
 });
 
 export type SignInInput = z.infer<typeof signInSchema>;
+
+export const forgotPasswordSchema = z.object({
+    email: z.string().trim().email("Invalid email address"),
+});
+
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+    .object({
+        token: z.string().min(1, "This reset link is invalid or has expired."),
+        password: newPasswordSchema,
+        confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ["confirmPassword"],
+    });
+
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 
 // ============================================
 // PRODUCT SCHEMAS
