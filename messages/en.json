@@ -13,7 +13,11 @@
     "favorites": "Favorites",
     "compare": "Compare",
     "blog": "Blog",
-    "calculator": "Calculator"
+    "calculator": "Calculator",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "shoppingList": "Shopping list",
+    "insights": "Insights"
   },
   "Compare": {
     "metaTitle": "Compare Products",
@@ -44,7 +48,9 @@
     "pricing": "Pricing",
     "privacy": "Privacy",
     "terms": "Terms",
-    "allRightsReserved": "All rights reserved"
+    "allRightsReserved": "All rights reserved",
+    "facebook": "Nutrika on Facebook",
+    "instagram": "Nutrika on Instagram"
   },
   "Home": {
     "heroBadge": "Global Food Scanner for Smarter Eating",
@@ -96,13 +102,14 @@
     "faq2Q": "What databases do you use?",
     "faq2A": "Nutrika relies on comprehensive, globally recognized food databases such as Open Food Facts, combined with our proprietary data validation algorithms to ensure maximum accuracy.",
     "faq3Q": "How accurate are the scores?",
-    "faq3A": "Our scores are highly accurate and based on the standard Nutri-Score calculation rules, incorporating calories, saturated fats, sugars, sodium, protein, and fiber.",
+    "faq3A": "Our 0–100 score is Nutrika's own formula, not the official Nutri-Score. It starts from a base score and adjusts for sugar, saturated fat, salt, fiber, protein, processing level (NOVA), additives and labels. When a product has an official Nutri-Score, we blend it in at 20% weight. Scores rely on Open Food Facts data, so missing or incorrect entries can affect them. See the About page for the full breakdown.",
     "faq4Q": "Can I use it offline?",
     "faq4A": "You need an internet connection to scan new products. However, previously scanned items and your history are cached locally so you can view them anytime.",
     "ctaTitle": "Ready to change how you eat?",
     "ctaDesc": "Because knowing what you eat changes how you eat. Start your health journey today.",
     "ctaScanButton": "Try Free Demo",
-    "ctaSignUpButton": "See How It Works"
+    "ctaSignUpButton": "See How It Works",
+    "faq4AOffline": "Yes, partly. Products you have already scanned stay available on your device, and if you use a personal profile it is kept on your device too, so you get the same score and allergen alerts without a connection (with a note of how old the data is). A product that is not saved on your device cannot be looked up offline: we keep its barcode and look it up when you are back online. Barcode scanning itself works offline. Photo scanning, alternatives, your shopping list and insights need a connection."
   },
   "About": {
     "metaTitle": "About Us",
@@ -119,11 +126,11 @@
     "featureScanTitle": "Instant Scanning",
     "featureScanDesc": "Point your camera at any barcode and instantly retrieve comprehensive nutritional data.",
     "featureScoringTitle": "Clear Scoring",
-    "featureScoringDesc": "We utilize trusted, science-backed systems like Nutri-Score and Eco-Score.",
+    "featureScoringDesc": "Our own 0–100 score, shown alongside the official Nutri-Score and Eco-Score when available.",
     "featureAlertsTitle": "Personalized Alerts",
     "featureAlertsDesc": "Stay safe with immediate warnings for allergens and dietary restrictions.",
     "scoresTitle": "How We Calculate Scores",
-    "scoresIntro": "Our primary Product Score (0-100) evaluates food quality comprehensively. It starts from a neutral base score of 85, applying adjustments based on positive and negative factors:",
+    "scoresIntro": "Our primary Product Score (0-100) evaluates food quality comprehensively. It starts from a neutral base score of 75, applying adjustments based on positive and negative factors:",
     "factorSugarLabel": "Sugars & Fats",
     "factorSugarPoints": "-20 pts",
     "factorSugarDetail": "Very high sugar (>22.5g) costs -20 pts, high sugar (>10g) costs -10 pts, low sugar (<5g) earns +3 pts; high sat. fat (>5g) costs -10 pts, low sat. fat (<1.5g) earns +3 pts",
@@ -168,7 +175,7 @@
     "pendingApproval": "Pending Admin Approval",
     "scoresInfoTitle": "How are scores calculated?",
     "scoreProductTitle": "Product Score (0-100):",
-    "scoreProductDesc": "A comprehensive score starting at 85 points. It's penalized for high sugar, saturated fat, salt, harmful additives, and heavy processing (NOVA 3–4). It's rewarded for low sugar/fat/salt, fiber, protein, organic/vegan labels, no additives, and minimal processing (NOVA 1). Finally, it's blended with the official Nutri-Score (80% custom + 20% Nutri-Score).",
+    "scoreProductDesc": "A comprehensive score starting at 75 points. It's penalized for high sugar, saturated fat, salt, harmful additives, and heavy processing (NOVA 3–4). It's rewarded for low sugar/fat/salt, fiber, protein, organic/vegan labels, no additives, and minimal processing (NOVA 1). Finally, it's blended with the official Nutri-Score (80% custom + 20% Nutri-Score).",
     "scoreLetterTitle": "Letter Grade (A-E):",
     "scoreLetterDesc": "Derived directly from the Product Score (A: 85-100, B: 70-84, C: 50-69, D: 30-49, E: <30).",
     "scoreNutriTitle": "Nutri-Score:",
@@ -298,16 +305,85 @@
     "allergySoy": "Soy",
     "allergyFish": "Fish",
     "allergyShellfish": "Shellfish",
+    "allergyMolluscs": "Molluscs",
     "allergySesame": "Sesame",
     "allergyMustard": "Mustard",
     "allergyCelery": "Celery",
-    "allergySulphites": "Sulphites"
+    "allergySulphites": "Sulphites",
+    "allergyLupin": "Lupin"
+  },
+  "AccountData": {
+    "title": "Your data",
+    "intro": "Download a copy of everything we store about you, or delete your account.",
+    "export": "Download my data (JSON)",
+    "delete": "Delete my account",
+    "deleteTitle": "Delete your account?",
+    "deleteWarning": "This permanently deletes your account, personal profiles, scan history, favourites, shopping list, scan insights data, reviews and contributions. It cannot be undone. Products you added stay in the catalogue without your name.",
+    "typeEmail": "Type {email} to confirm",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete everything",
+    "deleting": "Deleting…",
+    "adminNote": "Admin accounts cannot be deleted from here. Ask another admin or contact support.",
+    "errors": {
+      "unauthorized": "Please sign in again.",
+      "email_mismatch": "The email does not match.",
+      "admin_blocked": "Admin accounts cannot be deleted from here.",
+      "failed": "Something went wrong. Please try again; deletion will pick up where it stopped."
+    }
+  },
+  "Additives": {
+    "title": "Additives ({count})",
+    "hint": "Tap an additive to see what it is and why it is used.",
+    "forYouBadge": "For you",
+    "close": "Close",
+    "draft": "Draft: this explanation has not been reviewed yet.",
+    "whatItIs": "What it is",
+    "whyUsed": "Why it is used",
+    "known": "What is known",
+    "forYou": "For you",
+    "evidence": "Evidence of health effects",
+    "sources": "Sources",
+    "noExplanation": "We do not have an explanation for this additive yet.",
+    "noExplanationShort": "No explanation yet",
+    "categories": {
+      "colour": "Colour",
+      "preservative": "Preservative",
+      "sweetener": "Sweetener",
+      "flavour_enhancer": "Flavour enhancer",
+      "emulsifier": "Emulsifier",
+      "thickener": "Thickener",
+      "acidity_regulator": "Acidity regulator",
+      "antioxidant": "Antioxidant",
+      "other": "Other"
+    },
+    "evidenceLevels": {
+      "strong": {
+        "label": "Strong evidence",
+        "desc": "consistent studies show an effect"
+      },
+      "limited": {
+        "label": "Limited evidence",
+        "desc": "some studies, with mixed results"
+      },
+      "uncertain": {
+        "label": "Uncertain evidence",
+        "desc": "little or conflicting data"
+      },
+      "none_known": {
+        "label": "No concern found",
+        "desc": "regulators found no safety concern at current uses"
+      }
+    }
   },
   "ScoreMessages": {
     "veryHighSugar": "Very high sugar ({value}g/100g)",
     "highSugar": "High sugar ({value}g/100g)",
     "lowSugar": "Low sugar ({value}g/100g)",
+    "veryHighSugarDrink": "Very high sugar ({value}g/100ml)",
+    "highSugarDrink": "High sugar ({value}g/100ml)",
+    "lowSugarDrink": "Low sugar ({value}g/100ml)",
     "highSaturatedFat": "High saturated fat ({value}g/100g)",
+    "highSaturatedFatShare": "High share of saturated fat ({share}% of the fat)",
     "lowSaturatedFat": "Low saturated fat ({value}g/100g)",
     "highSalt": "High salt ({value}g/100g)",
     "lowSalt": "Low salt ({value}g/100g)",
@@ -359,32 +435,249 @@
     "tip2": "Ensure good lighting for best results",
     "tip3": "Supports EAN-13, EAN-8, UPC-A, UPC-E, and QR codes"
   },
+  "Label": {
+    "title": "Scan a label",
+    "subtitle": "No barcode? Photograph the ingredient list and nutrition table.",
+    "linkTitle": "No barcode? Photograph the label",
+    "linkDesc": "Take a photo of the ingredients and nutrition table instead.",
+    "backToBarcode": "Back to barcode scanning",
+    "untitled": "Photographed product",
+    "unavailable": {
+      "region": {
+        "title": "Not available in your region yet",
+        "body": "Photo reading uses a free Google service that Google does not allow for users in the European Economic Area, Switzerland and the United Kingdom. Barcode scanning works as usual."
+      },
+      "unknown_region": {
+        "title": "We could not confirm your region",
+        "body": "Photo reading is only offered where we can confirm it is allowed. Try again without a VPN or proxy. Barcode scanning works as usual."
+      },
+      "not_configured": {
+        "title": "Photo reading is not set up",
+        "body": "This feature is switched on but not fully configured yet. Barcode scanning works as usual."
+      }
+    },
+    "consent": {
+      "free": {
+        "title": "Before you send a photo",
+        "body": "To read the label, your photo is sent to Google's Gemini API. We use Google's free service: Google may use what is sent to improve its products, and people at Google may read it. Please do not send anything that is not a product label.",
+        "agree": "I understand and agree to send this photo to Google to read the label."
+      },
+      "paid": {
+        "title": "Before you send a photo",
+        "body": "To read the label, your photo is sent to Google's Gemini API. Under Google's paid-service terms, Google does not use it to improve its products.",
+        "agree": "I agree to send this photo to Google to read the label."
+      },
+      "labelOnly": "Photograph only the label: no people, faces, documents or places.",
+      "notStored": "Nutrika does not keep the photo or the text that was read. We only count how many photos you send per day.",
+      "reviewYourself": "The reading can be wrong. You check and correct it before anything is scored."
+    },
+    "takePhoto": "Take a photo",
+    "choosePhoto": "Choose a photo",
+    "remaining": "{count, plural, one {# photo left today} other {# photos left today}}",
+    "limitReached": "You have used all your photos for today. Try again tomorrow, or scan a barcode.",
+    "reading": "Reading the label...",
+    "readingDesc": "This usually takes a few seconds.",
+    "tip1": "Photograph the ingredient list and the nutrition table. Two photos are not needed: use the clearest side.",
+    "tip2": "Good light, no glare, text sharp and straight.",
+    "tip3": "Make sure the whole ingredient list is in the photo.",
+    "errors": {
+      "busy": "The reading service is busy right now. Your photo was not counted. Please try again in a minute.",
+      "config": "Photo reading is temporarily unavailable. Your photo was not counted.",
+      "blocked": "The photo could not be processed. Try a clearer photo of the label only.",
+      "bad_output": "We could not read this label. Your photo was not counted. Try a sharper, closer photo.",
+      "network": "Connection problem. Your photo was not counted. Please try again.",
+      "timeout": "Reading took too long. Your photo was not counted. Please try again.",
+      "too_large": "This photo is too large. Try again with a smaller photo.",
+      "bad_type": "Only JPEG, PNG or WebP photos can be read.",
+      "bad_request": "The photo could not be sent. Please try again.",
+      "user_limit": "You have used all your photos for today. Try again tomorrow, or scan a barcode.",
+      "global_limit": "Photo reading has reached its daily limit for everyone. Please try again tomorrow, or scan a barcode.",
+      "region": "Photo reading is not available in your region.",
+      "unknown_region": "We could not confirm your region, so photo reading is off.",
+      "not_configured": "Photo reading is not set up yet.",
+      "consent_required": "The terms for photo reading changed. Reload the page and read them again before sending a photo.",
+      "unauthorized": "Please sign in to read a label.",
+      "disabled": "Photo reading is not available.",
+      "unreadable_file": "This file could not be opened as a photo. Try another one.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "review": {
+      "intro": "Check what was read against the package and fix anything that is wrong. Nothing is scored until you confirm.",
+      "photoAlt": "The photo you took",
+      "name": "Product name",
+      "brand": "Brand",
+      "kind": "Type of product",
+      "ingredients": "Ingredients",
+      "ingredientsHint": "Exactly as printed, in the original language.",
+      "complete": "This is the complete ingredient list",
+      "completeHint": "Tick only if nothing is missing. If you have an allergy, an incomplete list can never be shown as safe.",
+      "contains": "Contains (allergens)",
+      "mayContain": "May contain traces of",
+      "listHint": "Separate with commas.",
+      "nutritionPer100g": "Nutrition per 100 g",
+      "nutritionPer100ml": "Nutrition per 100 ml",
+      "invalid": "Some values are not possible (for example more than 100 g per 100 g). Please correct them.",
+      "confirm": "Confirm and see the score",
+      "retake": "Take another photo"
+    },
+    "kinds": {
+      "food": "Food",
+      "drink": "Drink",
+      "cheese": "Cheese",
+      "oil_fat": "Oil, butter or margarine"
+    },
+    "nutrients": {
+      "energyKcal": "Energy (kcal)",
+      "fat": "Fat (g)",
+      "saturatedFat": "Saturated fat (g)",
+      "carbohydrates": "Carbohydrates (g)",
+      "sugars": "Sugars (g)",
+      "fiber": "Fibre (g)",
+      "proteins": "Protein (g)",
+      "salt": "Salt (g)"
+    },
+    "warnings": {
+      "unreadable": "The label was hard to read. Check every value.",
+      "partial": "Part of the label was hard to read. Check the values carefully.",
+      "lowConfidence": "The reading is not very sure. Check every value.",
+      "noIngredients": "No ingredient list was found. With an allergy, the result will say it cannot be verified.",
+      "perServingConverted": "The table was per serving. We converted it to per 100 g using the serving size.",
+      "perServingNoSize": "The table was per serving without a serving size, so the values were left empty. Enter them per 100 g.",
+      "saltFromSodium": "Only sodium was printed. Salt was calculated as sodium × 2.5.",
+      "valueRemoved": "{field}: the value did not look possible and was removed. Please enter it.",
+      "basisUnknown": "We could not tell whether the table is per 100 g or per serving. Check the values."
+    },
+    "result": {
+      "fromPhoto": "Read from a photo and checked by you. Not saved.",
+      "incomplete": "The ingredient list is not confirmed as complete, so allergens cannot be verified.",
+      "profile": "Profile",
+      "notSaved": "This result is not saved in your history, and no photo is kept.",
+      "edit": "Edit the values",
+      "another": "Scan another label"
+    }
+  },
+  "Offline": {
+    "badge": "Offline",
+    "badgeHint": "Showing data saved on this device",
+    "sync": {
+      "ready": "{count, plural, one {# product you scanned offline is ready} other {# products you scanned offline are ready}}",
+      "view": "View {name}",
+      "notFound": "{count, plural, one {# barcode you scanned offline was not found} other {# barcodes you scanned offline were not found}}",
+      "dismiss": "Dismiss"
+    },
+    "lookup": {
+      "loading": "Looking on this device...",
+      "title": "Offline result",
+      "savedAgo": {
+        "justNow": "Saved on this device just now.",
+        "minutes": "{count, plural, one {Saved on this device # minute ago.} other {Saved on this device # minutes ago.}}",
+        "hours": "{count, plural, one {Saved on this device # hour ago.} other {Saved on this device # hours ago.}}",
+        "days": "{count, plural, one {Saved on this device # day ago.} other {Saved on this device # days ago.}}"
+      },
+      "stale": "This data is more than 30 days old and may be out of date. Check again when you are online.",
+      "unverified": "The ingredient list is missing or incomplete, so allergens cannot be verified.",
+      "profile": "Profile",
+      "per100": "Per 100 g or 100 ml",
+      "nutrients": {
+        "sugars": "Sugars",
+        "saturatedFat": "Saturated fat",
+        "salt": "Salt"
+      },
+      "unknownValue": "unknown",
+      "notSaved": {
+        "title": "Not saved on this device",
+        "queued": "You are offline and this product has not been saved on this device. We kept its barcode and will look it up when you are back online.",
+        "notQueued": "You are offline and this product has not been saved on this device. Scan it again when you are back online."
+      },
+      "error": "The saved data on this device could not be read. Scan again when you are back online.",
+      "online": "You are back online. Open the full page for this product.",
+      "openOnline": "Open the full page",
+      "scanAnother": "Scan another product"
+    },
+    "page": {
+      "title": "You're offline",
+      "body": "It looks like you have lost your internet connection. Products you scanned before are still available on this device.",
+      "retry": "Try again",
+      "retrying": "Retrying...",
+      "home": "Go home",
+      "scan": "Scan a product"
+    },
+    "settings": {
+      "title": "Offline data on this device",
+      "description": "Nutrika keeps your recent products and your profile on this device so scans and allergen alerts still work without a connection. Nothing here is sent anywhere.",
+      "products": "{count, plural, one {# product saved} other {# products saved}}",
+      "size": "About {size}",
+      "profileSaved": "Your profile is saved here, so allergen alerts work offline.",
+      "profileNone": "No profile is saved on this device.",
+      "pending": "{count, plural, one {# barcode waiting for a connection} other {# barcodes waiting for a connection}}",
+      "clear": "Clear offline data",
+      "cleared": "Offline data cleared.",
+      "failed": "Could not read the offline data on this device.",
+      "unavailable": "This browser does not allow offline storage."
+    }
+  },
   "Privacy": {
     "metaTitle": "Privacy Policy | Nutrika",
     "metaDescription": "Privacy policy and data handling practices for Nutrika.",
     "title": "Privacy Policy",
     "subtitle": "How we protect and manage your personal data.",
-    "lastUpdated": "Last Updated: ",
-    "section1Title": "1. Introduction",
-    "section1Content": "Welcome to Nutrika. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and use our application.",
-    "section2Title": "2. Data We Collect",
-    "section2Content": "We may collect, use, store, and transfer different kinds of personal data about you, which we have grouped together as follows:",
-    "section2List1": "Identity Data: includes first name, last name, username or similar identifier.",
-    "section2List2": "Contact Data: includes email address.",
-    "section2List3": "Technical Data: includes internet protocol (IP) address, your login data, browser type and version, time zone setting and location.",
-    "section2List4": "Usage Data: includes information about how you use our application, including scanned products and search history.",
-    "section3Title": "3. How We Use Your Data",
-    "section3Content": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
-    "section3List1": "To register you as a new user.",
-    "section3List2": "To manage our relationship with you.",
-    "section3List3": "To personalize your experience and deliver relevant content and product suggestions.",
-    "section3List4": "To improve our website, products/services, marketing, customer relationships, and experiences.",
-    "section4Title": "4. Data Security",
-    "section4Content": "We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way, altered, or disclosed.",
-    "section5Title": "5. Your Legal Rights",
-    "section5Content": "Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, or restriction of processing of your personal data.",
-    "section6Title": "6. Contact Us",
-    "section6Content": "If you have any questions about this privacy policy or our privacy practices, please contact us at support@nutrika.com."
+    "lastUpdated": "Last Updated: {date}",
+    "introTitle": "1. Introduction",
+    "introContent": "Welcome to Nutrika. We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we look after your personal data when you visit our website and use our application, including the optional personal and family profiles.",
+    "collectTitle": "2. Data We Collect",
+    "collectContent": "We may collect, use, store, and transfer different kinds of personal data about you, which we have grouped together as follows:",
+    "collectList1": "Identity Data: includes first name, last name, username or similar identifier.",
+    "collectList2": "Contact Data: includes email address.",
+    "collectList3": "Technical Data: includes internet protocol (IP) address, your login data, browser type and version, time zone setting and location.",
+    "collectList4": "Usage Data: includes information about how you use our application, including scanned products and search history.",
+    "collectList5": "Account Health Data (optional): if you fill in your account profile, your weight, height, date of birth and food allergies. You can edit or remove these details at any time from your profile page.",
+    "collectList6": "Personal Profiles (optional, only with your explicit consent): for each profile you create, a nickname, an age band (child, teen or adult), health conditions (diabetes, hypertension), diets (vegan, vegetarian, keto, low sodium), goals (weight loss, muscle gain), food allergies, and how strictly to treat \"may contain\" traces. We never ask for a full name or a birth date for a profile.",
+    "healthTitle": "3. Health Data and Your Consent",
+    "healthContent": "Information about health conditions and food allergies is sensitive personal data. We store it in a personal profile only after you tick the consent box, and only to do the following:",
+    "healthList1": "Compare a product's ingredients and nutrition with the profile you selected, and show you a verdict such as \"not suitable\" or \"cannot verify\".",
+    "healthList2": "We do not sell this data, use it for advertising, or share it with other companies. The service that writes plain-language explanations of scores only receives product information (name, ingredients, nutrition), never your profile.",
+    "healthList3": "Our usage statistics never include health conditions, diets, goals or allergies.",
+    "healthList4": "You can withdraw your consent at any time by deleting the profile. The data is deleted immediately. Nutrika gives general information only and is not medical advice.",
+    "useTitle": "4. How We Use Your Data",
+    "useContent": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:",
+    "useList1": "To register you as a new user.",
+    "useList2": "To manage our relationship with you.",
+    "useList3": "To personalize your experience and deliver relevant content and product suggestions.",
+    "useList4": "To improve our website, products/services, marketing, customer relationships, and experiences.",
+    "shareTitle": "5. Who We Share Data With",
+    "shareContent": "We do not sell your personal data. A small number of service providers help us run Nutrika:",
+    "shareList1": "Hosting and database providers store the data described above on our behalf.",
+    "shareList2": "Open Food Facts: when you scan a barcode, the barcode number is sent to the Open Food Facts database to get product information. Your name and account details are not sent.",
+    "shareList3": "Google: if you choose to sign in with Google, Google shares your name, email address and profile picture with us.",
+    "shareList4": "AI explanations: product information only, never your profile or account details.",
+    "shareList5": "Vercel Analytics and Speed Insights: aggregated page-view and performance statistics. They never receive health data.",
+    "cookiesTitle": "6. Cookies and Browser Storage",
+    "cookiesContent": "We only use cookies and browser storage that the service needs to work. We do not use advertising cookies.",
+    "cookiesList1": "Sign-in session cookie: keeps you signed in.",
+    "cookiesList2": "Language cookie: remembers whether you use the site in English or French.",
+    "cookiesList3": "Active profile cookie (nutrika_profile): remembers which of your profiles is selected. It contains only an internal identifier, not health information.",
+    "cookiesList4": "Browser storage: your comparison list and whether you dismissed the install prompt are saved on your device only.",
+    "retentionTitle": "7. Keeping, Exporting and Deleting Your Data",
+    "retentionContent": "We keep your data for as long as you have an account, and you stay in control of it:",
+    "retentionList1": "Delete a personal profile from your personal profile page: the profile and everything in it is deleted immediately.",
+    "retentionList2": "Delete your account from your profile page: your account, personal profiles, scan history, favourites, shopping list, scan insights data, reviews and contributions are deleted. Products you added may stay in the shared catalogue without your name.",
+    "retentionList3": "Download your data: you can export your account data as a JSON file from your profile page.",
+    "securityTitle": "8. Data Security",
+    "securityContent": "We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way, altered, or disclosed.",
+    "rightsTitle": "9. Your Legal Rights",
+    "rightsContent": "Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, or restriction of processing, the right to receive a copy of your data in a portable format, and the right to withdraw your consent at any time. Most of these can be done yourself from your profile page. For anything else, contact us.",
+    "childrenTitle": "10. Children and Family Profiles",
+    "childrenContent": "Nutrika accounts are meant for adults. A parent or guardian can create a profile for a child to check products against the child's allergies. These profiles use a nickname and an age band only. Create a profile for another person only if you are entitled to do so, such as a parent or guardian.",
+    "contactTitle": "11. Contact Us",
+    "contactContent": "If you have any questions about this privacy policy or our privacy practices, please contact us at support@nutrika.com.",
+    "collectList7": "Shopping List and Saved Products (optional): the products you mark as approved or to avoid, and the items on your shopping list with their quantity and whether you checked them off. Nobody else can see them. If you use the Share button, the list is passed to your own messaging app and Nutrika does not receive it.",
+    "collectList8": "Scan Records for Insights (optional, only if you turn insights on): for each scan, the product's barcode, its score and main nutrients as they were at that moment, its brand and category, the profile you used and the date. They are used only to show you patterns, never shared, kept for 12 months, and you can turn this off and delete them at any time from the Insights page.",
+    "retentionList4": "Detailed scan records for insights exist only if you turned insights on. They are deleted after 12 months, or at once when you delete them from the Insights page.",
+    "collectList9": "Label Photos (optional, only if you use photo scanning): the photo is sent to Google's Gemini API to read the text on the label and is not kept by Nutrika; neither is the text that was read. We keep only the time of each photo you send for up to 7 days, to apply the daily limit. Photos should show only the product label.",
+    "shareList6": "Google (Gemini API), only if you choose to send a label photo and agree first: the photo is processed by Google. Under the free service Google may use it to improve its products and people at Google may read it, which is why photo scanning is not offered in the European Economic Area, Switzerland and the United Kingdom unless we use Google's paid service, under which Google does not use it for that. Your profile and account details are never sent.",
+    "retentionList5": "Photo scanning keeps no photo and no extracted text. A record of when you sent each photo (no content) is deleted after 7 days, or immediately when you delete your account.",
+    "collectList10": "Offline Data on Your Device (optional, only if offline mode is on): your recent products and, if you are signed in with a personal profile, a copy of that profile (conditions, diets, goals, allergens) are kept in your own browser so scans and allergen alerts work without a connection. This copy is never sent to us or to anyone else, is replaced each time you view a product online, is deleted when you sign out, and you can clear it at any time from your profile page.",
+    "retentionList6": "Offline data lives only in your browser: clear it from your profile page, when you sign out, or by clearing your browser's site data. We cannot read or delete it for you."
   },
   "Terms": {
     "metaTitle": "Terms and Conditions | Nutrika",
@@ -448,6 +741,333 @@
       "unauthorized": "Please sign in to generate an explanation.",
       "rate_limited": "You have reached the hourly limit for explanations. Please try again later.",
       "unavailable": "The explanation could not be generated right now. Please try again later."
+    }
+  },
+  "MedicalDisclaimer": {
+    "title": "Not medical advice",
+    "body": "Nutrika gives general information based on product data and is not medical advice. If you have an allergy, a medical condition or a special diet, always read the product label and ask a health professional."
+  },
+  "PersonalProfile": {
+    "metaTitle": "Personal profile",
+    "back": "Back to my account",
+    "title": "Your personal profile",
+    "intro": "Nutrika can judge each product for you: allergens, health conditions, diets and goals. Everything is optional and you can change or delete it at any time.",
+    "listTitle": "Your profiles",
+    "empty": "You have no profile yet.",
+    "create": "Create a profile",
+    "createTitle": "New profile",
+    "editTitle": "Edit profile",
+    "default": "Default",
+    "defaultHint": "Used to score products for you",
+    "makeDefault": "Use this profile for my scores",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this profile and all its data? This cannot be undone.",
+    "cancel": "Cancel",
+    "nameLabel": "Nickname",
+    "namePlaceholder": "e.g. Me, Sara",
+    "ageBandLabel": "Age group",
+    "ageBands": {
+      "child": "Child",
+      "teen": "Teen",
+      "adult": "Adult"
+    },
+    "allergensLabel": "Allergies",
+    "allergensHint": "Select every allergen you need to avoid.",
+    "allergensPrefilled": "We pre-selected the allergies saved in your account. Check them before saving.",
+    "strictnessLabel": "\"May contain\" traces",
+    "strictness": {
+      "avoid_traces": {
+        "label": "Avoid traces too",
+        "desc": "Products that may contain your allergen are marked not suitable. Recommended if you react to small amounts."
+      },
+      "intentional_only": {
+        "label": "Ingredients only",
+        "desc": "Products that may contain your allergen get a caution. Declared ingredients are still marked not suitable."
+      }
+    },
+    "conditionsLabel": "Health conditions",
+    "conditions": {
+      "diabetes": "Diabetes",
+      "hypertension": "High blood pressure"
+    },
+    "dietsLabel": "Diets",
+    "diets": {
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarian",
+      "keto": "Keto",
+      "low_sodium": "Low sodium"
+    },
+    "goalsLabel": "Goals",
+    "goals": {
+      "weight_loss": "Weight loss",
+      "muscle_gain": "Muscle gain"
+    },
+    "consent": "I agree that Nutrika stores this health information to personalise my results. I can edit or delete it at any time.",
+    "consentRequired": "Please tick the box to save health information.",
+    "privacyLink": "Read the privacy policy",
+    "save": "Save profile",
+    "saving": "Saving...",
+    "saved": "Profile saved",
+    "deleted": "Profile deleted",
+    "errors": {
+      "unauthorized": "Please sign in again.",
+      "disabled": "This feature is not available yet.",
+      "invalid": "Please check the form and try again.",
+      "limit": "You can have up to {max} profiles.",
+      "not_found": "This profile no longer exists.",
+      "failed": "Something went wrong. Please try again."
+    }
+  },
+  "PersonalScore": {
+    "title": "Score for you",
+    "forProfile": "For {name}",
+    "scoreOutOf": "{score}/100",
+    "universal": "Universal score: {score}/100",
+    "scoreHidden": "Score hidden: your allergens cannot be verified",
+    "status": {
+      "not_suitable": "Not suitable",
+      "caution": "Caution",
+      "cannot_verify": "Cannot verify",
+      "good_match": "Good match",
+      "neutral": "Nothing to check"
+    },
+    "neutralHint": "Your profile has no choice that applies to this product.",
+    "banner": {
+      "contains": "Contains {allergens}",
+      "may_contain": "May contain {allergens}",
+      "unknown": "Cannot verify your allergens: the ingredient list is missing or incomplete. Check the package.",
+      "none_found": "No declared allergen from your list. Always check the package."
+    },
+    "groups": {
+      "block": "Not suitable",
+      "caution": "Caution",
+      "unknown": "Check the label",
+      "good": "Good match"
+    },
+    "completeness": {
+      "usable": "Ingredient list available",
+      "incomplete": "Ingredient list incomplete",
+      "missing": "No ingredient list"
+    },
+    "dataUpdated": "Data last updated {date}",
+    "cta": {
+      "signedOutTitle": "Get a verdict made for you",
+      "signedOutText": "Sign in and add your allergies, conditions, diets or goals.",
+      "signIn": "Sign in",
+      "noProfileTitle": "Get a verdict made for you",
+      "noProfileText": "Add your allergies, conditions, diets or goals to see if this product suits you.",
+      "createProfile": "Create my profile"
+    },
+    "because": {
+      "allergy": "Allergy",
+      "diabetes": "Diabetes",
+      "hypertension": "High blood pressure",
+      "vegan": "Vegan",
+      "vegetarian": "Vegetarian",
+      "keto": "Keto",
+      "low_sodium": "Low sodium",
+      "weight_loss": "Weight loss",
+      "muscle_gain": "Muscle gain",
+      "child": "Child"
+    },
+    "reasons": {
+      "allergenContains": "Contains {allergen}",
+      "allergenContainsText": "Ingredients mention {allergen}",
+      "allergenMayContain": "May contain traces of {allergen}",
+      "allergenUnknown": "Cannot verify your allergens: the ingredient list is missing or incomplete",
+      "allergenNone": "No declared allergen from your list",
+      "lactoseFree": "Labelled lactose-free",
+      "notVegan": "Not vegan: contains animal-derived ingredients",
+      "veganOk": "Vegan",
+      "veganUnknown": "Vegan status unknown: check the label",
+      "notVegetarian": "Not vegetarian",
+      "vegetarianOk": "Vegetarian",
+      "vegetarianUnknown": "Vegetarian status unknown: check the label",
+      "saltHigh": "High salt ({value} g per {unit})",
+      "saltLow": "Low salt ({value} g per {unit})",
+      "saltUnknown": "Salt content not available",
+      "sugarVeryHigh": "Very high sugar ({value} g per {unit})",
+      "sugarHigh": "High sugar ({value} g per {unit})",
+      "sugarLow": "Low sugar ({value} g per {unit})",
+      "sugarUnknown": "Sugar content not available",
+      "netCarbsHigh": "High net carbs ({value} g per {unit})",
+      "netCarbsLow": "Low net carbs ({value} g per {unit})",
+      "carbsUnknown": "Carbohydrate content not available",
+      "proteinGood": "High protein ({value} g per {unit})",
+      "energyDense": "Energy-dense ({value} kcal per 100 g) with high sugar or saturated fat",
+      "childSugarHigh": "High sugar for a child ({value} g per {unit})",
+      "childCaffeine": "Contains caffeine (or guarana), not recommended for children"
+    },
+    "switcher": {
+      "label": "Profile",
+      "aria": "Switch profile",
+      "active": "Active"
+    },
+    "everyone": {
+      "title": "Check for everyone",
+      "count": "{count} profiles",
+      "colName": "Profile",
+      "colVerdict": "Verdict",
+      "colWhy": "Main reason",
+      "noReason": "Nothing to flag",
+      "you": "Selected"
+    },
+    "reportData": "Ingredients or allergens look wrong? Fix them on Open Food Facts (opens a new tab)."
+  },
+  "Alternatives": {
+    "title": "Better alternatives",
+    "titleForYou": "Better alternatives for {name}",
+    "subtitle": "Same kind of product, with a clearly better score. Compared on the data available.",
+    "gain": "+{delta} points vs this product",
+    "gainPersonal": "+{delta} points for you vs this product",
+    "scoreLabel": "Score {score}/100",
+    "reasons": {
+      "lessSugar": "Less sugar: {to} g instead of {from} g per {unit}",
+      "lessSalt": "Less salt: {to} g instead of {from} g per 100 g",
+      "lessSaturatedFat": "Less saturated fat: {to} g instead of {from} g per 100 g",
+      "fewerAdditives": "Fewer additives: {to} instead of {from}",
+      "lessProcessed": "Less processed",
+      "moreProtein": "More protein: {to} g instead of {from} g per 100 g",
+      "moreFiber": "More fibre: {to} g instead of {from} g per 100 g",
+      "betterScore": "Better overall score"
+    },
+    "status": {
+      "caution": "Caution for you",
+      "good_match": "Good match for you",
+      "neutral": "Nothing to flag for you"
+    },
+    "notSoldHere": "May not be sold near you",
+    "empty": "We did not find a clearly better product in this category. That can mean this one is already a good choice, or that the data is incomplete.",
+    "openProduct": "See {name}",
+    "disclaimer": "Suggestions are based on Open Food Facts data, which can be incomplete. Always check the label, especially if you have an allergy."
+  },
+  "Shopping": {
+    "title": "Shopping list",
+    "subtitle": "Items to buy next time. Scan a product and tap Add to list, or type an item below.",
+    "remaining": "{count} left to buy",
+    "allDone": "Everything is checked off.",
+    "empty": "Your list is empty. Scan a product and tap Add to list, or type an item above.",
+    "addLabel": "Add an item",
+    "addPlaceholder": "For example: bread",
+    "addButton": "Add",
+    "boughtTitle": "Bought",
+    "check": "Mark {name} as bought",
+    "uncheck": "Put {name} back on the list",
+    "quantity": "{name}: quantity {quantity}",
+    "increase": "One more {name}",
+    "decrease": "One less {name}",
+    "remove": "Remove {name}",
+    "clearChecked": "Clear bought items",
+    "share": "Share the list",
+    "shareWhatsApp": "WhatsApp",
+    "shareSms": "SMS",
+    "shareNothing": "Nothing left to share.",
+    "shareTitle": "Shopping list",
+    "shareFooter": "Made with Nutrika",
+    "aisles": {
+      "produce": "Fruit and vegetables",
+      "bakery": "Bakery",
+      "dairy": "Dairy and eggs",
+      "meat_fish": "Meat and fish",
+      "pantry": "Pantry",
+      "snacks": "Snacks and sweets",
+      "drinks": "Drinks",
+      "frozen": "Frozen",
+      "other": "Other"
+    },
+    "saved": {
+      "title": "My products",
+      "intro": "Products you approved or want to avoid. When you scan a similar product, Nutrika tells you how it compares.",
+      "approved": "Approved",
+      "avoid": "Avoid",
+      "none": "Nothing here yet. After a scan, tap Approve or Avoid.",
+      "remove": "Stop marking {name}",
+      "scoreOf": "Score {score}/100"
+    },
+    "actions": {
+      "group": "Your choice for this product",
+      "approve": "Approve",
+      "avoid": "Avoid",
+      "addToList": "Add to list",
+      "approvedNow": "Marked as approved.",
+      "avoidNow": "Marked as avoid.",
+      "cleared": "Choice removed.",
+      "added": "Added to your shopping list.",
+      "onList": "Already on your list",
+      "signIn": "Sign in to save products and build a shopping list.",
+      "signInButton": "Sign in"
+    },
+    "flags": {
+      "label": "Compared with your choices",
+      "avoid": "You marked this product as Avoid.",
+      "approved": "This product is on your approved list.",
+      "approvedButCheck": "You approved this product before, but check the verdict above: it may not suit this profile.",
+      "moreSugar": "More sugar than the one you usually buy: {current} g instead of {usual} g per 100 g or 100 ml.",
+      "moreSalt": "More salt than the one you usually buy: {current} g instead of {usual} g per 100 g or 100 ml.",
+      "moreSaturatedFat": "More saturated fat than the one you usually buy: {current} g instead of {usual} g per 100 g or 100 ml."
+    },
+    "errors": {
+      "unauthorized": "Please sign in again.",
+      "invalid": "That did not work. Check what you typed.",
+      "not_found": "This item or product was not found.",
+      "limit": "Your list is full. Remove some items first.",
+      "disabled": "This feature is not available.",
+      "failed": "Something went wrong. Try again."
+    }
+  },
+  "Insights": {
+    "title": "Scan insights",
+    "subtitle": "Patterns in the products you scanned. Scanned does not mean eaten, so these are about your scans, not about what you eat.",
+    "forProfile": "Scans made with {name}, and scans from before profiles",
+    "optIn": {
+      "title": "Turn on scan insights",
+      "text": "Nutrika can keep a record of each product you scan (its score, main nutrients, brand, category and the profile you used) to show patterns over time. Only you can see it. It is kept for 12 months, and you can turn it off and delete it at any time.",
+      "enable": "Turn on insights",
+      "note": "Scans made before you turn this on are not included."
+    },
+    "progress": {
+      "title": "Keep scanning",
+      "text": "Insights appear after {min} scans. You have {count} so far.",
+      "remaining": "{remaining} more to go",
+      "aria": "{count} of {min} scans"
+    },
+    "noPattern": "No clear pattern yet. Keep scanning and check back.",
+    "severity": {
+      "positive": "Good news",
+      "notice": "Worth a look",
+      "info": "For your information"
+    },
+    "chart": {
+      "title": "Average score by week",
+      "desc": "Average score of the products you scanned, week by week.",
+      "point": "Week of {date}: average {average}/100 over {scans} scans",
+      "needMore": "The chart appears once you have scans in at least two different weeks."
+    },
+    "items": {
+      "scoreImproved": "The average score of the products you scanned went up, from {from} to {to}.",
+      "scoreDropped": "The average score of the products you scanned went down, from {from} to {to}.",
+      "highSugarCount": "In the last {days} days, {count} of the products you scanned were high in sugar for their kind of product.",
+      "ultraProcessed": "{percent}% of the products you scanned (where the NOVA group is known) are ultra-processed (NOVA 4).",
+      "saltPattern": "The products you scanned average {avg} g of salt per 100 g.",
+      "proteinHabit": "{percent}% of the products you scanned are high in protein ({grams} g or more per 100 g).",
+      "bestCategory": "The kind of product with the highest average score among your scans: {aisle} ({avg}/100, {scans} scans).",
+      "worstCategory": "The kind of product with the lowest average score among your scans: {aisle} ({avg}/100, {scans} scans).",
+      "topBrand": "The brand you scanned most: {brand} ({count} scans)."
+    },
+    "data": {
+      "title": "Your scan records",
+      "text": "Insights are built from a record of each scan, kept for 12 months. Only you can see it.",
+      "count": "{count} records stored",
+      "export": "Download my data",
+      "turnOff": "Turn off insights",
+      "deleteAll": "Delete scan records",
+      "confirmDelete": "Delete all your scan records? This cannot be undone.",
+      "confirm": "Yes, delete",
+      "cancel": "Cancel",
+      "deleted": "Scan records deleted.",
+      "turnedOff": "Insights are off. Records already stored are kept until you delete them.",
+      "error": "Something went wrong. Try again."
     }
   }
 }

@@ -1,7 +1,11 @@
 import { Metadata } from "next";
 import { constructMetadata } from "@/lib/seo";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { PRIVACY_SECTIONS } from "@/lib/privacy-sections";
+
+// Bump this whenever the policy text changes.
+const POLICY_LAST_UPDATED = "2026-11-05";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -16,6 +20,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default function PrivacyPage() {
     const t = useTranslations("Privacy");
+    const locale = useLocale();
+    const lastUpdated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(locale, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+    });
     return (
         <div className="flex flex-col w-full min-h-screen">
             <section className="relative overflow-hidden px-4 py-20 bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-orange-950/30">
@@ -31,37 +42,21 @@ export default function PrivacyPage() {
             
             <section className="px-4 py-16">
                 <div className="mx-auto max-w-3xl prose prose-lg prose-orange dark:prose-invert">
-                    <p><strong>{t("lastUpdated", { date: new Date().toLocaleDateString() })}</strong></p>
+                    <p><strong>{t("lastUpdated", { date: lastUpdated })}</strong></p>
                     
-                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section1Title")}</h2>
-                    <p>{t("section1Content")}</p>
-                    
-                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section2Title")}</h2>
-                    <p>{t("section2Content")}</p>
-                    <ul className="list-disc list-inside">
-                        <li>{t("section2List1")}</li>
-                        <li>{t("section2List2")}</li>
-                        <li>{t("section2List3")}</li>
-                        <li>{t("section2List4")}</li>
-                    </ul>
-
-                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section3Title")}</h2>
-                    <p>{t("section3Content")}</p>
-                    <ul className="list-disc list-inside">
-                        <li>{t("section3List1")}</li>
-                        <li>{t("section3List2")}</li>
-                        <li>{t("section3List3")}</li>
-                        <li>{t("section3List4")}</li>
-                    </ul>
-
-                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section4Title")}</h2>
-                    <p>{t("section4Content")}</p>
-
-                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section5Title")}</h2>
-                    <p>{t("section5Content")}</p>
-
-                    <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t("section6Title")}</h2>
-                    <p>{t("section6Content")}</p>
+                    {PRIVACY_SECTIONS.map(({ id, list = 0 }) => (
+                        <section key={id} id={id}>
+                            <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">{t(`${id}Title`)}</h2>
+                            <p>{t(`${id}Content`)}</p>
+                            {list > 0 && (
+                                <ul className="list-disc list-inside">
+                                    {Array.from({ length: list }, (_, i) => (
+                                        <li key={i}>{t(`${id}List${i + 1}`)}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </section>
+                    ))}
                 </div>
             </section>
         </div>

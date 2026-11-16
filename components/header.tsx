@@ -21,11 +21,14 @@ import {
     Scale,
     Newspaper,
     Calculator,
+    ShoppingCart,
+    BarChart3,
 } from "lucide-react";
 import { useState } from "react";
 import { signOutAction } from "@/lib/auth-actions";
 import { useCompare } from "@/components/compare-context";
 import { Badge } from "@/components/ui/badge";
+import { isFeatureEnabled } from "@/lib/flags";
 
 interface HeaderProps {
     user?: {
@@ -52,6 +55,8 @@ export function Header({ user }: HeaderProps) {
         { href: "/about", label: t('about'), icon: Info },
         { href: "/scan", label: t('scan'), icon: Scan },
         ...(user ? [{ href: "/favorites", label: t('favorites'), icon: Heart }] : []),
+        ...(user && isFeatureEnabled("scanInsights") ? [{ href: "/insights", label: t('insights'), icon: BarChart3 }] : []),
+        ...(user && isFeatureEnabled("shoppingList") ? [{ href: "/shopping", label: t('shoppingList'), icon: ShoppingCart }] : []),
         ...(isAdmin ? [{ href: "/admin", label: t('admin'), icon: Shield }] : []),
     ];
 
@@ -137,8 +142,8 @@ export function Header({ user }: HeaderProps) {
                                 </Button>
                             </Link>
                             <form action={signOutAction}>
-                                <Button type="submit" variant="ghost" size="icon">
-                                    <LogOut className="h-4 w-4" />
+                                <Button type="submit" variant="ghost" size="icon" aria-label={t('signOut')}>
+                                    <LogOut className="h-4 w-4" aria-hidden="true" />
                                 </Button>
                             </form>
                         </div>
@@ -161,8 +166,10 @@ export function Header({ user }: HeaderProps) {
                         size="icon"
                         className="md:hidden"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label={mobileMenuOpen ? t('closeMenu') : t('openMenu')}
+                        aria-expanded={mobileMenuOpen}
                     >
-                        {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                        {mobileMenuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
                     </Button>
                 </div>
             </div>

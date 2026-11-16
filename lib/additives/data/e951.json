@@ -1,0 +1,38 @@
+{
+  "code": "E951",
+  "names": {
+    "en": "Aspartame",
+    "fr": "Aspartame"
+  },
+  "category": "sweetener",
+  "whatItIs": {
+    "en": "An artificial sweetener, roughly 200 times sweeter than sugar.",
+    "fr": "Un édulcorant artificiel, environ 200 fois plus sucrant que le sucre."
+  },
+  "whyUsed": {
+    "en": "Sweetens diet drinks, sugar-free sweets and tabletop sweeteners with almost no calories.",
+    "fr": "Sucre les boissons light, les bonbons sans sucre et les édulcorants de table, avec presque aucune calorie."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA reviewed it in 2013 and found no safety concern at current intakes. People with phenylketonuria must avoid it, which is why labels say “contains a source of phenylalanine”. In 2023 the WHO cancer agency IARC classed it as “possibly carcinogenic to humans” based on limited evidence, while the WHO/FAO expert committee JECFA kept the acceptable daily intake unchanged.",
+    "fr": "Autorisé dans l'UE. L'EFSA l'a réévalué en 2013 et n'a pas relevé de problème de sécurité aux niveaux de consommation actuels. Les personnes atteintes de phénylcétonurie doivent l'éviter, d'où la mention « contient une source de phénylalanine ». En 2023, le CIRC (agence de l'OMS sur le cancer) l'a classé « peut-être cancérogène pour l'homme » sur la base de preuves limitées, tandis que le comité d'experts JECFA (OMS/FAO) a maintenu la dose journalière admissible."
+  },
+  "evidence": "limited",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2013): Scientific opinion on the re-evaluation of aspartame (E 951)",
+      "url": "https://efsa.europa.eu/en/efsajournal/pub/3496"
+    },
+    {
+      "label": "FSAI: Aspartame, JECFA and IARC assessments (2023)",
+      "url": "https://www.fsai.ie/News-and-Alerts/Latest-News/Aspartame-JEFCA-and-IARC-assessments"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA 2013 abstract checked (no safety concern, ADI not applicable to PKU). The IARC and JECFA 2023 statements are from memory and from the FSAI page title: confirm."
+  }
+}

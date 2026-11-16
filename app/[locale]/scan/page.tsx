@@ -7,20 +7,32 @@ import { BarcodeScanner } from "@/components/barcode-scanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Keyboard, Scan, Loader2 } from "lucide-react";
+import { Keyboard, Scan, Loader2, Camera } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import { isFeatureEnabled } from "@/lib/flags";
+import { OfflineLookup } from "@/components/offline-lookup";
 
 export default function ScanPage() {
     const t = useTranslations("Scan");
+    const tLabel = useTranslations("Label");
     const router = useRouter();
     const [manualBarcode, setManualBarcode] = useState("");
     const [showManualInput, setShowManualInput] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isNavigating, setIsNavigating] = useState(false);
+    // F8: when the browser reports no connection, the result is built on this device instead of navigating.
+    const [offlineBarcode, setOfflineBarcode] = useState<string | null>(null);
 
-    const handleScan = (barcode: string) => {
+    const openProduct = (barcode: string) => {
+        if (isFeatureEnabled("offlineMode") && typeof navigator !== "undefined" && !navigator.onLine) {
+            setOfflineBarcode(barcode);
+            return;
+        }
         setIsNavigating(true);
         router.push(`/product/${barcode}`);
     };
+
+    const handleScan = (barcode: string) => openProduct(barcode);
 
     const handleManualSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,9 +48,12 @@ export default function ScanPage() {
             return;
         }
 
-        setIsNavigating(true);
-        router.push(`/product/${trimmed}`);
+        openProduct(trimmed);
     };
+
+    if (offlineBarcode) {
+        return <OfflineLookup barcode={offlineBarcode} onDone={() => setOfflineBarcode(null)} />;
+    }
 
     return (
         <div className="mx-auto max-w-lg px-4 py-8">
@@ -92,6 +107,20 @@ export default function ScanPage() {
                     {showManualInput ? t("useCamera") : t("useManual")}
                 </Button>
             </div>
+
+            {/* Photo of the label, for products without a usable barcode (F5, behind a flag) */}
+            {isFeatureEnabled("labelScan") && (
+                <Link
+                    href="/scan/label"
+                    className="mt-4 flex items-start gap-3 rounded-xl border-2 border-dashed border-neutral-300 p-4 text-left transition-colors hover:border-orange-400 dark:border-neutral-700"
+                >
+                    <Camera className="mt-0.5 h-5 w-5 shrink-0 text-orange-500" aria-hidden />
+                    <span>
+                        <span className="block font-semibold text-neutral-900 dark:text-neutral-100">{tLabel("linkTitle")}</span>
+                        <span className="block text-sm text-neutral-600 dark:text-neutral-400">{tLabel("linkDesc")}</span>
+                    </span>
+                </Link>
+            )}
 
             {/* Manual barcode input */}
             {showManualInput && (

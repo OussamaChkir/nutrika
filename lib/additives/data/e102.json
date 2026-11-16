@@ -1,0 +1,46 @@
+{
+  "code": "E102",
+  "names": {
+    "en": "Tartrazine",
+    "fr": "Tartrazine"
+  },
+  "category": "colour",
+  "whatItIs": {
+    "en": "A synthetic yellow colour (an azo dye).",
+    "fr": "Un colorant jaune de synthèse (colorant azoïque)."
+  },
+  "whyUsed": {
+    "en": "Colours foods and drinks such as sweets, soft drinks, desserts and snacks.",
+    "fr": "Colore des aliments et boissons comme les bonbons, les sodas, les desserts et les snacks."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. The EU requires this label warning on foods that contain it: “may have an adverse effect on activity and attention in children”. Some people may also be sensitive to it. The evidence on children's behaviour comes from a small number of studies with mixed results. EFSA kept the acceptable daily intake unchanged in 2009 and noted that a small share of people can react to it.",
+    "fr": "Autorisé dans l'UE. L'UE impose sur les aliments qui en contiennent la mention : « peut avoir des effets indésirables sur l'activité et l'attention chez les enfants ». Certaines personnes peuvent aussi y être sensibles. Les données sur le comportement des enfants viennent d'un petit nombre d'études aux résultats mitigés. L'EFSA a maintenu en 2009 la dose journalière admissible et noté qu'une petite part de la population peut y réagir."
+  },
+  "evidence": "limited",
+  "forYou": [
+    {
+      "for": "child",
+      "note": {
+        "en": "Because of the EU label warning, many parents choose to avoid it for children.",
+        "fr": "En raison de la mention obligatoire dans l'UE, beaucoup de parents préfèrent l'éviter pour les enfants."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "EFSA (2009): Scientific opinion on the re-evaluation of tartrazine (E 102)",
+      "url": "https://efsa.europa.eu/en/efsajournal/pub/1331"
+    },
+    {
+      "label": "Regulation (EC) No 1333/2008 on food additives, Annex V (labelling warning for certain colours)",
+      "url": "https://eur-lex.europa.eu/eli/reg/2008/1333/oj"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA 2009 abstract checked (ADI unchanged, intolerance in a small fraction). Warning wording not opened on EUR-Lex."
+  }
+}

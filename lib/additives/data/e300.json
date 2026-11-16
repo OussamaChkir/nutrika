@@ -1,0 +1,34 @@
+{
+  "code": "E300",
+  "names": {
+    "en": "Ascorbic acid (vitamin C)",
+    "fr": "Acide ascorbique (vitamine C)"
+  },
+  "category": "antioxidant",
+  "whatItIs": {
+    "en": "Vitamin C.",
+    "fr": "La vitamine C."
+  },
+  "whyUsed": {
+    "en": "An antioxidant that stops foods and drinks from browning and going off. It also adds a little vitamin C.",
+    "fr": "Un antioxydant qui empêche les aliments et boissons de brunir et de se gâter. Il apporte aussi un peu de vitamine C."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. It is the same molecule as the vitamin C found in fruit. EFSA re-evaluated ascorbic acid and its salts in 2015 and did not raise a safety concern.",
+    "fr": "Autorisé dans l'UE. C'est la même molécule que la vitamine C des fruits. L'EFSA a réévalué l'acide ascorbique et ses sels en 2015 et n'a pas soulevé de problème de sécurité."
+  },
+  "evidence": "none_known",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2015): Scientific opinion on the re-evaluation of ascorbic acid and its salts (E 300-304, 306-309)",
+      "url": "https://efsa.europa.eu/en/efsajournal/pub/4087"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA page not opened (URL and year from search). The 'no safety concern' conclusion is from memory: confirm."
+  }
+}

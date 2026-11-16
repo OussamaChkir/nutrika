@@ -13,6 +13,8 @@ import { CompareProvider } from "@/components/compare-context";
 import { JsonLd } from "@/components/json-ld";
 import { AlternateLinks } from "@/components/alternate-links";
 import { PWAInstallPrompt } from "@/components/pwa-install-prompt";
+import { OfflineManager } from "@/components/offline-manager";
+import { isFeatureEnabled } from "@/lib/flags";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -80,7 +82,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
@@ -149,6 +150,7 @@ export default async function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </CompareProvider>
+            {isFeatureEnabled("offlineMode") && <OfflineManager signedIn={!!session?.user} />}
           </ThemeProvider>
         </NextIntlClientProvider>
         <PWAInstallPrompt />

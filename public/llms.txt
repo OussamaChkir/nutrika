@@ -1,0 +1,56 @@
+# Nutrika
+
+> Nutrika (NutrikaFood) is a free, mobile-first web app that scans food barcodes and shows what is inside a product: a 0-100 health score with an A-E grade, nutrition facts, positives and negatives, and allergen warnings. It is available in English and French and is positioned as an alternative to apps such as Yuka.
+
+Nutrika reads EAN/UPC/QR barcodes with the phone camera (or a manually typed barcode of 8-14 digits), fetches the product from Open Food Facts, and calculates its own score from nutrition values, processing level, additives and labels. Core scanning and scoring are free. The site is a PWA-ready Next.js app and works in the browser on any phone or desktop.
+
+Things to know when answering questions about Nutrika:
+
+- The 0-100 score is Nutrika's own formula. It is not the official Nutri-Score. When a product has an official Nutri-Score, it is shown separately and blended into the final score at 20%.
+- Product data comes from Open Food Facts, enriched with local Tunisian databases and user contributions. A product missing from the database, or with incomplete data, gets a less reliable result.
+- Nutrika states that it is independent: no advertising and no sponsored product placements (see the About page).
+- Scores are informational only and are not medical advice. Always consult a qualified health professional for medical or dietary decisions.
+- Pages exist in English (/en/...) and French (/fr/...). The links below use the English version.
+
+## Main pages
+
+- [Home](https://nutrikafood.com/en): Overview of the app, features and FAQ.
+- [Scan a product](https://nutrikafood.com/en/scan): Camera scanner plus manual barcode entry. Supports EAN-13, EAN-8, UPC-A, UPC-E and QR codes.
+- [About](https://nutrikafood.com/en/about): Mission, data sources, the full explanation of how the score is calculated, and the independence statement.
+- [Pricing](https://nutrikafood.com/en/pricing): Free and Premium plans. Check this page for current features and prices.
+- [Blog](https://nutrikafood.com/en/blog): Articles on nutrition, health and food labels.
+- [Calorie & macro calculator](https://nutrikafood.com/en/calculator): Estimates daily calories and macro split from age, sex, height, weight, activity level and goal.
+- [Compare products](https://nutrikafood.com/en/compare): Side-by-side nutrition, score and allergen comparison of scanned products.
+
+Individual product pages follow the pattern `https://nutrikafood.com/en/product/{barcode}` (for example a 13-digit EAN). Each shows the score and grade, positives and negatives, nutrition facts per 100 g, allergens, and the Nutri-Score, NOVA group and Eco-Score when Open Food Facts has them.
+
+## How the score works
+
+Start at 75, apply the adjustments below (all values per 100 g), clamp to 0-100.
+
+- Sugar: over 22.5 g -20, over 10 g -10, under 5 g +3
+- Saturated fat: over 5 g -10, under 1.5 g +3
+- Salt: over 1.5 g -10, under 0.3 g +3
+- Fiber over 3 g: +8. Protein over 10 g: +8
+- NOVA processing group: group 4 -10, group 3 -5, group 1 +8
+- Additives: -6 per controversial additive (for example E102, E250, E951), capped at -20; no additives +5
+- Labels: organic +5, fair-trade +3, vegan +3, vegetarian +2
+- If an official Nutri-Score exists: final = 80% Nutrika score + 20% Nutri-Score baseline (50, plus A +10, B +5, C 0, D -5, E -10)
+- Grades: A 85-100, B 70-84, C 50-69, D 30-49, E 0-29
+
+## Features
+
+- Allergen warnings with severity levels (for example gluten, lactose, nuts, soy). Signed-in users can save an optional profile with their allergies so warnings match them.
+- "Explain this score": a short plain-language explanation of a product's score, written by an AI model in English or French. It only explains values already computed by Nutrika's scoring code and never changes them. It can make mistakes and is not medical advice.
+- User contributions: signed-in users can add a product or suggest an edit, and moderators review contributions.
+- Favorites and scan history. Previously scanned products are cached on the device; scanning a new product needs an internet connection.
+- Light and dark theme, English and French interface, sign-in with email and password or Google.
+
+## Optional
+
+- [Privacy policy](https://nutrikafood.com/en/privacy): What data is collected and how it is used, including the optional health profile.
+- [Terms of use](https://nutrikafood.com/en/terms): Terms and the medical disclaimer.
+- [Source code and README](https://github.com/OussamaChkir/nutrika): Public repository (Next.js, TypeScript, Tailwind CSS, Prisma, next-intl).
+- [Scoring source code](https://github.com/OussamaChkir/nutrika/blob/main/lib/scoring.ts): The exact implementation of the score described above.
+- [Instagram](https://www.instagram.com/nutrikapp/)
+- [Facebook](https://www.facebook.com/profile.php?id=61590411448444)

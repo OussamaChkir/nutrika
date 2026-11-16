@@ -1,0 +1,42 @@
+{
+  "code": "E211",
+  "names": {
+    "en": "Sodium benzoate",
+    "fr": "Benzoate de sodium"
+  },
+  "category": "preservative",
+  "whatItIs": {
+    "en": "The sodium salt of benzoic acid.",
+    "fr": "Le sel de sodium de l'acide benzoïque."
+  },
+  "whyUsed": {
+    "en": "A preservative that slows mould and yeast in soft drinks, sauces, pickles and jams.",
+    "fr": "Un conservateur qui ralentit les moisissures et les levures dans les sodas, sauces, pickles et confitures."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA (2016) found no concern about DNA damage or cancer and set a group safe daily intake for benzoic acid and benzoates. That level can be exceeded by toddlers and children in some situations, for example with many preserved drinks.",
+    "fr": "Autorisé dans l'UE. L'EFSA (2016) n'a relevé aucun problème de dommages à l'ADN ni de cancer et a fixé une dose journalière admissible de groupe pour l'acide benzoïque et les benzoates. Ce niveau peut être dépassé chez les jeunes enfants et les enfants dans certaines situations, par exemple avec beaucoup de boissons conservées."
+  },
+  "evidence": "limited",
+  "forYou": [
+    {
+      "for": "child",
+      "note": {
+        "en": "EFSA found that children can exceed the group safe daily intake in some scenarios.",
+        "fr": "L'EFSA a constaté que les enfants peuvent dépasser la dose journalière admissible de groupe dans certains scénarios."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "EFSA (2016): Scientific opinion on the re-evaluation of benzoic acid and benzoates (E 210-213)",
+      "url": "https://efsa.europa.eu/en/efsajournal/pub/4433"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "EFSA 2016 abstract checked (group ADI, no genotoxicity or carcinogenicity concern, exceedance in toddlers and children). Typical uses are general knowledge: confirm."
+  }
+}

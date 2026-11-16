@@ -32,10 +32,39 @@ import { checkIsFavorite } from "@/app/[locale]/product/actions";
 import { FavoriteButton } from "@/components/favorite-button";
 import { DietaryTags } from "@/components/dietary-tags";
 import { BetterAlternatives } from "@/components/better-alternatives";
+import { AlternativesList } from "@/components/alternatives-list";
+import { findAlternatives } from "@/lib/alternatives/find";
+import { shouldOfferAlternatives, type Alternative } from "@/lib/alternatives/rank";
+import { isOffTag } from "@/lib/off/search";
+import { ProductSaveActionsBar } from "@/components/product-save-actions";
+import { ScanFlags } from "@/components/scan-flags";
+import { addProductToList, setProductState } from "@/app/[locale]/shopping/actions";
+import { buildScanFlags, type ScanFlag } from "@/lib/shopping/flags";
+import { MAX_COMPARE_PRODUCTS, parseSavedState, type SavedState } from "@/lib/shopping/rules";
+import { compareWithUsual } from "@/lib/shopping/usual";
 import { CompareButton } from "@/components/compare-button";
 import { ExplainScore } from "@/components/explain-score";
 import { getAiConfig, isAiLocale, isExplainableBarcode } from "@/lib/ai";
 import { getCachedExplanation } from "@/lib/ai-cache";
+import { cookies } from "next/headers";
+import { isFeatureEnabled } from "@/lib/flags";
+import { AdditiveChips, type AdditiveChipItem } from "@/components/additive-chips";
+import { buildIndex, forYouNotes, getAdditiveInfo, productAdditiveCodes } from "@/lib/additives/lookup";
+import { ADDITIVES } from "@/lib/additives/registry";
+import type { AdditiveLocale } from "@/lib/additives/schema";
+import type { PersonalProfile } from "@/lib/profiles/constants";
+import { pickActiveProfile } from "@/lib/profiles/active";
+import { ACTIVE_PROFILE_COOKIE } from "@/lib/profiles/constants";
+import { productFromStored } from "@/lib/product";
+import { OfflineCacheWriter } from "@/components/offline-cache-writer";
+import { isCacheable, type ProfileSnapshot } from "@/lib/offline/policy";
+import { evaluateProduct, type PersonalVerdict } from "@/lib/profiles/evaluate";
+import { toPersonalProfile } from "@/lib/profiles/profile";
+import { PersonalScoreCard } from "@/components/personal-score-card";
+import { PersonalScoreCta } from "@/components/personal-score-cta";
+import { ProfileSwitcher } from "@/components/profile-switcher";
+import { EveryoneMatrix, type EveryoneRow } from "@/components/everyone-matrix";
+import { PersonalScoreTracker } from "@/components/personal-score-tracker";
 
 interface ProductPageProps {
     params: Promise<{ barcode: string }>;
@@ -171,8 +200,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
             ? await getCachedExplanation(product.id, locale, product.score).catch(() => null)
             : null;
 
+    // F2 replaces the early version below when its flag is on; the early one stays as the fallback.
+    const alternativesEnabled = isFeatureEnabled("alternatives");
     let alternatives: any[] = [];
-    if (offData) {
+    if (offData && !alternativesEnabled) {
         const categories = offData.categories_tags as string[] | undefined;
         if (categories && categories.length > 0) {
             // Try up to 3 most specific categories if the first ones yield no better alternatives
@@ -202,6 +233,140 @@ export default async function ProductPage({ params }: ProductPageProps) {
         }
     }
 
+    // "Score for you" (F1) and the allergen banner (F7), behind a flag. The universal score is
+    // untouched and stays visible below. A failure here must never break the product page.
+    const personalEnabled = isFeatureEnabled("personalScore");
+    let personalView: {
+        verdict: PersonalVerdict;
+        name: string;
+        activeId: string;
+        everyone: EveryoneRow[];
+    } | null = null;
+    let activePersonalProfile: PersonalProfile | null = null;
+    // F8: the profile copy kept on the device. null = nobody signed in (or personal score off):
+    // remove it. undefined = we could not load the profiles just now: leave the copy as it is.
+    let offlineProfiles: ProfileSnapshot[] | null | undefined = null;
+    let offlineActiveId: string | null = null;
+    if (personalEnabled && session?.user?.id) {
+        offlineProfiles = undefined;
+        try {
+            const profileRows = await prisma.profile.findMany({
+                where: { userId: session.user.id },
+                orderBy: { createdAt: "asc" },
+            });
+            // The cookie is only a hint: it is matched against this user's own profiles.
+            const activeCookie = (await cookies()).get(ACTIVE_PROFILE_COOKIE)?.value;
+            const active = pickActiveProfile(profileRows, activeCookie);
+            offlineProfiles = profileRows.map((row: Parameters<typeof toPersonalProfile>[0] & { id: string; name: string; isDefault: boolean }) => ({
+                id: row.id,
+                name: row.name,
+                isDefault: row.isDefault,
+                profile: toPersonalProfile(row),
+            }));
+            offlineActiveId = active?.id ?? null;
+            if (active) {
+                const normalized = productFromStored(product);
+                const everyone: EveryoneRow[] = profileRows.map((row) => ({
+                    id: row.id,
+                    name: row.name,
+                    isActive: row.id === active.id,
+                    verdict: evaluateProduct(normalized, toPersonalProfile(row), product.score),
+                }));
+                const activeRow = profileRows.find((r: { id: string }) => r.id === active.id);
+                if (activeRow) activePersonalProfile = toPersonalProfile(activeRow);
+                const current = everyone.find((r) => r.isActive)!;
+                personalView = { verdict: current.verdict, name: current.name, activeId: active.id, everyone };
+            }
+        } catch (error) {
+            console.error("Personal score unavailable:", error instanceof Error ? error.message : "unknown error");
+        }
+    }
+
+    // Better alternatives (F2), behind a flag. Offered for a grade C or worse, or when the personal
+    // verdict is not good news. Ranked on the personal score when a profile is active. Failures
+    // (OFF down, slow) just mean no block: this must never break the product page.
+    let alternativesView: { items: Alternative[]; profileName: string | null; countryTag: string | null } | null = null;
+    if (alternativesEnabled) {
+        try {
+            const letter = product.scoreLetter as "A" | "B" | "C" | "D" | "E";
+            if (shouldOfferAlternatives({ letter, status: personalView?.verdict.status ?? null })) {
+                const configuredCountry = process.env.ALTERNATIVES_COUNTRY?.trim().toLowerCase() || null;
+                const countryTag = configuredCountry && isOffTag(configuredCountry) ? configuredCountry : null;
+                const items = await findAlternatives({
+                    current: productFromStored(product),
+                    currentScore: product.score,
+                    profile: activePersonalProfile,
+                    country: countryTag,
+                });
+                alternativesView = {
+                    items,
+                    profileName: activePersonalProfile && personalView ? personalView.name : null,
+                    countryTag,
+                };
+            }
+        } catch (error) {
+            console.error("Alternatives unavailable:", error instanceof Error ? error.message : "unknown error");
+        }
+    }
+
+    // Approve / Add to list / Avoid and the flags from the user's own choices (F3), behind a flag.
+    // On failure nothing is shown rather than buttons with a wrong state.
+    let shoppingView: { signedIn: boolean; state: SavedState | null; onList: boolean; flags: ScanFlag[] } | null = null;
+    if (isFeatureEnabled("shoppingList")) {
+        const userId = session?.user?.id;
+        if (!userId) {
+            shoppingView = { signedIn: false, state: null, onList: false, flags: [] };
+        } else {
+            try {
+                const tags = productFromStored(product).categoryTags;
+                const category = tags.length > 0 ? tags[tags.length - 1] : null;
+                const [saved, peers, listed] = await Promise.all([
+                    prisma.savedProduct.findUnique({
+                        where: { userId_barcode: { userId, barcode: product.barcode } },
+                        select: { state: true },
+                    }),
+                    category
+                        ? prisma.savedProduct.findMany({
+                              where: { userId, state: "approved", category },
+                              orderBy: { updatedAt: "desc" },
+                              take: MAX_COMPARE_PRODUCTS,
+                              select: { barcode: true, category: true, sugars: true, salt: true, saturatedFat: true },
+                          })
+                        : Promise.resolve([]),
+                    prisma.shoppingListItem.count({ where: { userId, barcode: product.barcode, checked: false } }),
+                ]);
+                const state = parseSavedState(saved?.state);
+                const comparisons = compareWithUsual(
+                    { barcode: product.barcode, category, sugars: product.sugars, salt: product.salt, saturatedFat: product.saturatedFat },
+                    peers
+                );
+                shoppingView = {
+                    signedIn: true,
+                    state,
+                    onList: listed > 0,
+                    flags: buildScanFlags({ state, comparisons, verdictStatus: personalView?.verdict.status ?? null }),
+                };
+            } catch (error) {
+                console.error("Shopping list unavailable:", error instanceof Error ? error.message : "unknown error");
+            }
+        }
+    }
+
+    // Additive explanations (F6), behind a flag. Drafts are only shown outside production.
+    let additiveItems: AdditiveChipItem[] = [];
+    if (isFeatureEnabled("ingredientExplanations")) {
+        const additiveLocale: AdditiveLocale = locale === "fr" ? "fr" : "en";
+        const index = buildIndex(ADDITIVES);
+        const includeDrafts = process.env.NODE_ENV !== "production";
+        additiveItems = productAdditiveCodes(productFromStored(product).additives).map((code) => {
+            const view = getAdditiveInfo(index, code, additiveLocale, { includeDrafts });
+            return { code, view, forYou: view ? forYouNotes(view, activePersonalProfile) : [] };
+        });
+        // Until at least one of the product's additives has a reviewed explanation, a list of
+        // chips that all say "no explanation yet" would only be noise.
+        if (!additiveItems.some((item) => item.view)) additiveItems = [];
+    }
+
     return (
         <div className="mx-auto max-w-2xl px-4 py-6">
             <Link
@@ -229,6 +394,32 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             })}
                         </p>
                     </div>
+                </div>
+            )}
+
+            {personalEnabled && (
+                <div className="animate-fade-in-up mb-5">
+                    {personalView ? (
+                        <>
+                            <PersonalScoreCard
+                                verdict={personalView.verdict}
+                                profileName={personalView.name}
+                                barcode={barcode}
+                                headerAction={
+                                    personalView.everyone.length > 1 ? (
+                                        <ProfileSwitcher
+                                            profiles={personalView.everyone.map((r) => ({ id: r.id, name: r.name }))}
+                                            activeId={personalView.activeId}
+                                        />
+                                    ) : undefined
+                                }
+                            />
+                            <EveryoneMatrix rows={personalView.everyone} />
+                            <PersonalScoreTracker status={personalView.verdict.status} />
+                        </>
+                    ) : (
+                        <PersonalScoreCta variant={session?.user?.id ? "no_profile" : "signed_out"} />
+                    )}
                 </div>
             )}
 
@@ -293,6 +484,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </div>
                 </CardContent>
             </Card>
+
+            {shoppingView && (
+                <div className="animate-fade-in-up">
+                    <ScanFlags flags={shoppingView.flags} />
+                    <ProductSaveActionsBar
+                        barcode={product.barcode}
+                        signedIn={shoppingView.signedIn}
+                        initialState={shoppingView.state}
+                        initialOnList={shoppingView.onList}
+                        actions={{ setState: setProductState, addToList: addProductToList }}
+                    />
+                </div>
+            )}
 
             {showExplanation && (
                 <ExplainScore
@@ -360,6 +564,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     </Card>
                 )}
 
+                {additiveItems.length > 0 && (
+                    <Card className="animate-fade-in-up delay-200 border-0 shadow-md shadow-violet-100/30 dark:shadow-violet-950/20 overflow-hidden">
+                        <div className="flex">
+                            <div className="w-1 bg-gradient-to-b from-violet-400 to-violet-600 shrink-0" />
+                            <CardContent className="p-4 flex-1">
+                                <AdditiveChips items={additiveItems} />
+                            </CardContent>
+                        </div>
+                    </Card>
+                )}
+
                 <Card className="animate-fade-in-up delay-300 border-0 shadow-md shadow-amber-100/20 dark:shadow-amber-950/20 overflow-hidden">
                     <div className="flex">
                         <div className="w-1 bg-gradient-to-b from-amber-400 to-amber-600 shrink-0" />
@@ -410,8 +625,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 )}
             </div>
 
-            {alternatives.length > 0 && (
-                <BetterAlternatives alternatives={alternatives} />
+            {alternativesView ? (
+                <AlternativesList
+                    alternatives={alternativesView.items}
+                    fromLetter={product.scoreLetter}
+                    profileName={alternativesView.profileName}
+                    countryTag={alternativesView.countryTag}
+                />
+            ) : (
+                alternatives.length > 0 && <BetterAlternatives alternatives={alternatives} />
             )}
 
             <div className="mt-7 animate-fade-in-up delay-500">
@@ -443,6 +665,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
 
             <RecordScan barcode={product.barcode} userId={session?.user?.id} />
+            {isFeatureEnabled("offlineMode") && isCacheable(product, product.status) && (
+                <OfflineCacheWriter product={productFromStored(product)} profiles={offlineProfiles} activeId={offlineActiveId} />
+            )}
         </div>
     );
 }

@@ -1,0 +1,42 @@
+{
+  "code": "E110",
+  "names": {
+    "en": "Sunset yellow FCF",
+    "fr": "Jaune orangé S"
+  },
+  "category": "colour",
+  "whatItIs": {
+    "en": "A synthetic orange-yellow colour (an azo dye).",
+    "fr": "Un colorant jaune-orangé de synthèse (colorant azoïque)."
+  },
+  "whyUsed": {
+    "en": "Colours foods and drinks such as sweets, soft drinks, desserts and snacks.",
+    "fr": "Colore des aliments et boissons comme les bonbons, les sodas, les desserts et les snacks."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. The EU requires this label warning on foods that contain it: “may have an adverse effect on activity and attention in children”. Some people may also be sensitive to it. The evidence on children's behaviour comes from a small number of studies with mixed results.",
+    "fr": "Autorisé dans l'UE. L'UE impose sur les aliments qui en contiennent la mention : « peut avoir des effets indésirables sur l'activité et l'attention chez les enfants ». Certaines personnes peuvent aussi y être sensibles. Les données sur le comportement des enfants viennent d'un petit nombre d'études aux résultats mitigés."
+  },
+  "evidence": "limited",
+  "forYou": [
+    {
+      "for": "child",
+      "note": {
+        "en": "Because of the EU label warning, many parents choose to avoid it for children.",
+        "fr": "En raison de la mention obligatoire dans l'UE, beaucoup de parents préfèrent l'éviter pour les enfants."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "Regulation (EC) No 1333/2008 on food additives, Annex V (labelling warning for certain colours)",
+      "url": "https://eur-lex.europa.eu/eli/reg/2008/1333/oj"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "Warning wording and the list of colours come from Annex V; the EUR-Lex page could not be opened while drafting, check the exact wording. Individual EFSA opinion for this colour not checked."
+  }
+}

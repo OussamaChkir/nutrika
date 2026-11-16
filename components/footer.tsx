@@ -50,16 +50,18 @@ export function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-neutral-400 hover:text-neutral-600 transition-colors dark:hover:text-neutral-300"
+                            aria-label={t('facebook')}
                         >
-                            <Facebook className="h-5 w-5" />
+                            <Facebook className="h-5 w-5" aria-hidden="true" />
                         </a>
                         <a
                             href="https://www.instagram.com/nutrikapp/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-neutral-400 hover:text-neutral-600 transition-colors dark:hover:text-neutral-300"
+                            aria-label={t('instagram')}
                         >
-                            <Instagram className="h-5 w-5" />
+                            <Instagram className="h-5 w-5" aria-hidden="true" />
                         </a>
                     </div>
                 </div>

@@ -1,0 +1,42 @@
+{
+  "code": "E322",
+  "names": {
+    "en": "Lecithins",
+    "fr": "Lécithines"
+  },
+  "category": "emulsifier",
+  "whatItIs": {
+    "en": "Fat-like substances found in soy, sunflower and egg yolk.",
+    "fr": "Des substances proches des graisses présentes dans le soja, le tournesol et le jaune d'œuf."
+  },
+  "whyUsed": {
+    "en": "An emulsifier that mixes oil and water in chocolate, spreads, bakery products and ready meals.",
+    "fr": "Un émulsifiant qui mélange l'huile et l'eau dans le chocolat, les pâtes à tartiner, les produits de boulangerie et les plats préparés."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU and re-evaluated by EFSA in 2017. In most foods it comes from soy or sunflower. When it comes from soy or egg, that allergen must be declared on the label.",
+    "fr": "Autorisé dans l'UE et réévalué par l'EFSA en 2017. Dans la plupart des aliments, il provient du soja ou du tournesol. Lorsqu'il provient du soja ou de l'œuf, cet allergène doit figurer sur l'étiquette."
+  },
+  "evidence": "none_known",
+  "forYou": [
+    {
+      "for": "vegan",
+      "note": {
+        "en": "Usually made from soy or sunflower, so vegan, but it can come from egg yolk. Egg must be declared if it does.",
+        "fr": "Généralement fabriqué à partir de soja ou de tournesol, donc végétalien, mais il peut provenir de jaune d'œuf. L'œuf doit alors être déclaré."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "label": "EFSA (2017): Opinion on the re-evaluation of lecithins (E 322) as a food additive",
+      "url": "https://portal.fis.tum.de/en/publications/opinion-on-the-re-evaluation-of-lecithins-e-322-as-a-food-additiv/"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "The link is a library record of the EFSA opinion, not the opinion itself: replace it with the EFSA Journal page. The conclusion and the allergen-labelling statement are from memory: confirm."
+  }
+}

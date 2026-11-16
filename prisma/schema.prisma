@@ -36,6 +36,16 @@ model User {
   scanHistory    ScanHistory[]
   feedbacks      ProductFeedback[]
   favorites      Favorite[]
+  profiles       Profile[]
+  savedProducts  SavedProduct[]
+  shoppingListItems ShoppingListItem[]
+  scanEvents     ScanEvent[]
+  labelScanUsage LabelScanUsage[]
+  passwordResetTokens PasswordResetToken[]
+
+  // F9: opt-in to detailed scan records for insights. Optional on purpose: on MongoDB a
+  // required field missing from older documents makes reads fail. Null or false means off.
+  scanInsightsOptIn Boolean?
 }
 
 model Account {
@@ -72,6 +82,20 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// Password reset links sent by email (Resend). Only the SHA-256 hash of the token is stored, so a
+// database leak does not give working reset links. A token is single use and short lived: it is
+// deleted when used, and every older token of the user is deleted when a new one is requested.
+model PasswordResetToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 // ============================================
@@ -226,6 +250,103 @@ model ProductExplanation {
 }
 
 // ============================================
+// PERSONAL PROFILES (F1 personal score, F7 allergen strictness, F4 family)
+// ============================================
+// Many per user from day one, so family profiles need no migration.
+// Values are validated by lib/profiles/constants.ts (profileInputSchema).
+// Health data: only stored after an explicit consent (consentedAt), and deleted with the profile
+// or with the account (onDelete: Cascade). Nickname + age band, never a full name or birth date.
+
+model Profile {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String   @db.ObjectId
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name               String                       // nickname
+  ageBand            String   @default("adult")   // child | teen | adult
+  isDefault          Boolean  @default(false)
+  conditions         String[]                     // diabetes | hypertension
+  diets              String[]                     // vegan | vegetarian | keto | low_sodium
+  goals              String[]                     // weight_loss | muscle_gain
+  allergens          String[]                     // labels from lib/allergens.ts, same as User.allergies
+  allergenStrictness String   @default("avoid_traces") // avoid_traces | intentional_only
+  consentedAt        DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ============================================
+// SCAN EVENTS (F9)
+// ============================================
+// One row per scan, only for users who turned insights on. Values are snapshots taken at scan
+// time, so insights do not change when Open Food Facts data changes. Kept for 12 months.
+// (ScanHistory above is a different thing: the 10 most recent products, one row each.)
+
+model ScanEvent {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId  String?  @db.ObjectId            // active profile at scan time, if any
+  barcode    String
+  score      Int
+  grade      String                            // A | B | C | D | E
+  sugar100   Float?
+  salt100    Float?
+  satFat100  Float?
+  protein100 Float?
+  nova       Int?
+  category   String?                           // most specific Open Food Facts category tag
+  brand      String?
+  highSugar  Boolean?                          // above the "high sugar" level for its category
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// ============================================
+// SHOPPING LIST (F3)
+// ============================================
+// A product the user marked "approved" or "avoid", and the items on their shopping list.
+// Both belong to the account (not to a profile) and are deleted with it. Name, category,
+// score and nutrients are snapshots, so the list still reads well if the catalogue changes.
+
+model SavedProduct {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  barcode      String
+  name         String
+  brand        String?
+  category     String?                      // most specific Open Food Facts category tag
+  score        Int
+  scoreLetter  String                       // A | B | C | D | E
+  sugars       Float?                       // per 100 g or 100 ml, for "more sugar than usual"
+  saturatedFat Float?
+  salt         Float?
+  state        String                       // approved | avoid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, barcode])
+  @@index([userId, state])
+}
+
+model ShoppingListItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  barcode   String?                         // null for free text ("bread")
+  label     String                          // product name or free text
+  category  String?                         // snapshot, used to group by aisle
+  quantity  Int      @default(1)
+  checked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ============================================
 // ENUMS
 // ============================================
 
@@ -260,4 +381,19 @@ enum AllergenSeverity {
   LOW
   MEDIUM
   HIGH
+}
+
+// ============================================
+// LABEL PHOTO SCANNING (F5)
+// ============================================
+// One row per photo sent for reading. It stores NO image, NO text and NO result: only who and when,
+// so the per-user and global daily limits can be counted. Rows older than 7 days are deleted.
+model LabelScanUsage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
 }

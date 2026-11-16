@@ -1,0 +1,34 @@
+{
+  "code": "E621",
+  "names": {
+    "en": "Monosodium glutamate (MSG)",
+    "fr": "Glutamate monosodique (MSG)"
+  },
+  "category": "flavour_enhancer",
+  "whatItIs": {
+    "en": "The sodium salt of glutamic acid, an amino acid that also occurs naturally in food.",
+    "fr": "Le sel de sodium de l'acide glutamique, un acide aminé présent aussi naturellement dans les aliments."
+  },
+  "whyUsed": {
+    "en": "Boosts savoury (umami) flavour in stock cubes, soups, snacks and ready meals.",
+    "fr": "Renforce le goût salé-savoureux (umami) dans les bouillons, soupes, snacks et plats préparés."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA (2017) set a group safe daily intake for glutamates, and noted that intake from additives plus food can exceed it for some people. Glutamate also occurs naturally in tomatoes, cheese and meat. Some people report headaches or flushing after eating it, but controlled studies have not found consistent effects.",
+    "fr": "Autorisé dans l'UE. L'EFSA (2017) a fixé une dose journalière admissible de groupe pour les glutamates, et noté que l'apport via les additifs et l'alimentation peut la dépasser chez certaines personnes. Le glutamate est aussi présent naturellement dans les tomates, le fromage et la viande. Certaines personnes signalent des maux de tête ou des bouffées de chaleur, mais les études contrôlées n'ont pas montré d'effets constants."
+  },
+  "evidence": "uncertain",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA news (2017): EFSA reviews safety of glutamates added to food",
+      "url": "https://www.efsa.europa.eu/en/press/news/170712"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "The EFSA opinion page could not be opened. Group ADI in 2017 is confirmed by the news item title only; the statement about exceeding it and the symptom statement are from memory: confirm against the opinion."
+  }
+}

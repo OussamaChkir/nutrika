@@ -51,6 +51,10 @@ export interface OFFProduct {
     stores?: string;
     stores_tags?: string[];
     nutrition_grade_fr?: string;
+    /** Data-quality markers, e.g. "en:ingredients-to-be-completed". */
+    states_tags?: string[];
+    /** Unix timestamp (seconds) of the last edit on Open Food Facts. */
+    last_modified_t?: number;
     nutriscore_data?: any;
     ecoscore_data?: any;
     nutriment_levels?: any;
@@ -75,8 +79,8 @@ export interface OFFSearchResponse {
 // API FUNCTIONS
 // ============================================
 
-const OFF_BASE_URL = "https://world.openfoodfacts.org/api/v2";
-const OFF_USER_AGENT = "Nutrika/1.0 (contact@nutrika.app)";
+export const OFF_BASE_URL = "https://world.openfoodfacts.org/api/v2";
+export const OFF_USER_AGENT = "Nutrika/1.0 (contact@nutrika.app)";
 
 /**
  * Fetch a product from Open Food Facts by barcode
@@ -157,74 +161,15 @@ export async function searchProducts(
     }
 }
 
-/**
- * Get the best available product name
- */
-export function getProductName(product: OFFProduct): string {
-    return (
-        product.product_name ||
-        product.product_name_en ||
-        "Unknown Product"
-    );
-}
-
-/**
- * Get the best available image URL
- */
-export function getProductImage(product: OFFProduct): string | null {
-    return (
-        product.image_front_url ||
-        product.image_url ||
-        product.image_front_small_url ||
-        null
-    );
-}
-
-/**
- * Parse allergens from OFF data
- */
-export function parseAllergens(product: OFFProduct): string[] {
-    const allergens: Set<string> = new Set();
-
-    // From allergens_tags
-    if (product.allergens_tags) {
-        product.allergens_tags.forEach((tag) => {
-            const name = tag.replace(/^en:/, "").replace(/-/g, " ");
-            allergens.add(name);
-        });
-    }
-
-    // From traces_tags (may contain)
-    if (product.traces_tags) {
-        product.traces_tags.forEach((tag) => {
-            const name = tag.replace(/^en:/, "").replace(/-/g, " ");
-            allergens.add(`may contain ${name}`);
-        });
-    }
-
-    return Array.from(allergens);
-}
-
-/**
- * Get additives from OFF data
- */
-export function parseAdditives(product: OFFProduct): string[] {
-    if (!product.additives_tags) return [];
-
-    return product.additives_tags.map((tag) =>
-        tag.replace(/^en:/, "").toUpperCase()
-    );
-}
-
-/**
- * Check if product has specific labels
- */
-export function hasLabel(product: OFFProduct, labelKeyword: string): boolean {
-    if (!product.labels_tags) return false;
-    return product.labels_tags.some((tag) =>
-        tag.toLowerCase().includes(labelKeyword.toLowerCase())
-    );
-}
+// Pure OFF parsing helpers live in ./product (no React / server-only imports)
+// so they can also run in the browser and offline. Re-exported for existing callers.
+export {
+    getProductName,
+    getProductImage,
+    parseAllergens,
+    parseAdditives,
+    hasLabel,
+} from "./product";
 
 /**
  * Fetch better alternatives for a given category

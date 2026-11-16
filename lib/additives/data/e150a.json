@@ -1,0 +1,34 @@
+{
+  "code": "E150a",
+  "names": {
+    "en": "Plain caramel",
+    "fr": "Caramel ordinaire"
+  },
+  "category": "colour",
+  "whatItIs": {
+    "en": "A brown colour made by heating sugar, without ammonia or sulphites.",
+    "fr": "Un colorant brun obtenu en chauffant du sucre, sans ammoniaque ni sulfites."
+  },
+  "whyUsed": {
+    "en": "Gives a brown colour to drinks, sauces, bakery products and spirits.",
+    "fr": "Donne une couleur brune aux boissons, sauces, produits de boulangerie et spiritueux."
+  },
+  "knownAndUnknown": {
+    "en": "Approved in the EU. EFSA re-evaluated the caramel colours in 2011 and looked at consumer exposure again in 2012. Plain caramel is the simplest of the four types: the others (E150c, E150d) are made with ammonia or sulphites.",
+    "fr": "Autorisé dans l'UE. L'EFSA a réévalué les colorants caramel en 2011 et réexaminé l'exposition des consommateurs en 2012. Le caramel ordinaire est le plus simple des quatre types : les autres (E150c, E150d) sont fabriqués avec de l'ammoniaque ou des sulfites."
+  },
+  "evidence": "none_known",
+  "forYou": [],
+  "sources": [
+    {
+      "label": "EFSA (2012): Refined exposure assessment for caramel colours (E 150a, c, d)",
+      "url": "https://www.efsa.europa.eu/lv/efsajournal/pub/3030"
+    }
+  ],
+  "review": {
+    "status": "draft",
+    "reviewedAt": null,
+    "reviewer": null,
+    "notes": "The 2012 exposure assessment page was not opened. The 2011 re-evaluation itself was not found, so the conclusion for E150a (no concern) is from memory: find and cite the 2011 opinion before reviewing."
+  }
+}
