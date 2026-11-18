@@ -193,6 +193,8 @@ export async function resetPasswordAction(
             data: { passwordHash },
         });
         await prisma.passwordResetToken.deleteMany({ where: { userId: record.userId } });
+        // A new password signs the mobile app out everywhere (the web cookie session is separate).
+        await prisma.refreshToken.deleteMany({ where: { userId: record.userId } });
 
         return { success: true };
     } catch (error) {

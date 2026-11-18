@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 
 import { checkAccountDeletion, type DeleteAccountResult } from "./account-delete";
 import { auth, signOut } from "./auth";
+import { deleteAccountData } from "./account-delete-data";
 import { prisma } from "./db";
 import { ACTIVE_PROFILE_COOKIE } from "./profiles/constants";
 
@@ -25,20 +26,7 @@ export async function deleteAccount(typedEmail: string): Promise<DeleteAccountRe
     if (check !== "ok") return { ok: false, error: check };
 
     try {
-        await prisma.contribution.updateMany({ where: { reviewedById: userId }, data: { reviewedById: null } });
-        await prisma.product.updateMany({ where: { createdById: userId }, data: { createdById: null } });
-        await prisma.contribution.deleteMany({ where: { userId } });
-        await prisma.profile.deleteMany({ where: { userId } });
-        await prisma.scanHistory.deleteMany({ where: { userId } });
-        await prisma.favorite.deleteMany({ where: { userId } });
-        await prisma.savedProduct.deleteMany({ where: { userId } });
-        await prisma.scanEvent.deleteMany({ where: { userId } });
-        await prisma.shoppingListItem.deleteMany({ where: { userId } });
-        await prisma.productFeedback.deleteMany({ where: { userId } });
-        await prisma.session.deleteMany({ where: { userId } });
-        await prisma.account.deleteMany({ where: { userId } });
-        await prisma.passwordResetToken.deleteMany({ where: { userId } });
-        await prisma.user.delete({ where: { id: userId } });
+        await deleteAccountData(userId);
     } catch {
         return { ok: false, error: "failed" };
     }

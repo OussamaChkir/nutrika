@@ -5,7 +5,7 @@ import { z } from "zod";
 // ============================================
 
 // Shared by sign up and password reset, so both enforce the same rules.
-const newPasswordSchema = z
+export const newPasswordSchema = z
     .string()
     .min(8, "Password must be at least 8 characters")
     .regex(

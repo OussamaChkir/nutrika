@@ -42,6 +42,7 @@ model User {
   scanEvents     ScanEvent[]
   labelScanUsage LabelScanUsage[]
   passwordResetTokens PasswordResetToken[]
+  refreshTokens  RefreshToken[]
 
   // F9: opt-in to detailed scan records for insights. Optional on purpose: on MongoDB a
   // required field missing from older documents makes reads fail. Null or false means off.
@@ -96,6 +97,37 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+// Mobile app sessions (API v1). The app holds a short-lived access token (a signed JWT, not stored)
+// and one of these refresh tokens. Only the SHA-256 hash of the refresh token is stored. Each use
+// rotates it: the old row is marked revoked and a new row joins the same family. Presenting an
+// already-revoked token means it was stolen or replayed, so the whole family is revoked.
+model RefreshToken {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String    @db.ObjectId
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String    @unique
+  familyId   String                       // one family per sign-in on one device
+  deviceName String?                      // e.g. "iPhone de Oussama", shown in a future "devices" screen
+  platform   String?                      // ios | android
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@index([familyId])
+}
+
+// One row per attempt on a rate-limited mobile endpoint, so limits hold across serverless instances
+// (lib/rate-limit.ts is per instance). Rows older than a day are pruned opportunistically.
+model RateLimitHit {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  key       String                         // e.g. "login:ip:1.2.3.4"
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+  @@index([createdAt])
 }
 
 // ============================================
