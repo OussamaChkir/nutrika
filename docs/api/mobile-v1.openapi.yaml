@@ -1,0 +1,204 @@
+openapi: 3.1.0
+info:
+  title: Nutrika mobile API
+  version: 1.0.0-m1
+  description: |
+    API used by the Nutrika mobile app (React Native / Expo). Milestone M1: authentication, account and config.
+    Product, profile, history and shopping endpoints are added in later milestones (see the Notion roadmap).
+
+    Authentication: send `Authorization: Bearer <accessToken>`. Access tokens last 15 minutes. When a call
+    returns 401, call `/auth/refresh` once with the refresh token, store the new pair (the old refresh token
+    stops working) and retry. If refresh returns 401 `invalid_token`, send the user to the sign-in screen.
+    Every error is `{ "error": { "code": "...", "message": "..." } }`.
+servers:
+  - url: https://nutrikafood.com/api/v1
+security:
+  - bearer: []
+paths:
+  /config:
+    get:
+      summary: Feature flags, minimum app version, available sign-in methods
+      security: []
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Config" } } } }
+  /auth/register:
+    post:
+      summary: Create an account with email and password, and sign in
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/RegisterBody" } } } }
+      responses:
+        "201": { description: Created, content: { application/json: { schema: { $ref: "#/components/schemas/AuthResponse" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { description: "email_taken", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "429": { $ref: "#/components/responses/Error" }
+  /auth/login:
+    post:
+      summary: Sign in with email and password
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/LoginBody" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AuthResponse" } } } }
+        "401": { description: "invalid_credentials", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "429": { $ref: "#/components/responses/Error" }
+  /auth/apple:
+    post:
+      summary: Sign in with Apple (identity token from expo-apple-authentication)
+      description: |
+        Send the identity token. Apple only returns the user's name on the very first sign-in, so forward it as `fullName`.
+        If you sent a nonce to Apple (raw, or hashed with SHA-256), send the raw value as `nonce`.
+        An existing account with the same verified email is linked automatically.
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/SocialBody" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/SocialAuthResponse" } } } }
+        "400": { description: "email_missing | email_unverified | invalid_request", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "401": { description: "invalid_token", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "503": { description: "not_configured (APPLE_CLIENT_IDS missing on the server)", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /auth/google:
+    post:
+      summary: Sign in with Google (ID token from the native Google Sign-In)
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/SocialBody" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/SocialAuthResponse" } } } }
+        "400": { description: "email_missing | email_unverified | invalid_request", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "401": { description: "invalid_token", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "503": { description: "not_configured (GOOGLE_CLIENT_IDS missing on the server)", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /auth/refresh:
+    post:
+      summary: Exchange a refresh token for a new token pair (rotating)
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/RefreshBody" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/TokenPair" } } } }
+        "401": { description: "invalid_token: sign in again", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /auth/logout:
+    post:
+      summary: Sign this device out (revokes the refresh token family). Always 204.
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [refreshToken], properties: { refreshToken: { type: string } } } } } }
+      responses:
+        "204": { description: Signed out }
+  /auth/forgot-password:
+    post:
+      summary: Email a password reset link (same email as the website)
+      description: "Always answers 202 with { ok: true } for a valid email, whether or not an account exists."
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [email], properties: { email: { type: string, format: email }, locale: { type: string, enum: [en, fr] } } } } } }
+      responses:
+        "202": { description: Accepted }
+        "429": { $ref: "#/components/responses/Error" }
+  /auth/reset-password:
+    post:
+      summary: Set a new password with the token from the reset email
+      description: Signs the user out on every device (all refresh tokens are deleted).
+      security: []
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [token, password], properties: { token: { type: string }, password: { type: string, minLength: 8 } } } } } }
+      responses:
+        "200": { description: Password changed }
+        "400": { description: "invalid_token (link invalid, expired or already used) | invalid_request", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /me:
+    get:
+      summary: The signed-in user
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { user: { $ref: "#/components/schemas/User" } } } } } }
+        "401": { $ref: "#/components/responses/Error" }
+    delete:
+      summary: Permanently delete the account and all its data
+      description: Required by App Store guideline 5.1.1(v). The user types their own email to confirm. Admin accounts are refused (403 `admin_blocked`).
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [email], properties: { email: { type: string } } } } } }
+      responses:
+        "200": { description: Deleted }
+        "400": { description: "email_mismatch", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "403": { description: "admin_blocked", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /me/export:
+    get:
+      summary: Everything we hold about the user, as JSON (GDPR access and portability)
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+components:
+  securitySchemes:
+    bearer: { type: http, scheme: bearer, bearerFormat: JWT }
+  responses:
+    Error: { description: Error, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, enum: [invalid_request, unauthorized, invalid_credentials, invalid_token, token_expired, email_taken, email_unverified, email_missing, email_mismatch, admin_blocked, rate_limited, not_configured, not_found, server_error] }
+            message: { type: string }
+            details: { type: object, additionalProperties: true }
+      description: "429 responses also carry a Retry-After header (seconds)."
+    Device:
+      type: object
+      properties: { deviceName: { type: string, maxLength: 80 }, platform: { type: string, enum: [ios, android] } }
+    RegisterBody:
+      type: object
+      required: [name, email, password]
+      properties:
+        name: { type: string, minLength: 2 }
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8, description: "At least one uppercase letter, one lowercase letter and one digit" }
+        device: { $ref: "#/components/schemas/Device" }
+    LoginBody:
+      type: object
+      required: [email, password]
+      properties: { email: { type: string, format: email }, password: { type: string }, device: { $ref: "#/components/schemas/Device" } }
+    RefreshBody:
+      type: object
+      required: [refreshToken]
+      properties: { refreshToken: { type: string }, device: { $ref: "#/components/schemas/Device" } }
+    SocialBody:
+      type: object
+      required: [idToken]
+      properties:
+        idToken: { type: string }
+        nonce: { type: string, description: "Raw nonce; the token must carry it or its SHA-256 hex" }
+        fullName: { type: string, description: "Apple only: the name from the first sign-in" }
+        device: { $ref: "#/components/schemas/Device" }
+    TokenPair:
+      type: object
+      required: [tokenType, accessToken, expiresIn, refreshToken]
+      properties:
+        tokenType: { type: string, const: Bearer }
+        accessToken: { type: string }
+        expiresIn: { type: integer, description: Seconds, example: 900 }
+        refreshToken: { type: string, description: "Single use. Store in expo-secure-store." }
+    AuthResponse:
+      allOf:
+        - $ref: "#/components/schemas/TokenPair"
+        - type: object
+          required: [user]
+          properties: { user: { $ref: "#/components/schemas/User" } }
+    SocialAuthResponse:
+      allOf:
+        - $ref: "#/components/schemas/AuthResponse"
+        - type: object
+          properties: { isNewUser: { type: boolean } }
+    User:
+      type: object
+      required: [id, email, emailVerified, role, hasPassword, providers, createdAt]
+      properties:
+        id: { type: string }
+        name: { type: [string, "null"] }
+        email: { type: string }
+        emailVerified: { type: boolean }
+        image: { type: [string, "null"] }
+        role: { type: string, enum: [USER, PREMIUM, ADMIN] }
+        hasPassword: { type: boolean }
+        providers: { type: array, items: { type: string, enum: [apple, google] } }
+        createdAt: { type: string, format: date-time }
+    Config:
+      type: object
+      properties:
+        apiVersion: { type: integer }
+        minAppVersion: { type: string, example: "1.0.0" }
+        flags: { type: object, additionalProperties: { type: boolean } }
+        auth:
+          type: object
+          properties: { email: { type: boolean }, google: { type: boolean }, apple: { type: boolean } }
