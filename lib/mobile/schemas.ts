@@ -58,3 +58,34 @@ export const deleteBody = z.object({
     /** The user types their own email to confirm, as on the web. */
     email: z.string().trim().min(1, "Email is required").max(254),
 });
+
+// ---------------------------------------------------------------------------
+// Feature endpoints (M2)
+// ---------------------------------------------------------------------------
+
+/** Barcodes are digits only (EAN-8, UPC-A, EAN-13, GTIN-14 and similar). */
+export const barcodeParam = z.string().regex(/^\d{6,14}$/, "Invalid barcode");
+
+export const savedStateBody = z.object({ state: z.enum(["approved", "avoid"]) });
+
+export const scanBody = z.object({ barcode: barcodeParam });
+
+/** Add a product (by barcode) or a free-text item (by label) to the shopping list. */
+export const shoppingAddBody = z
+    .object({
+        barcode: barcodeParam.optional(),
+        label: z.string().max(200).optional(),
+        quantity: z.number().int().min(1).max(99).optional(),
+    })
+    .refine((v) => v.barcode !== undefined || (v.label ?? "").trim().length > 0, {
+        message: "Send a barcode or a label.",
+    });
+
+export const shoppingPatchBody = z
+    .object({
+        quantity: z.number().int().min(1).max(99).optional(),
+        checked: z.boolean().optional(),
+    })
+    .refine((v) => v.quantity !== undefined || v.checked !== undefined, {
+        message: "Send quantity and/or checked.",
+    });

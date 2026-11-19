@@ -13,7 +13,16 @@ import { buildScanEventData, isDuplicateScan } from "./snapshot";
 
 type ScannedProduct = StoredProduct & { score: number; scoreLetter: unknown };
 
-export async function recordScanEvent(userId: string, product: ScannedProduct): Promise<void> {
+/**
+ * `options.activeProfileId`: the profile the caller says is active. The mobile app has no cookie and
+ * sends it in a header; like the cookie it is only a hint, matched against this user's own profiles.
+ * When omitted (the web) the cookie is read.
+ */
+export async function recordScanEvent(
+    userId: string,
+    product: ScannedProduct,
+    options: { activeProfileId?: string | null } = {}
+): Promise<void> {
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { scanInsightsOptIn: true } });
     if (user?.scanInsightsOptIn !== true) return;
 
@@ -30,8 +39,8 @@ export async function recordScanEvent(userId: string, product: ScannedProduct): 
         where: { userId },
         select: { id: true, isDefault: true, createdAt: true },
     });
-    const cookie = (await cookies()).get(ACTIVE_PROFILE_COOKIE)?.value;
-    const profileId = pickActiveProfile(profiles, cookie)?.id ?? null;
+    const hint = "activeProfileId" in options ? options.activeProfileId : (await cookies()).get(ACTIVE_PROFILE_COOKIE)?.value;
+    const profileId = pickActiveProfile(profiles, hint)?.id ?? null;
 
     const data = buildScanEventData(productFromStored(product), { score: product.score, grade: String(product.scoreLetter) }, profileId);
     await prisma.scanEvent.create({ data: { userId, ...data } });
