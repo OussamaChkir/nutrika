@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { isFeatureEnabled } from "@/lib/flags";
-import { recordScanEvent } from "@/lib/insights/record";
-
-const MAX_HISTORY = 10;
+import { listScanHistory, recordScan } from "@/lib/history/service";
 
 // GET /api/scan-history – return last 10 scans for authenticated user
 export async function GET() {
@@ -14,26 +10,7 @@ export async function GET() {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const history = await prisma.scanHistory.findMany({
-        where: { userId: session.user.id },
-        orderBy: { scannedAt: "desc" },
-        take: MAX_HISTORY,
-        include: {
-            product: {
-                select: {
-                    id: true,
-                    barcode: true,
-                    name: true,
-                    brand: true,
-                    imageUrl: true,
-                    score: true,
-                    scoreLetter: true,
-                    scoreColor: true,
-                },
-            },
-        },
-    });
-
+    const history = await listScanHistory(session.user.id);
     return NextResponse.json({ history });
 }
 
@@ -56,56 +33,12 @@ export async function POST(request: Request) {
             );
         }
 
-        // Find the product
-        const product = await prisma.product.findUnique({
-            where: { barcode },
-        });
-
-        if (!product) {
+        const found = await recordScan(session.user.id, barcode);
+        if (!found) {
             return NextResponse.json(
                 { error: "Product not found" },
                 { status: 404 }
             );
-        }
-
-        // Upsert: if user already scanned this product, just update the timestamp
-        await prisma.scanHistory.upsert({
-            where: {
-                userId_productId: {
-                    userId: session.user.id,
-                    productId: product.id,
-                },
-            },
-            update: {
-                scannedAt: new Date(),
-            },
-            create: {
-                userId: session.user.id,
-                productId: product.id,
-            },
-        });
-
-        // F9: a detailed record for insights, only for users who turned them on. Never fails the scan.
-        if (isFeatureEnabled("scanInsights")) {
-            try {
-                await recordScanEvent(session.user.id, product);
-            } catch (error) {
-                console.error("Scan event not recorded:", error instanceof Error ? error.message : "unknown error");
-            }
-        }
-
-        // Prune old entries – keep only the latest MAX_HISTORY
-        const allScans = await prisma.scanHistory.findMany({
-            where: { userId: session.user.id },
-            orderBy: { scannedAt: "desc" },
-            select: { id: true },
-        });
-
-        if (allScans.length > MAX_HISTORY) {
-            const idsToDelete = allScans.slice(MAX_HISTORY).map((s: { id: string }) => s.id);
-            await prisma.scanHistory.deleteMany({
-                where: { id: { in: idsToDelete } },
-            });
         }
 
         return NextResponse.json({ success: true });

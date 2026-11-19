@@ -1,10 +1,15 @@
 openapi: 3.1.0
 info:
   title: Nutrika mobile API
-  version: 1.0.0-m1
+  version: 1.0.0-m2b
   description: |
-    API used by the Nutrika mobile app (React Native / Expo). Milestone M1: authentication, account and config.
-    Product, profile, history and shopping endpoints are added in later milestones (see the Notion roadmap).
+    API used by the Nutrika mobile app (React Native / Expo). M1: authentication, account and config. M2a: profiles, scan history, favorites, saved products and the shopping list.
+    M2b: product lookup, search, alternatives, AI explanation and ratings. Insights, label scan, contributions and the offline lookup come next (see the Notion roadmap).
+
+    Texts about a product (positives, negatives, verdict reasons, flags) are message keys with parameters. The app translates them with the same keys as the website's `messages/*.json`.
+
+    Active profile: the app keeps the active profile id on the device and sends it as header `X-Profile-Id`. It is only a hint, matched against the user's own profiles.
+    Endpoints behind a feature flag answer 404 `feature_disabled` when the flag is off (see GET /config).
 
     Authentication: send `Authorization: Bearer <accessToken>`. Access tokens last 15 minutes. When a call
     returns 401, call `/auth/refresh` once with the refresh token, store the new pair (the old refresh token
@@ -116,6 +121,164 @@ paths:
       summary: Everything we hold about the user, as JSON (GDPR access and portability)
       responses:
         "200": { description: OK, content: { application/json: { schema: { type: object, additionalProperties: true } } } }
+  /profiles:
+    get:
+      summary: The user's profiles (flag personalScore)
+      description: "`activeProfileId` is the profile named in X-Profile-Id if it is the user's, else the default, else the oldest."
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { profiles: { type: array, items: { $ref: "#/components/schemas/Profile" } }, maxProfiles: { type: integer, example: 6 }, activeProfileId: { type: [string, "null"] } } } } } }
+        "404": { description: "feature_disabled", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+    post:
+      summary: Create a profile (requires consent)
+      description: Health data is only stored after `consent` is true. The first profile becomes the default. 409 `limit_reached` after 6 profiles.
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ProfileInput" } } } }
+      responses:
+        "201": { description: Created, content: { application/json: { schema: { $ref: "#/components/schemas/ProfileResponse" } } } }
+        "400": { $ref: "#/components/responses/Error" }
+        "409": { $ref: "#/components/responses/Error" }
+  /profiles/{id}:
+    parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+    put:
+      summary: Replace a profile (same body as create, consent required)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/ProfileInput" } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/ProfileResponse" } } } }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      summary: Delete a profile and the scan records made with it
+      responses:
+        "200": { description: Deleted }
+        "404": { $ref: "#/components/responses/Error" }
+  /scan-history:
+    get:
+      summary: The last 10 scanned products, newest first
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { type: object, properties: { scannedAt: { type: string, format: date-time }, product: { $ref: "#/components/schemas/ProductSummary" } } } }, max: { type: integer } } } } } }
+    post:
+      summary: Record a scan
+      description: Also writes the insights record for users who opted in, tagged with X-Profile-Id. 404 if the product is not in the catalogue yet (open it with GET /products/{barcode} first, M2b).
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [barcode], properties: { barcode: { type: string, pattern: "^\\d{6,14}$" } } } } } }
+      responses:
+        "201": { description: Recorded }
+        "404": { $ref: "#/components/responses/Error" }
+  /favorites:
+    get:
+      summary: Favorite products, newest first
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/ProductSummary" } } } } } } }
+  /favorites/{barcode}:
+    parameters: [{ name: barcode, in: path, required: true, schema: { type: string } }]
+    put:
+      summary: Add to favorites (idempotent)
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { isFavorite: { type: boolean } } } } } }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      summary: Remove from favorites (idempotent)
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { isFavorite: { type: boolean } } } } } }
+  /saved-products:
+    get:
+      summary: Products marked approved or avoid (flag shoppingList)
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/SavedProduct" } } } } } } }
+  /saved-products/{barcode}:
+    parameters: [{ name: barcode, in: path, required: true, schema: { type: string } }]
+    put:
+      summary: Set the state (idempotent, unlike the website toggle)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [state], properties: { state: { type: string, enum: [approved, avoid] } } } } } }
+      responses:
+        "200": { description: OK }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      summary: Clear the state
+      responses:
+        "200": { description: OK }
+  /shopping-list:
+    get:
+      summary: The list, still-to-buy first (flag shoppingList)
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: "#/components/schemas/ListItem" } }, remaining: { type: integer } } } } } }
+  /shopping-list/items:
+    post:
+      summary: Add a product (barcode) or a free-text item (label)
+      description: Adding something already on the list (and not checked) raises its quantity. 409 `limit_reached` at 200 items.
+      requestBody: { required: true, content: { application/json: { schema: { type: object, properties: { barcode: { type: string }, label: { type: string }, quantity: { type: integer, minimum: 1, maximum: 99 } } } } } }
+      responses:
+        "201": { description: Added, content: { application/json: { schema: { type: object, properties: { item: { $ref: "#/components/schemas/ListItem" }, firstItem: { type: boolean } } } } } }
+    delete:
+      summary: Clear the checked items
+      parameters: [{ name: checked, in: query, required: true, schema: { type: string, enum: ["true"] } }]
+      responses:
+        "200": { description: OK }
+        "400": { $ref: "#/components/responses/Error" }
+  /shopping-list/items/{id}:
+    parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+    patch:
+      summary: Change quantity and/or checked
+      requestBody: { required: true, content: { application/json: { schema: { type: object, properties: { quantity: { type: integer, minimum: 1, maximum: 99 }, checked: { type: boolean } } } } } }
+      responses:
+        "200": { description: OK }
+        "404": { $ref: "#/components/responses/Error" }
+    delete:
+      summary: Remove an item
+      responses:
+        "200": { description: OK }
+  /products/{barcode}:
+    parameters: [{ name: barcode, in: path, required: true, schema: { type: string, pattern: "^\\d{6,14}$" } }, { name: locale, in: query, required: false, schema: { type: string, enum: [en, fr] }, description: "Language of additive explanations" }]
+    get:
+      summary: The scan result for a barcode
+      description: |
+        Score, positives and negatives, allergens, nutrients, the verdict for the active profile (`X-Profile-Id`), the user's approve/avoid state with flags, and additive explanations.
+        Adds the product to the catalogue the first time it is seen (from Open Food Facts). Does not record a scan: call `POST /scan-history` when the user opens the result.
+        `personal`, `shopping` and `additives` are null or empty when their feature flag is off.
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { product: { $ref: "#/components/schemas/ProductDetail" } } } } } }
+        "404": { description: "not_found: unknown barcode", content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /products/search:
+    get:
+      summary: Search Open Food Facts and the catalogue
+      description: Rate limited per user (30 per minute).
+      parameters:
+        - { name: q, in: query, required: true, schema: { type: string, minLength: 2, maxLength: 100 } }
+        - { name: scoreLetter, in: query, schema: { type: string, enum: [A, B, C, D, E] } }
+        - { name: sort, in: query, schema: { type: string, enum: [name_asc, name_desc, score_asc, score_desc] } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { results: { type: array, items: { $ref: "#/components/schemas/SearchResult" } }, count: { type: integer } } } } } }
+        "429": { $ref: "#/components/responses/Error" }
+  /products/{barcode}/alternatives:
+    parameters: [{ name: barcode, in: path, required: true, schema: { type: string } }]
+    get:
+      summary: Better products in the same category (flag alternatives)
+      description: "Ranked on the personal score of the profile in X-Profile-Id when there is one. `offered: false` means nothing to suggest (grade A or B and no personal concern). If Open Food Facts is down this answers 200 with no items."
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { offered: { type: boolean }, items: { type: array, items: { type: object, additionalProperties: true } }, profileName: { type: [string, "null"] }, countryTag: { type: [string, "null"] } } } } } }
+  /products/{barcode}/explain:
+    parameters: [{ name: barcode, in: path, required: true, schema: { type: string } }]
+    post:
+      summary: Plain-language explanation of the score (AI)
+      description: A cached explanation is returned at once and costs nothing. A new one counts against 10 per hour per user. 503 `not_configured` if the AI service is not set up, 503 `unavailable` if it failed.
+      requestBody: { required: true, content: { application/json: { schema: { type: object, properties: { locale: { type: string, enum: [en, fr], default: en } } } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { type: object, properties: { explanation: { type: object, additionalProperties: true }, cached: { type: boolean } } } } } }
+        "429": { $ref: "#/components/responses/Error" }
+        "503": { $ref: "#/components/responses/Error" }
+  /products/{barcode}/feedback:
+    parameters: [{ name: barcode, in: path, required: true, schema: { type: string } }]
+    get:
+      summary: Average rating and the user's own rating
+      description: Other people's comments are not exposed to the app.
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/FeedbackSummary" } } } }
+    put:
+      summary: Rate the product (replaces the user's previous rating)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [rating], properties: { rating: { type: integer, minimum: 1, maximum: 5 }, comment: { type: string, maxLength: 500 } } } } } }
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/FeedbackSummary" } } } }
+    delete:
+      summary: Remove the user's rating
+      responses:
+        "200": { description: OK }
 components:
   securitySchemes:
     bearer: { type: http, scheme: bearer, bearerFormat: JWT }
@@ -130,7 +293,7 @@ components:
           type: object
           required: [code, message]
           properties:
-            code: { type: string, enum: [invalid_request, unauthorized, invalid_credentials, invalid_token, token_expired, email_taken, email_unverified, email_missing, email_mismatch, admin_blocked, rate_limited, not_configured, not_found, server_error] }
+            code: { type: string, enum: [invalid_request, unauthorized, invalid_credentials, invalid_token, token_expired, email_taken, email_unverified, email_missing, email_mismatch, admin_blocked, rate_limited, not_configured, not_found, limit_reached, feature_disabled, unavailable, server_error] }
             message: { type: string }
             details: { type: object, additionalProperties: true }
       description: "429 responses also carry a Retry-After header (seconds)."
@@ -202,3 +365,108 @@ components:
         auth:
           type: object
           properties: { email: { type: boolean }, google: { type: boolean }, apple: { type: boolean } }
+    ProductSummary:
+      type: object
+      properties:
+        barcode: { type: string }
+        name: { type: string }
+        brand: { type: [string, "null"] }
+        imageUrl: { type: [string, "null"] }
+        score: { type: integer, minimum: 0, maximum: 100 }
+        scoreLetter: { type: string, enum: [A, B, C, D, E] }
+        scoreColor: { type: string }
+    SavedProduct:
+      type: object
+      properties:
+        barcode: { type: string }
+        name: { type: string }
+        brand: { type: [string, "null"] }
+        score: { type: integer }
+        scoreLetter: { type: string }
+        state: { type: string, enum: [approved, avoid] }
+    ListItem:
+      type: object
+      properties:
+        id: { type: string }
+        barcode: { type: [string, "null"] }
+        label: { type: string }
+        category: { type: [string, "null"] }
+        quantity: { type: integer }
+        checked: { type: boolean }
+        createdAt: { type: string, format: date-time }
+    Profile:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        ageBand: { type: string, enum: [child, teen, adult] }
+        isDefault: { type: boolean }
+        conditions: { type: array, items: { type: string, enum: [diabetes, hypertension] } }
+        diets: { type: array, items: { type: string, enum: [vegan, vegetarian, keto, low_sodium] } }
+        goals: { type: array, items: { type: string, enum: [weight_loss, muscle_gain] } }
+        allergens: { type: array, items: { type: string }, description: "Labels such as Gluten, Milk, Peanuts" }
+        allergenStrictness: { type: string, enum: [avoid_traces, intentional_only] }
+    ProfileInput:
+      allOf:
+        - type: object
+          required: [name, consent]
+          properties:
+            name: { type: string, maxLength: 40 }
+            ageBand: { type: string, enum: [child, teen, adult] }
+            conditions: { type: array, items: { type: string } }
+            diets: { type: array, items: { type: string } }
+            goals: { type: array, items: { type: string } }
+            allergens: { type: array, items: { type: string } }
+            allergenStrictness: { type: string, enum: [avoid_traces, intentional_only] }
+            isDefault: { type: boolean }
+            consent: { type: boolean, const: true }
+    ProfileResponse:
+      type: object
+      properties:
+        profile: { $ref: "#/components/schemas/Profile" }
+        makeActive: { type: boolean, description: "The app should store this profile id as the active one." }
+    SearchResult:
+      type: object
+      properties:
+        barcode: { type: string }
+        name: { type: string }
+        brand: { type: string }
+        imageUrl: { type: string }
+        source: { type: string, enum: [openfoodfacts, database] }
+        score: { type: integer }
+        scoreLetter: { type: string }
+    FeedbackSummary:
+      type: object
+      properties:
+        average: { type: [number, "null"] }
+        count: { type: integer }
+        mine: { type: [object, "null"], properties: { rating: { type: integer }, comment: { type: [string, "null"] } } }
+    ProductDetail:
+      type: object
+      description: Texts are message keys with params (`positives`, `negatives`, verdict reasons, flags); the app translates them.
+      properties:
+        barcode: { type: string }
+        name: { type: string }
+        brand: { type: [string, "null"] }
+        imageUrl: { type: [string, "null"] }
+        status: { type: string }
+        score: { type: object, properties: { value: { type: integer }, letter: { type: string }, color: { type: string } } }
+        positives: { type: array, items: { type: object, properties: { key: { type: string }, params: { type: object }, icon: { type: string } } } }
+        negatives: { type: array, items: { type: object, properties: { key: { type: string }, params: { type: object }, icon: { type: string } } } }
+        allergens: { type: array, items: { type: object, properties: { name: { type: string }, severity: { type: string } } } }
+        allergyAlert: { type: array, items: { type: string } }
+        dietaryTags: { type: array, items: { type: string } }
+        nutrients: { type: object, description: "Per 100 g or 100 ml; null when unknown", additionalProperties: { type: [number, "null"] } }
+        nova: { type: [integer, "null"] }
+        nutriscoreGrade: { type: [string, "null"] }
+        ecoscoreGrade: { type: [string, "null"] }
+        labels: { type: object, additionalProperties: { type: boolean } }
+        ingredientsStatus: { type: string, enum: [usable, incomplete, missing] }
+        manufacturingPlaces: { type: [string, "null"] }
+        origins: { type: [string, "null"] }
+        lastModified: { type: [integer, "null"], description: Unix seconds }
+        isFavorite: { type: boolean }
+        personal: { type: [object, "null"], description: "{ activeProfileId, verdict, everyone[] }. Null when the flag is off or the user has no profile." }
+        shopping: { type: [object, "null"], description: "{ state, onList, flags[] }. Null when the flag is off." }
+        additives: { type: array, items: { type: object, additionalProperties: true } }
+        additiveCodes: { type: array, items: { type: string } }

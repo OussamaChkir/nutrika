@@ -69,4 +69,10 @@ export const RATE_RULES = {
     forgotEmail: { name: "forgot:email", limit: 3, windowMs: 60 * 60_000 },
     resetIp: { name: "reset:ip", limit: 20, windowMs: 60 * 60_000 },
     deleteUser: { name: "delete:user", limit: 5, windowMs: 60 * 60_000 },
+    // Each search asks Open Food Facts, which asks for a polite request rate.
+    searchUser: { name: "search:user", limit: 30, windowMs: 60_000 },
+    // Generating an explanation costs LLM quota: same limit as the website (10 new ones per hour).
+    explainUser: { name: "explain:user", limit: 10, windowMs: 60 * 60_000 },
+    feedbackUser: { name: "feedback:user", limit: 30, windowMs: 60 * 60_000 },
+    searchIp: { name: "search:ip", limit: 90, windowMs: 60_000 },
 } as const satisfies Record<string, RateRule>;

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { ZodTypeAny, z } from "zod";
 
+import { isFeatureEnabled, type FeatureFlag } from "../flags";
+import { failureFor, type ServiceErrorName } from "./errors";
 import { verifyAccessToken, parseBearer, type AccessClaims } from "./tokens";
 
 // Small helpers shared by the /api/v1 route handlers.
@@ -21,6 +23,9 @@ export type ApiErrorCode =
     | "rate_limited"
     | "not_configured"
     | "not_found"
+    | "limit_reached"
+    | "feature_disabled"
+    | "unavailable"
     | "server_error";
 
 export function apiError(
@@ -71,4 +76,15 @@ export async function authenticate(request: Request): Promise<{ claims: AccessCl
     const claims = await verifyAccessToken(token);
     if (!claims) return { response: apiError(401, "token_expired", "The access token is invalid or has expired.") };
     return { claims };
+}
+
+/** Turns a service error name ("not_found", "limit", ...) into the standard error response. */
+export function serviceError(error: ServiceErrorName): NextResponse {
+    const failure = failureFor(error);
+    return apiError(failure.status, failure.code, failure.message);
+}
+
+/** A feature that is switched off answers 404 `feature_disabled`, so the app can hide it. */
+export function requireFlag(flag: FeatureFlag): NextResponse | null {
+    return isFeatureEnabled(flag) ? null : apiError(404, "feature_disabled", "This feature is not available.");
 }
