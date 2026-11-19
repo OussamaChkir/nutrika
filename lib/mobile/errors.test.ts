@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { failureFor, type ServiceErrorName } from "./errors";
 import { readProfileHeader } from "./profile-header";
-import { barcodeParam, savedStateBody, scanBody, shoppingAddBody, shoppingPatchBody } from "./schemas";
+import { barcodeParam, feedbackBody, savedStateBody, scanBody, shoppingAddBody, shoppingPatchBody } from "./schemas";
 
 describe("failureFor", () => {
     const cases: Array<[ServiceErrorName, number, string]> = [
@@ -44,6 +44,14 @@ describe("request schemas", () => {
         }
         expect(scanBody.safeParse({ barcode: "3017620422003" }).success).toBe(true);
         expect(scanBody.safeParse({}).success).toBe(false);
+    });
+
+    it("ratings are stars only: free text is rejected (no user-generated content from the app, App Store 1.2)", () => {
+        expect(feedbackBody.safeParse({ rating: 4 }).success).toBe(true);
+        expect(feedbackBody.safeParse({ rating: 4, comment: "great" }).success).toBe(false);
+        expect(feedbackBody.safeParse({ rating: 0 }).success).toBe(false);
+        expect(feedbackBody.safeParse({ rating: 6 }).success).toBe(false);
+        expect(feedbackBody.safeParse({ rating: 3.5 }).success).toBe(false);
     });
 
     it("saved state accepts only approved or avoid", () => {

@@ -15,7 +15,7 @@ async function guard(request: Request, params: Ctx["params"]) {
 }
 
 // GET /api/v1/products/{barcode}/feedback – { average, count, mine }. Other people's comments are not
-// exposed to the app.
+// exposed to the app, and the app cannot send a comment (stars only).
 export async function GET(request: Request, { params }: Ctx) {
     const g = await guard(request, params);
     if ("response" in g) return g.response;
@@ -28,7 +28,7 @@ export async function GET(request: Request, { params }: Ctx) {
     }
 }
 
-// PUT /api/v1/products/{barcode}/feedback – { rating: 1-5, comment? }. One rating per user: replaces the previous.
+// PUT /api/v1/products/{barcode}/feedback – { rating: 1-5 }. One rating per user: replaces the previous.
 export async function PUT(request: Request, { params }: Ctx) {
     const g = await guard(request, params);
     if ("response" in g) return g.response;

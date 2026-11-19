@@ -272,7 +272,7 @@ paths:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/FeedbackSummary" } } } }
     put:
       summary: Rate the product (replaces the user's previous rating)
-      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [rating], properties: { rating: { type: integer, minimum: 1, maximum: 5 }, comment: { type: string, maxLength: 500 } } } } } }
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [rating], properties: { rating: { type: integer, minimum: 1, maximum: 5 } }, additionalProperties: false, description: "Stars only. The app cannot send free text (App Store 1.2)." } } } }
       responses:
         "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/FeedbackSummary" } } } }
     delete:
@@ -440,7 +440,7 @@ components:
       properties:
         average: { type: [number, "null"] }
         count: { type: integer }
-        mine: { type: [object, "null"], properties: { rating: { type: integer }, comment: { type: [string, "null"] } } }
+        mine: { type: [object, "null"], properties: { rating: { type: integer } } }
     ProductDetail:
       type: object
       description: Texts are message keys with params (`positives`, `negatives`, verdict reasons, flags); the app translates them.
