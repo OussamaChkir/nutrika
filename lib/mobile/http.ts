@@ -25,6 +25,7 @@ export type ApiErrorCode =
     | "not_found"
     | "limit_reached"
     | "feature_disabled"
+    | "unavailable"
     | "server_error";
 
 export function apiError(

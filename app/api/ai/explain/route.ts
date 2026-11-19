@@ -1,21 +1,12 @@
 import { NextResponse } from "next/server";
-import { createTranslator } from "next-intl";
 import { z } from "zod";
 
-import {
-    AI_LOCALES,
-    AiServiceError,
-    buildExplainPayload,
-    getAiConfig,
-    requestExplanation,
-    toExplanation,
-    type AiLocale,
-} from "@/lib/ai";
-import { getCachedExplanation, saveExplanation } from "@/lib/ai-cache";
+import { AI_LOCALES, AiServiceError, getAiConfig } from "@/lib/ai";
+import { generateExplanation } from "@/lib/ai-explain";
+import { getCachedExplanation } from "@/lib/ai-cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { createRateLimiter } from "@/lib/rate-limit";
-import { parseScoreAspects } from "@/lib/score-messages";
 
 // The LLM can take a while to "think"; allow the platform to wait for it.
 export const maxDuration = 60;
@@ -27,14 +18,6 @@ const bodySchema = z.object({
     barcode: z.string().regex(/^\d{6,14}$/),
     locale: z.enum(AI_LOCALES),
 });
-
-async function scoreTranslator(locale: AiLocale) {
-    const messages = (await import(`@/messages/${locale}.json`)).default;
-    return createTranslator({ locale, messages, namespace: "ScoreMessages" }) as unknown as (
-        key: string,
-        values?: Record<string, string | number>
-    ) => string;
-}
 
 // POST /api/ai/explain – plain-language explanation of a product's score
 export async function POST(request: Request) {
@@ -68,39 +51,8 @@ export async function POST(request: Request) {
     }
 
     try {
-        const t = await scoreTranslator(locale);
-        const payload = buildExplainPayload(
-            {
-                barcode: product.barcode,
-                name: product.name,
-                brand: product.brand,
-                score: product.score,
-                scoreLetter: product.scoreLetter,
-                positives: parseScoreAspects(product.positives),
-                negatives: parseScoreAspects(product.negatives),
-                allergens: product.allergens,
-                dietaryTags: product.dietaryTags,
-                sugars: product.sugars,
-                saturatedFat: product.saturatedFat,
-                fat: product.fat,
-                carbohydrates: product.carbohydrates,
-                fiber: product.fiber,
-                proteins: product.proteins,
-                salt: product.salt,
-                offData: (product.offData as Record<string, unknown> | null) ?? null,
-            },
-            locale,
-            t
-        );
-
-        const response = await requestExplanation(payload);
-
-        // A failed cache write must not hide a good answer from the user.
-        await saveExplanation(product.id, locale, product.score, response).catch((error) =>
-            console.error("Failed to cache AI explanation:", error)
-        );
-
-        return NextResponse.json({ explanation: toExplanation(response), cached: false });
+        const explanation = await generateExplanation(product, locale);
+        return NextResponse.json({ explanation, cached: false });
     } catch (error) {
         const kind = error instanceof AiServiceError ? error.kind : "unexpected";
         console.error(`AI explanation failed (${kind}):`, error);

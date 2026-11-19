@@ -6,13 +6,8 @@ import { Link } from "@/i18n/routing";
 import { getLocale, getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import {
-    fetchProductByBarcode,
-    getProductName,
-    getProductImage,
-    fetchBetterAlternatives,
-} from "@/lib/openfoodfacts";
-import { calculateScore } from "@/lib/scoring";
+import { fetchBetterAlternatives } from "@/lib/openfoodfacts";
+import { loadCatalogProduct } from "@/lib/products/catalog";
 import { parseScoreAspects } from "@/lib/score-messages";
 import { ScoreBadge } from "@/components/score-badge";
 import { PositivesList } from "@/components/positives-list";
@@ -107,70 +102,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     const session = await auth();
     const t = await getTranslations("Product");
 
-    let product = await prisma.product.findUnique({
-        where: { barcode },
+    // From our catalogue, or (first scan) from Open Food Facts, scored and saved. Products waiting for
+    // review are only visible to their creator and to admins. Shared with the mobile API.
+    const product = await loadCatalogProduct(barcode, {
+        userId: session?.user?.id,
+        isAdmin: session?.user?.role === "ADMIN",
     });
-
-    if (product?.status === "PENDING" || product?.status === "REJECTED") {
-        const isCreator = session?.user?.id === product.createdById;
-        const isAdmin = session?.user?.role === "ADMIN";
-
-        if (!isCreator && !isAdmin) {
-            notFound();
-        }
-    }
-
     if (!product) {
-        const offProduct = await fetchProductByBarcode(barcode);
-
-        if (!offProduct) {
-            notFound();
-        }
-
-        const scoreResult = calculateScore(offProduct);
-
-        const productData = {
-            barcode,
-            name: getProductName(offProduct),
-            brand: offProduct.brands || null,
-            imageUrl: getProductImage(offProduct),
-            offData: offProduct as object,
-            score: scoreResult.score,
-            scoreLetter: scoreResult.letter,
-            scoreColor: scoreResult.color,
-            positives: scoreResult.positives.map((p) => ({
-                key: p.key,
-                params: p.params,
-                icon: p.icon,
-            })),
-            negatives: scoreResult.negatives.map((n) => ({
-                key: n.key,
-                params: n.params,
-                icon: n.icon,
-            })),
-            allergens: scoreResult.allergens.map((a) => a.name),
-            allergensSeverity: scoreResult.allergensSeverity,
-            energy:
-                offProduct.nutriments?.energy_kcal_100g ||
-                offProduct.nutriments?.energy_100g,
-            fat: offProduct.nutriments?.fat_100g,
-            saturatedFat: offProduct.nutriments?.["saturated-fat_100g"],
-            carbohydrates: offProduct.nutriments?.carbohydrates_100g,
-            sugars: offProduct.nutriments?.sugars_100g,
-            fiber: offProduct.nutriments?.fiber_100g,
-            proteins: offProduct.nutriments?.proteins_100g,
-            salt: offProduct.nutriments?.salt_100g,
-            manufacturingPlaces: offProduct.manufacturing_places || null,
-            origins: offProduct.origins || null,
-            dietaryTags: scoreResult.dietaryTags,
-            status: "APPROVED" as const,
-        };
-
-        product = await prisma.product.upsert({
-            where: { barcode },
-            create: productData,
-            update: productData,
-        });
+        notFound();
     }
 
     const positives = parseScoreAspects(product.positives);

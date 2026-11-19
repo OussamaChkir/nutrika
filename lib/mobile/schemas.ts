@@ -89,3 +89,12 @@ export const shoppingPatchBody = z
     .refine((v) => v.quantity !== undefined || v.checked !== undefined, {
         message: "Send quantity and/or checked.",
     });
+
+export const feedbackBody = z.object({
+    rating: z.number().int().min(1).max(5),
+    comment: z.string().trim().max(500).optional(),
+});
+
+export const explainBody = z.object({
+    locale: z.enum(["en", "fr"]).default("en"),
+});
