@@ -90,10 +90,10 @@ export const shoppingPatchBody = z
         message: "Send quantity and/or checked.",
     });
 
+// Stars only. No free text: the app must not create user-generated content (App Store 1.2).
 export const feedbackBody = z.object({
     rating: z.number().int().min(1).max(5),
-    comment: z.string().trim().max(500).optional(),
-});
+}).strict();
 
 export const explainBody = z.object({
     locale: z.enum(["en", "fr"]).default("en"),
